@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PS4 · Predictive Churn Prevention · Union Bank of India</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg:       #060c14;
+    --surface:  #0d1b2a;
+    --card:     #0f2236;
+    --border:   #1a3a54;
+    --accent:   #00d4ff;
+    --accent2:  #ff6b35;
+    --green:    #00e5a0;
+    --yellow:   #ffd166;
+    --red:      #ff4757;
+    --text:     #e0eaf4;
+    --muted:    #6b8ba4;
+    --mono:     'Space Mono', monospace;
+    --sans:     'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(6,12,20,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .logo { display: flex; align-items: center; gap: .75rem; }
+  .logo-badge {
+    background: linear-gradient(135deg, var(--accent), #0096b8);
+    color: #000; font-family: var(--mono); font-weight: 700;
+    font-size: .85rem; padding: .25rem .6rem; border-radius: 4px;
+    letter-spacing: 1px;
+  }
+  .logo-text { font-size: 1rem; font-weight: 600; letter-spacing: .5px; }
+  .logo-sub  { font-size: .72rem; color: var(--muted); margin-top: 1px; }
+
+  .header-right { display: flex; align-items: center; gap: 1rem; }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── Layout ── */
+  main { max-width: 1400px; margin: 0 auto; padding: 1.5rem 2rem; position: relative; z-index: 1; }
+
+  /* ── Nav tabs ── */
+  .tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .tab {
+    padding: .6rem 1.25rem; font-size: .88rem; font-weight: 500;
+    color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all .2s; user-select: none;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── Pages ── */
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+  /* ── KPI grid ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem 1.2rem;
+    position: relative; overflow: hidden;
+    transition: border-color .2s;
+  }
+  .kpi-card:hover { border-color: var(--accent); }
+  .kpi-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .kpi-card.blue::before  { background: var(--accent); }
+  .kpi-card.red::before   { background: var(--red); }
+  .kpi-card.orange::before{ background: var(--accent2); }
+  .kpi-card.green::before { background: var(--green); }
+  .kpi-card.yellow::before{ background: var(--yellow); }
+
+  .kpi-label { font-size: .72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .kpi-value { font-family: var(--mono); font-size: 1.9rem; font-weight: 700; margin: .3rem 0 .1rem; }
+  .kpi-sub   { font-size: .75rem; color: var(--muted); }
+
+  /* ── Charts row ── */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  @media(max-width:900px){ .charts-row{grid-template-columns:1fr;} }
+
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem;
+  }
+  .chart-title {
+    font-size: .78rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); margin-bottom: 1rem;
+  }
+  .chart-wrap { position: relative; height: 200px; }
+
+  /* ── Table ── */
+  .table-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .table-header {
+    padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .table-title { font-size: .9rem; font-weight: 600; }
+  .filter-row  { display: flex; gap: .5rem; }
+  select, input {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: .35rem .75rem;
+    font-size: .8rem; font-family: var(--sans);
+    outline: none;
+  }
+  select:focus, input:focus { border-color: var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  th {
+    text-align: left; padding: .7rem 1rem;
+    font-size: .7rem; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td { padding: .65rem 1rem; border-bottom: 1px solid rgba(26,58,84,.5); vertical-align: middle; }
+  tr:last-child td { border: none; }
+  tr:hover td { background: rgba(0,212,255,.03); }
+  .mono { font-family: var(--mono); font-size: .78rem; }
+
+  .tier-badge {
+    display: inline-block; padding: .18rem .55rem; border-radius: 99px;
+    font-size: .7rem; font-weight: 600; letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .tier-Critical { background: rgba(255,71,87,.15); color: var(--red); border: 1px solid rgba(255,71,87,.3); }
+  .tier-High     { background: rgba(255,107,53,.15); color: var(--accent2); border: 1px solid rgba(255,107,53,.3); }
+  .tier-Medium   { background: rgba(255,209,102,.15); color: var(--yellow); border: 1px solid rgba(255,209,102,.3); }
+  .tier-Low      { background: rgba(0,229,160,.12); color: var(--green); border: 1px solid rgba(0,229,160,.25); }
+
+  .prob-bar {
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .bar-track {
+    flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .bar-fill { height: 100%; border-radius: 2px; transition: width .5s; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .4rem .9rem; border-radius: 6px; font-size: .8rem;
+    font-family: var(--sans); font-weight: 500; cursor: pointer;
+    border: none; transition: all .18s;
+  }
+  .btn-primary {
+    background: var(--accent); color: #000;
+  }
+  .btn-primary:hover { background: #33ddff; transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-ghost:hover { background: rgba(0,212,255,.08); }
+  .btn-sm { padding: .28rem .65rem; font-size: .75rem; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; transform: none !important; }
+
+  /* ── Message panel ── */
+  .msg-panel {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .msg-panel h3 { font-size: .95rem; margin-bottom: 1.25rem; }
+
+  .customer-select-row { display: flex; gap: .75rem; margin-bottom: 1.25rem; align-items: flex-end; }
+  .customer-select-row label { font-size: .75rem; color: var(--muted); display: block; margin-bottom: .3rem; }
+  .customer-select-row select { min-width: 220px; }
+
+  .msg-variants { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  @media(max-width:700px){ .msg-variants{grid-template-columns:1fr;} }
+
+  .variant-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem;
+  }
+  .variant-label { font-size: .7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: .6rem; font-family: var(--mono); }
+  .variant-text  { font-size: .85rem; line-height: 1.6; color: var(--text); min-height: 80px; }
+
+  .compliance-badge {
+    display: inline-flex; align-items: center; gap: .35rem;
+    padding: .25rem .7rem; border-radius: 99px; font-size: .75rem; font-weight: 500;
+    margin-top: .75rem;
+  }
+  .compliance-pass { background: rgba(0,229,160,.1); color: var(--green); border: 1px solid rgba(0,229,160,.25); }
+  .compliance-fail { background: rgba(255,71,87,.1); color: var(--red);  border: 1px solid rgba(255,71,87,.25); }
+
+  /* ── Outreach log ── */
+  .log-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: .85rem 1rem; margin-bottom: .6rem;
+    display: flex; align-items: center; gap: 1rem;
+    animation: slideIn .3s ease;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:none} }
+  .log-channel { font-size: 1.3rem; }
+  .log-name    { font-weight: 600; font-size: .88rem; }
+  .log-sub     { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
+  .log-status  { margin-left: auto; }
+
+  .status-chip {
+    display: inline-block; padding: .18rem .55rem; border-radius: 99px;
+    font-size: .7rem; font-weight: 600; letter-spacing: .5px;
+  }
+  .chip-accepted { background: rgba(0,229,160,.15); color: var(--green); }
+  .chip-sent     { background: rgba(0,212,255,.12); color: var(--accent); }
+  .chip-blocked  { background: rgba(255,71,87,.12);  color: var(--red); }
+
+  /* ── Spinner ── */
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(0,212,255,.2); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* ── Segment table ── */
+  .seg-chip {
+    display: inline-block; padding: .18rem .55rem; border-radius: 99px;
+    font-size: .72rem; font-weight: 500; border: 1px solid;
+  }
+  .seg-Price     { color:#00d4ff; border-color:rgba(0,212,255,.4);  background:rgba(0,212,255,.08); }
+  .seg-Dis       { color:#ffd166; border-color:rgba(255,209,102,.4);background:rgba(255,209,102,.08); }
+  .seg-Life      { color:#a78bfa; border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.08); }
+  .seg-Complaint { color:#ff6b35; border-color:rgba(255,107,53,.4); background:rgba(255,107,53,.08); }
+  .seg-Product   { color:#00e5a0; border-color:rgba(0,229,160,.4);  background:rgba(0,229,160,.08); }
+
+  /* ── Campaign run ── */
+  .campaign-row { display: flex; gap: .75rem; align-items: center; margin-bottom: 1rem; }
+  .stat-mini { display: flex; flex-direction: column; gap: .1rem; padding: .6rem .9rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; min-width: 100px; }
+  .stat-mini-val  { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; }
+  .stat-mini-lbl  { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">PS4</div>
+    <div>
+      <div class="logo-text">Predictive Churn Prevention</div>
+      <div class="logo-sub">Union Bank of India · iDEA Hackathon 2.0</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="live-dot"></div>
+    <span style="font-size:.8rem;color:var(--muted)">Live Demo</span>
+    <button class="btn btn-ghost btn-sm" onclick="resetSystem()">↺ Reset</button>
+  </div>
+</header>
+
+<main>
+  <div class="tabs">
+    <div class="tab active" data-page="overview"  onclick="switchTab(this,'overview')">📊 Overview</div>
+    <div class="tab"        data-page="customers" onclick="switchTab(this,'customers')">👥 At-Risk Customers</div>
+    <div class="tab"        data-page="messages"  onclick="switchTab(this,'messages')">✉️ AI Messages</div>
+    <div class="tab"        data-page="outreach"  onclick="switchTab(this,'outreach')">📡 Outreach</div>
+  </div>
+
+  <!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+  <div id="overview" class="page active">
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="kpi-card blue">
+        <div class="kpi-label">Total Customers</div>
+        <div class="kpi-value" id="k-total">—</div>
+        <div class="kpi-sub">in the system</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">At Risk</div>
+        <div class="kpi-value" id="k-risk">—</div>
+        <div class="kpi-sub">churn score &gt; 0.65</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">Critical</div>
+        <div class="kpi-value" id="k-critical">—</div>
+        <div class="kpi-sub">score &gt; 0.80</div>
+      </div>
+      <div class="kpi-card orange">
+        <div class="kpi-label">Outreach Sent</div>
+        <div class="kpi-value" id="k-sent">—</div>
+        <div class="kpi-sub">messages dispatched</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Conversions</div>
+        <div class="kpi-value" id="k-conv">—</div>
+        <div class="kpi-sub">churn reversed</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-label">Revenue Saved</div>
+        <div class="kpi-value" id="k-rev">—</div>
+        <div class="kpi-sub">₹K estimated CLV</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Churn Risk by Segment</div>
+        <div class="chart-wrap"><canvas id="segChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Risk Tier Distribution</div>
+        <div class="chart-wrap"><canvas id="tierChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Preferred Channels</div>
+        <div class="chart-wrap"><canvas id="chanChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">📍 City-wise Churn Hotspots</div>
+      </div>
+      <table>
+        <thead><tr>
+          <th>City</th><th>At-Risk Customers</th><th>Risk Bar</th>
+        </tr></thead>
+        <tbody id="cityTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ CUSTOMERS ═══════════════════ -->
+  <div id="customers" class="page">
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">At-Risk Customer Queue</div>
+        <div class="filter-row">
+          <select id="filterTier" onchange="loadCustomers()">
+            <option value="">All Tiers</option>
+            <option>Critical</option><option>High</option><option>Medium</option>
+          </select>
+          <select id="filterQueue" onchange="loadCustomers()">
+            <option value="">All Queues</option>
+            <option>Active Outreach</option><option>Watchlist</option>
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="loadCustomers()">Refresh</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>Customer ID</th><th>Name</th><th>Segment</th><th>Churn Prob</th>
+          <th>Risk Tier</th><th>Horizon</th><th>CLV Score</th><th>Top Reasons</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="customerTable">
+          <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">
+            <span class="spinner"></span> Loading customers...
+          </td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ MESSAGES ═══════════════════ -->
+  <div id="messages" class="page">
+    <div class="msg-panel">
+      <h3>✨ Gen-AI Message Generator <span style="font-size:.75rem;color:var(--muted);font-weight:400">powered by Claude API</span></h3>
+      <div class="customer-select-row">
+        <div>
+          <label>Select At-Risk Customer</label>
+          <select id="msgCustomerSelect" style="min-width:260px">
+            <option value="">— Loading customers —</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="genMsgBtn" onclick="generateMessage()" disabled>
+          ✦ Generate Message
+        </button>
+        <button class="btn btn-ghost btn-sm" id="sendMsgBtn" onclick="sendFromMessage()" disabled>
+          📡 Send Outreach
+        </button>
+      </div>
+
+      <div id="msgLoading" style="display:none;color:var(--muted);font-size:.85rem">
+        <span class="spinner"></span> Generating personalised message with Claude...
+      </div>
+
+      <div id="msgResult" style="display:none">
+        <div class="msg-variants">
+          <div class="variant-card">
+            <div class="variant-label">Variant A — Primary</div>
+            <div class="variant-text" id="variantA">—</div>
+          </div>
+          <div class="variant-card">
+            <div class="variant-label">Variant B — A/B Test</div>
+            <div class="variant-text" id="variantB">—</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;align-items:center;margin-top:.75rem">
+          <div id="complianceBadge"></div>
+          <div id="complianceNote" style="font-size:.78rem;color:var(--muted)"></div>
+          <div id="channelTag" style="font-size:.78rem;color:var(--accent);font-family:var(--mono)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent messages table -->
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">Generated Messages Log</div>
+      </div>
+      <table>
+        <thead><tr>
+          <th>Customer ID</th><th>Channel</th><th>Language</th>
+          <th>Compliance</th><th>Message Preview</th>
+        </tr></thead>
+        <tbody id="msgLogTable">
+          <tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--muted)">No messages generated yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ OUTREACH ═══════════════════ -->
+  <div id="outreach" class="page">
+    <div class="msg-panel">
+      <h3>📡 Outreach Campaign Simulator</h3>
+      <div class="campaign-row">
+        <div>
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:.3rem">Customers to contact</label>
+          <select id="campaignSize">
+            <option value="10">Top 10 at-risk</option>
+            <option value="20" selected>Top 20 at-risk</option>
+            <option value="50">Top 50 at-risk</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="runCampaignBtn" onclick="runCampaign()" style="margin-top:1.2rem">
+          ▶ Run Campaign
+        </button>
+      </div>
+
+      <div id="campaignStats" style="display:none">
+        <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
+          <div class="stat-mini"><div class="stat-mini-val" id="cs-sent">0</div><div class="stat-mini-lbl">Sent</div></div>
+          <div class="stat-mini"><div class="stat-mini-val" id="cs-opened">0</div><div class="stat-mini-lbl">Opened</div></div>
+          <div class="stat-mini"><div class="stat-mini-val" id="cs-clicked">0</div><div class="stat-mini-lbl">Clicked</div></div>
+          <div class="stat-mini"><div class="stat-mini-val" id="cs-accepted">0</div><div class="stat-mini-lbl">Accepted</div></div>
+          <div class="stat-mini"><div class="stat-mini-val" id="cs-openrate">0%</div><div class="stat-mini-lbl">Open Rate</div></div>
+          <div class="stat-mini"><div class="stat-mini-val" id="cs-conversion">0%</div><div class="stat-mini-lbl">Conversion</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">Live Outreach Log</div>
+        <button class="btn btn-ghost btn-sm" onclick="loadLog()">↺ Refresh</button>
+      </div>
+      <div id="logContainer" style="padding:.75rem">
+        <div style="text-align:center;padding:2rem;color:var(--muted)">No outreach dispatched yet. Run a campaign above.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+const API = '';  // same origin
+
+// ── Tab navigation ─────────────────────────────────────────────────────────
+function switchTab(el, page) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(page).classList.add('active');
+  if (page === 'customers') loadCustomers();
+  if (page === 'messages')  loadMsgCustomerSelect();
+  if (page === 'outreach')  loadLog();
+}
+
+// ── Charts instances ────────────────────────────────────────────────────────
+let segChart, tierChart, chanChart;
+
+// ── Boot ────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  loadDashboard();
+});
+
+function initCharts() {
+  Chart.defaults.color = '#6b8ba4';
+  Chart.defaults.borderColor = '#1a3a54';
+
+  segChart = new Chart(document.getElementById('segChart'), {
+    type: 'bar',
+    data: { labels: [], datasets: [{ label: 'Avg Churn Risk', data: [],
+      backgroundColor: ['#00d4ff88','#ff6b3588','#a78bfa88','#ffd16688','#00e5a088'],
+      borderColor:     ['#00d4ff','#ff6b35','#a78bfa','#ffd166','#00e5a0'],
+      borderWidth: 1, borderRadius: 4 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ y:{ beginAtZero:true, max:1, ticks:{callback:v=>(v*100).toFixed(0)+'%'} } } }
+  });
+
+  tierChart = new Chart(document.getElementById('tierChart'), {
+    type: 'doughnut',
+    data: { labels:['Critical','High','Medium','Low'], datasets:[{ data:[],
+      backgroundColor:['#ff475744','#ff6b3544','#ffd16644','#00e5a044'],
+      borderColor:['#ff4757','#ff6b35','#ffd166','#00e5a0'], borderWidth:2 }] },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'right', labels:{boxWidth:12,font:{size:11}} } } }
+  });
+
+  chanChart = new Chart(document.getElementById('chanChart'), {
+    type: 'bar',
+    data: { labels:[], datasets:[{ data:[],
+      backgroundColor:'#00d4ff44', borderColor:'#00d4ff', borderWidth:1, borderRadius:4 }] },
+    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{ x:{beginAtZero:true} } }
+  });
+}
+
+// ── Dashboard ───────────────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const r = await fetch(`${API}/api/dashboard`);
+    const d = await r.json();
+    const k = d.kpis;
+
+    document.getElementById('k-total').textContent    = k.total_customers;
+    document.getElementById('k-risk').textContent     = k.at_risk;
+    document.getElementById('k-critical').textContent = k.critical;
+    document.getElementById('k-sent').textContent     = k.outreach_sent;
+    document.getElementById('k-conv').textContent     = k.conversions;
+    document.getElementById('k-rev').textContent      = `₹${k.revenue_saved_k}K`;
+
+    // Segment chart
+    const segs = d.segment_stats;
+    segChart.data.labels   = segs.map(s => s.segment.split('-')[0]);
+    segChart.data.datasets[0].data = segs.map(s => +s.avg_churn.toFixed(3));
+    segChart.update();
+
+    // Tier doughnut
+    const tc = d.tier_counts;
+    tierChart.data.datasets[0].data = [tc.Critical||0, tc.High||0, tc.Medium||0, tc.Low||0];
+    tierChart.update();
+
+    // Channel bar
+    const cc = d.channel_counts;
+    chanChart.data.labels = Object.keys(cc);
+    chanChart.data.datasets[0].data = Object.values(cc);
+    chanChart.update();
+
+    // City table
+    const cityRows = Object.entries(d.city_churn)
+      .map(([city, count]) => {
+        const pct = Math.round((count / k.at_risk) * 100);
+        return `<tr>
+          <td>${city}</td>
+          <td class="mono">${count}</td>
+          <td><div class="prob-bar">
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:var(--accent)"></div></div>
+            <span style="font-size:.75rem;color:var(--muted)">${pct}%</span>
+          </div></td>
+        </tr>`;
+      }).join('');
+    document.getElementById('cityTable').innerHTML = cityRows;
+
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+// ── Customers ───────────────────────────────────────────────────────────────
+async function loadCustomers() {
+  const tier  = document.getElementById('filterTier').value;
+  const queue = document.getElementById('filterQueue').value;
+  const params = new URLSearchParams({ limit:100 });
+  if (tier)  params.set('tier',  tier);
+  if (queue) params.set('queue', queue);
+
+  const tbody = document.getElementById('customerTable');
+  tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)"><span class="spinner"></span> Loading...</td></tr>';
+
+  const r = await fetch(`${API}/api/customers?${params}`);
+  const d = await r.json();
+
+  if (!d.customers.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--muted)">No customers found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = d.customers.map(c => {
+    const prob = (c.churn_probability * 100).toFixed(1);
+    const barColor = c.risk_tier === 'Critical' ? 'var(--red)' :
+                     c.risk_tier === 'High'     ? 'var(--accent2)' :
+                     c.risk_tier === 'Medium'   ? 'var(--yellow)' : 'var(--green)';
+    const segKey = c.segment.split('-')[0];
+    return `<tr>
+      <td class="mono" style="color:var(--accent)">${c.customer_id}</td>
+      <td><div style="font-weight:500">${c.name}</div><div style="font-size:.72rem;color:var(--muted)">${c.city}</div></td>
+      <td><span class="seg-chip seg-${segKey}">${c.segment}</span></td>
+      <td><div class="prob-bar">
+        <div class="bar-track" style="width:70px"><div class="bar-fill" style="width:${prob}%;background:${barColor}"></div></div>
+        <span class="mono" style="font-size:.78rem">${prob}%</span>
+      </div></td>
+      <td><span class="tier-badge tier-${c.risk_tier}">${c.risk_tier}</span></td>
+      <td style="color:var(--muted);font-size:.8rem">${c.churn_horizon}</td>
+      <td class="mono">${c.clv_score}</td>
+      <td style="font-size:.75rem;color:var(--muted);max-width:200px">${(c.top_reasons||'').split(' | ')[0]}</td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="quickMessage('${c.customer_id}')">✉ Msg</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Quick message from customer table ───────────────────────────────────────
+function quickMessage(customerId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelector('[data-page="messages"]').classList.add('active');
+  document.getElementById('messages').classList.add('active');
+  loadMsgCustomerSelect(customerId);
+}
+
+// ── Message generation ───────────────────────────────────────────────────────
+let currentMsgCustomerId = null;
+const msgLog = [];
+
+async function loadMsgCustomerSelect(preselect = null) {
+  const r = await fetch(`${API}/api/customers?queue=Active+Outreach&limit=50`);
+  const d = await r.json();
+  const sel = document.getElementById('msgCustomerSelect');
+  sel.innerHTML = d.customers.map(c =>
+    `<option value="${c.customer_id}">[${c.risk_tier}] ${c.name} — ${c.segment}</option>`
+  ).join('');
+  if (preselect) sel.value = preselect;
+  document.getElementById('genMsgBtn').disabled = false;
+}
+
+async function generateMessage() {
+  const cid = document.getElementById('msgCustomerSelect').value;
+  if (!cid) return;
+  currentMsgCustomerId = cid;
+
+  document.getElementById('msgLoading').style.display = 'block';
+  document.getElementById('msgResult').style.display  = 'none';
+  document.getElementById('genMsgBtn').disabled = true;
+
+  const r = await fetch(`${API}/api/generate-message/${cid}`, {method:'POST'});
+  const d = await r.json();
+
+  document.getElementById('msgLoading').style.display = 'none';
+  document.getElementById('msgResult').style.display  = 'block';
+  document.getElementById('genMsgBtn').disabled = false;
+  document.getElementById('sendMsgBtn').disabled = false;
+
+  document.getElementById('variantA').textContent = d.message_a || '(empty)';
+  document.getElementById('variantB').textContent = d.message_b || '(empty)';
+  document.getElementById('channelTag').textContent = `📤 via ${d.channel} · ${d.language}`;
+
+  const badge = document.getElementById('complianceBadge');
+  badge.innerHTML = d.compliance_ok
+    ? '<span class="compliance-badge compliance-pass">✓ Compliance PASS</span>'
+    : '<span class="compliance-badge compliance-fail">✗ Compliance FAIL</span>';
+  document.getElementById('complianceNote').textContent = d.compliance_note || '';
+
+  // Add to log
+  msgLog.unshift({ cid, channel: d.channel, language: d.language,
+                   ok: d.compliance_ok, preview: d.message_a });
+  renderMsgLog();
+}
+
+async function sendFromMessage() {
+  if (!currentMsgCustomerId) return;
+  const r = await fetch(`${API}/api/send-outreach/${currentMsgCustomerId}`, {method:'POST'});
+  const d = await r.json();
+  alert(`📡 Dispatched!\n\nStatus: ${d.status}\nChannel: ${d.channel_icon} ${d.channel}\nSend time: ${d.send_time}`);
+  loadDashboard();
+}
+
+function renderMsgLog() {
+  const tbody = document.getElementById('msgLogTable');
+  if (!msgLog.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--muted)">No messages generated yet.</td></tr>'; return; }
+  tbody.innerHTML = msgLog.map(m => `<tr>
+    <td class="mono" style="color:var(--accent)">${m.cid}</td>
+    <td>${m.channel}</td>
+    <td>${m.language}</td>
+    <td>${m.ok ? '✅ PASS' : '❌ FAIL'}</td>
+    <td style="color:var(--muted);font-size:.8rem">${(m.preview||'').substring(0,80)}...</td>
+  </tr>`).join('');
+}
+
+// ── Campaign & outreach ─────────────────────────────────────────────────────
+async function runCampaign() {
+  const limit = document.getElementById('campaignSize').value;
+  const btn   = document.getElementById('runCampaignBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Running...';
+
+  const r = await fetch(`${API}/api/run-campaign?limit=${limit}`, {method:'POST'});
+  const d = await r.json();
+
+  btn.disabled = false;
+  btn.innerHTML = '▶ Run Campaign';
+
+  document.getElementById('campaignStats').style.display = 'block';
+  document.getElementById('cs-sent').textContent      = d.total_sent  || 0;
+  document.getElementById('cs-opened').textContent    = d.opened      || 0;
+  document.getElementById('cs-clicked').textContent   = d.clicked     || 0;
+  document.getElementById('cs-accepted').textContent  = d.accepted    || 0;
+  document.getElementById('cs-openrate').textContent  = (d.open_rate  || 0) + '%';
+  document.getElementById('cs-conversion').textContent= (d.conversion_rate || 0) + '%';
+
+  loadLog();
+  loadDashboard();
+}
+
+async function loadLog() {
+  const r = await fetch(`${API}/api/outreach-log?limit=50`);
+  const d = await r.json();
+  const container = document.getElementById('logContainer');
+
+  if (!d.log.length) {
+    container.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted)">No outreach dispatched yet. Run a campaign above.</div>';
+    return;
+  }
+
+  container.innerHTML = d.log.map(entry => {
+    const chipClass = entry.offer_accepted ? 'chip-accepted' :
+                      entry.status === 'BLOCKED' ? 'chip-blocked' : 'chip-sent';
+    const chipLabel = entry.offer_accepted ? '✓ Offer Accepted' :
+                      entry.status === 'BLOCKED' ? '⊘ DND Blocked' : '→ Sent';
+    return `<div class="log-item">
+      <div class="log-channel">${entry.channel_icon || '📤'}</div>
+      <div>
+        <div class="log-name">${entry.name || entry.customer_id}</div>
+        <div class="log-sub">${entry.channel} · ${entry.send_time || ''} · ${entry.message_preview || ''}</div>
+      </div>
+      <div class="log-status"><span class="status-chip ${chipClass}">${chipLabel}</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ── Reset ────────────────────────────────────────────────────────────────────
+async function resetSystem() {
+  if (!confirm('Reset the entire system and regenerate data?')) return;
+  await fetch(`${API}/api/reset`, {method:'POST'});
+  location.reload();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+customer_id,name,age,city,tenure_years,monthly_salary,num_products,products_held,txn_freq_monthly,avg_ticket_size,upi_txns_monthly,app_logins_monthly,netbanking_sessions,days_since_login,cross_bank_outflow,complaints_6m,csat_score,fd_maturing_days,loan_overdue_days,credit_util_pct,churn_label,segment,clv_score,preferred_channel,preferred_language
+UBI10000,Ananya Sharma,53,Chennai,4.9,188921,3,"Home Loan, Insurance, Recurring Deposit",1,1892,21,0,15,8,0,3,1.2,999,5,18.5,1,Complaint-Driven,138.9,SMS,Hindi
+UBI10001,Rohit Rao,26,Delhi,14.5,146748,4,"Insurance, Fixed Deposit, Home Loan, Savings Account",19,31411,30,28,8,32,0,5,3.2,999,15,51.9,0,Complaint-Driven,425.6,Push,Hindi
+UBI10002,Pooja Gupta,31,Chennai,10.1,219821,1,Demat Account,18,40505,6,7,7,64,0,5,3.6,43,21,60.2,0,Complaint-Driven,111.0,SMS,Hindi
+UBI10003,Suresh Rao,45,Bhubaneswar,2.6,218045,1,Demat Account,40,3346,50,6,5,3,0,5,1.1,999,12,37.4,0,Complaint-Driven,28.3,Email,Tamil
+UBI10004,Meera Joshi,62,Indore,12.3,176309,4,"Insurance, Fixed Deposit, Credit Card, Home Loan",16,35974,28,3,8,167,0,2,5.0,24,10,78.6,0,Product Maturity,433.7,Email,Odia
+UBI10005,Amit Kumar,64,Indore,5.5,161071,3,"Fixed Deposit, Demat Account, Recurring Deposit",27,42293,1,30,17,32,0,1,4.9,999,17,70.6,0,Life-Event,132.9,Push,Telugu
+UBI10006,Divya Shah,49,Jaipur,14.8,46749,5,"Recurring Deposit, Credit Card, Home Loan, Fixed Deposit, Personal Loan",14,1295,12,23,11,134,0,4,4.4,999,25,55.3,0,Complaint-Driven,173.0,Push,Marathi
+UBI10007,Deepak Verma,45,Bengaluru,2.0,68420,5,"Credit Card, Demat Account, Personal Loan, Fixed Deposit, Insurance",12,18446,3,30,12,75,1,4,4.9,61,10,21.6,1,Price-Sensitive,34.2,SMS,English
+UBI10008,Rohit Reddy,57,Bhubaneswar,5.0,217272,5,"Fixed Deposit, Savings Account, Credit Card, Insurance, Home Loan",30,10702,48,25,7,100,0,5,2.7,999,7,80.9,0,Complaint-Driven,271.6,WhatsApp,Hindi
+UBI10009,Arjun Gupta,47,Delhi,11.0,178597,2,"Credit Card, Insurance",9,44255,17,24,10,2,0,4,2.2,14,7,66.1,0,Complaint-Driven,196.5,SMS,English
+UBI10010,Sunita Shah,31,Delhi,13.3,222722,3,"Home Loan, Savings Account, Credit Card",16,7594,40,14,13,149,0,5,3.8,63,7,54.4,0,Complaint-Driven,444.3,WhatsApp,Marathi
+UBI10011,Lakshmi Chopra,37,Indore,12.8,154638,4,"Demat Account, Savings Account, Personal Loan, Insurance",17,47651,46,8,8,163,0,3,3.7,33,2,11.1,0,Complaint-Driven,395.9,Email,Hindi
+UBI10012,Rahul Mishra,36,Lucknow,6.8,94665,1,Insurance,35,39956,53,18,12,155,1,0,3.4,999,18,18.1,1,Price-Sensitive,32.2,Push,Telugu
+UBI10013,Rahul Rao,47,Surat,11.3,116043,4,"Insurance, Home Loan, Demat Account, Savings Account",25,41364,47,24,13,171,0,1,3.3,4,3,34.8,0,Product Maturity,262.3,Email,English
+UBI10014,Usha Shah,38,Pune,12.4,115190,3,"Credit Card, Recurring Deposit, Insurance",3,21467,29,22,20,67,0,1,3.2,71,23,44.1,0,Life-Event,214.3,SMS,Hindi
+UBI10015,Nisha Singh,43,Pune,9.4,218949,2,"Personal Loan, Demat Account",19,6838,58,23,2,163,1,2,3.5,999,24,42.5,1,Price-Sensitive,205.8,SMS,Marathi
+UBI10016,Nisha Chopra,43,Nagpur,6.8,119755,2,"Recurring Deposit, Insurance",1,7505,12,18,9,129,0,6,3.2,23,19,69.1,1,Disengaged,81.4,Push,English
+UBI10017,Rohit Das,38,Bengaluru,10.9,164677,3,"Demat Account, Fixed Deposit, Credit Card",6,48453,52,28,9,157,0,2,5.0,999,7,56.6,0,Life-Event,269.2,SMS,English
+UBI10018,Nisha Nair,36,Chennai,13.2,140436,2,"Recurring Deposit, Savings Account",18,16169,1,27,19,123,1,3,3.2,999,13,25.8,1,Price-Sensitive,185.4,Email,Marathi
+UBI10019,Rahul Das,38,Surat,12.1,120412,3,"Demat Account, Recurring Deposit, Insurance",15,21181,34,11,2,177,0,2,4.4,999,25,55.8,0,Life-Event,218.5,Push,English
+UBI10020,Deepak Mishra,56,Pune,2.0,241607,5,"Credit Card, Personal Loan, Recurring Deposit, Home Loan, Fixed Deposit",29,17837,36,26,1,117,1,3,3.4,999,0,57.6,1,Price-Sensitive,120.8,WhatsApp,Telugu
+UBI10021,Nisha Gupta,26,Bhubaneswar,5.6,213447,3,"Home Loan, Personal Loan, Savings Account",38,32365,27,22,4,101,0,5,2.8,69,10,29.8,0,Complaint-Driven,179.3,Email,Hindi
+UBI10022,Sunita Mehta,22,Lucknow,1.3,222778,3,"Fixed Deposit, Demat Account, Savings Account",39,4369,33,13,5,49,0,4,4.1,999,0,65.2,0,Complaint-Driven,43.4,Email,Marathi
+UBI10023,Sneha Mehta,27,Delhi,14.2,175471,4,"Demat Account, Credit Card, Personal Loan, Insurance",8,22698,11,3,9,90,0,5,2.7,33,2,25.7,1,Complaint-Driven,498.3,Email,Hindi
+UBI10024,Pooja Chopra,63,Bhubaneswar,1.7,143417,1,Home Loan,1,39925,3,17,1,174,0,0,1.7,999,0,37.8,1,Disengaged,12.2,SMS,English
+UBI10025,Rahul Chopra,26,Bengaluru,3.2,187757,4,"Recurring Deposit, Home Loan, Fixed Deposit, Insurance",6,44972,58,4,19,95,0,3,3.8,999,26,79.6,0,Complaint-Driven,120.2,WhatsApp,Odia
+UBI10026,Priya Kumar,41,Hyderabad,2.1,204052,2,"Recurring Deposit, Savings Account",31,12858,38,4,19,86,1,5,3.2,50,30,19.9,1,Price-Sensitive,42.9,WhatsApp,Telugu
+UBI10027,Pooja Chopra,31,Chennai,14.4,153651,2,"Demat Account, Savings Account",22,4041,58,29,15,168,0,6,3.1,85,29,54.8,0,Complaint-Driven,221.3,Email,Odia
+UBI10028,Sanjay Joshi,40,Pune,2.5,225152,2,"Home Loan, Personal Loan",27,26692,27,12,2,125,0,3,1.4,72,19,43.0,1,Complaint-Driven,56.3,Email,Telugu
+UBI10029,Geeta Patel,55,Indore,1.1,48379,3,"Recurring Deposit, Personal Loan, Insurance",3,35215,1,1,9,98,0,2,4.9,7,23,53.2,0,Product Maturity,8.0,Push,Odia
+UBI10030,Meera Patel,35,Delhi,7.1,73681,2,"Personal Loan, Savings Account",13,32658,13,18,20,156,0,0,4.7,999,29,34.7,0,Life-Event,52.3,Push,Marathi
+UBI10031,Suresh Verma,46,Indore,3.8,244620,4,"Savings Account, Fixed Deposit, Demat Account, Home Loan",15,40947,42,8,13,174,0,1,4.8,84,13,68.7,0,Life-Event,185.9,Email,Tamil
+UBI10032,Raj Reddy,34,Indore,11.8,91433,5,"Savings Account, Personal Loan, Demat Account, Credit Card, Insurance",28,8646,42,22,7,18,0,0,1.6,999,5,55.6,0,Life-Event,269.7,Push,Marathi
+UBI10033,Arjun Das,40,Jaipur,4.7,249266,5,"Home Loan, Savings Account, Demat Account, Credit Card, Fixed Deposit",5,36556,54,15,6,32,0,3,2.9,999,1,80.8,0,Complaint-Driven,292.9,Push,English
+UBI10034,Arun Singh,37,Kolkata,9.4,139847,2,"Insurance, Home Loan",2,43642,59,16,6,53,0,0,3.3,20,27,90.8,0,Product Maturity,131.5,Push,Telugu
+UBI10035,Amit Joshi,63,Mumbai,6.2,65133,3,"Fixed Deposit, Insurance, Demat Account",40,12936,21,21,14,6,1,0,4.4,78,17,23.7,0,Price-Sensitive,60.6,SMS,English
+UBI10036,Sneha Singh,48,Jaipur,8.2,187158,2,"Personal Loan, Recurring Deposit",2,9603,57,3,7,1,1,0,3.3,999,27,29.1,0,Price-Sensitive,153.5,WhatsApp,Odia
+UBI10037,Sunita Singh,23,Bhubaneswar,12.4,149892,5,"Demat Account, Recurring Deposit, Personal Loan, Home Loan, Credit Card",28,49225,15,21,15,156,0,2,4.9,82,15,88.2,0,Life-Event,464.7,Push,Tamil
+UBI10038,Sunita Chopra,36,Bengaluru,4.7,216621,2,"Demat Account, Recurring Deposit",10,24322,47,0,13,76,0,0,2.8,999,12,20.6,0,Life-Event,101.8,SMS,Hindi
+UBI10039,Raj Rao,48,Ahmedabad,11.1,141363,4,"Insurance, Recurring Deposit, Demat Account, Personal Loan",25,8923,46,16,6,62,0,5,1.8,25,28,49.4,0,Complaint-Driven,313.8,Email,Telugu
+UBI10040,Sanjay Iyer,35,Kolkata,2.5,53481,5,"Insurance, Recurring Deposit, Home Loan, Credit Card, Savings Account",12,14432,21,17,5,168,1,4,2.7,999,22,27.5,1,Price-Sensitive,33.4,Push,Telugu
+UBI10041,Usha Gupta,63,Kolkata,8.8,234934,2,"Recurring Deposit, Credit Card",20,30908,15,27,4,124,0,4,4.7,999,21,18.3,1,Complaint-Driven,206.7,WhatsApp,English
+UBI10042,Aarav Sharma,25,Pune,12.9,107128,3,"Credit Card, Personal Loan, Fixed Deposit",13,20356,53,2,11,159,0,4,4.6,58,10,69.8,0,Complaint-Driven,207.3,SMS,Telugu
+UBI10043,Sneha Verma,31,Bengaluru,6.5,164540,5,"Demat Account, Fixed Deposit, Home Loan, Personal Loan, Credit Card",17,45417,54,28,7,29,0,3,1.4,999,28,42.4,0,Complaint-Driven,267.4,Email,Tamil
+UBI10044,Ananya Sharma,59,Surat,14.8,119996,4,"Recurring Deposit, Credit Card, Savings Account, Demat Account",36,22733,56,10,2,94,0,1,1.5,39,29,22.7,0,Life-Event,355.2,Push,Marathi
+UBI10045,Suresh Iyer,27,Pune,9.2,234536,4,"Savings Account, Home Loan, Demat Account, Credit Card",10,24134,54,8,6,131,0,4,4.6,4,10,87.0,0,Complaint-Driven,431.5,WhatsApp,Marathi
+UBI10046,Pooja Iyer,38,Ahmedabad,14.9,113478,1,Home Loan,29,43415,5,10,17,8,0,6,4.9,999,23,58.8,0,Complaint-Driven,84.5,SMS,Tamil
+UBI10047,Karan Mishra,46,Kolkata,1.0,201135,3,"Demat Account, Recurring Deposit, Insurance",32,28020,26,22,10,33,0,5,2.0,25,9,32.7,0,Complaint-Driven,30.2,Email,Marathi
+UBI10048,Rohit Mehta,54,Delhi,0.8,58692,1,Credit Card,4,11806,23,2,4,146,0,6,1.3,999,23,11.1,1,Complaint-Driven,2.3,SMS,Odia
+UBI10049,Rohit Gupta,59,Bhubaneswar,14.5,145786,3,"Fixed Deposit, Home Loan, Savings Account",3,46347,8,6,2,47,0,5,4.8,1,25,68.3,0,Complaint-Driven,317.1,Push,English
+UBI10050,Arun Singh,46,Pune,9.6,75499,4,"Credit Card, Personal Loan, Insurance, Home Loan",11,30950,18,23,18,15,1,1,3.0,999,6,32.4,0,Price-Sensitive,145.0,Push,Marathi
+UBI10051,Sneha Singh,34,Bengaluru,12.8,223255,2,"Recurring Deposit, Credit Card",40,39017,18,19,13,129,0,1,2.7,999,16,10.6,0,Life-Event,285.8,SMS,Telugu
+UBI10052,Ananya Singh,25,Delhi,7.7,217129,1,Demat Account,5,44373,48,28,14,3,0,2,3.4,999,18,32.3,0,Life-Event,83.6,SMS,Tamil
+UBI10053,Meera Mishra,45,Ahmedabad,4.9,153211,3,"Credit Card, Fixed Deposit, Home Loan",10,2998,44,11,13,119,1,2,4.7,52,27,86.4,1,Price-Sensitive,112.6,Email,Hindi
+UBI10054,Vikram Das,48,Mumbai,13.2,231639,3,"Demat Account, Insurance, Personal Loan",9,26376,23,0,13,169,0,1,3.4,999,3,11.4,0,Life-Event,458.6,Email,Hindi
+UBI10055,Arjun Mehta,34,Mumbai,7.7,66501,3,"Home Loan, Fixed Deposit, Demat Account",31,39968,46,15,13,111,0,3,4.9,8,30,19.0,0,Complaint-Driven,76.8,SMS,Marathi
+UBI10056,Nisha Iyer,31,Chennai,8.0,154559,2,"Demat Account, Credit Card",0,20385,40,5,10,161,0,5,3.5,999,19,21.0,1,Disengaged,123.6,SMS,Telugu
+UBI10057,Usha Chopra,30,Pune,8.7,149131,1,Savings Account,28,24448,26,7,6,83,0,6,4.6,82,25,33.8,0,Complaint-Driven,64.9,SMS,Odia
+UBI10058,Suresh Joshi,30,Pune,11.8,175018,2,"Credit Card, Demat Account",15,32220,36,15,0,80,0,3,4.0,80,2,55.0,0,Complaint-Driven,206.5,Email,Odia
+UBI10059,Usha Reddy,26,Ahmedabad,6.1,75641,3,"Recurring Deposit, Insurance, Savings Account",30,16360,14,20,0,83,0,6,3.5,999,25,33.2,0,Complaint-Driven,69.2,SMS,Tamil
+UBI10060,Suresh Joshi,63,Chennai,14.4,181653,5,"Fixed Deposit, Recurring Deposit, Personal Loan, Savings Account, Insurance",33,33238,18,7,12,108,0,2,2.0,19,0,12.4,0,Product Maturity,654.0,Email,English
+UBI10061,Meera Shah,31,Ahmedabad,9.6,170559,2,"Insurance, Demat Account",20,7261,59,8,14,70,0,5,3.4,999,18,20.9,0,Complaint-Driven,163.7,WhatsApp,English
+UBI10062,Priya Mehta,57,Ahmedabad,5.8,107645,4,"Savings Account, Personal Loan, Credit Card, Recurring Deposit",25,11865,20,19,1,164,0,2,3.3,999,28,53.5,0,Life-Event,124.9,Push,Tamil
+UBI10063,Rohit Singh,30,Bengaluru,2.0,67829,2,"Fixed Deposit, Demat Account",23,23601,21,2,13,87,0,3,2.6,8,20,77.1,0,Complaint-Driven,13.6,Push,Odia
+UBI10064,Rohit Joshi,50,Bengaluru,2.2,93355,2,"Credit Card, Savings Account",35,1787,3,20,7,122,0,0,1.9,999,30,84.0,0,Life-Event,20.5,SMS,Telugu
+UBI10065,Raj Das,23,Jaipur,11.6,154034,1,Demat Account,35,4653,2,6,18,9,0,1,3.3,1,22,16.9,0,Product Maturity,89.3,SMS,Odia
+UBI10066,Ananya Das,35,Bengaluru,8.3,189542,5,"Home Loan, Recurring Deposit, Insurance, Demat Account, Credit Card",10,13411,48,19,8,85,0,2,4.6,999,20,34.3,0,Life-Event,393.3,WhatsApp,Tamil
+UBI10067,Lakshmi Das,35,Bengaluru,2.1,126568,1,Credit Card,12,49991,36,23,9,176,0,4,4.3,47,1,65.1,1,Complaint-Driven,13.3,Push,Odia
+UBI10068,Arjun Joshi,54,Mumbai,5.0,81734,2,"Personal Loan, Fixed Deposit",31,47382,24,23,10,117,1,4,4.0,63,17,60.7,0,Price-Sensitive,40.9,Push,English
+UBI10069,Lakshmi Kumar,22,Indore,1.0,38114,1,Home Loan,0,20086,28,12,18,40,0,0,2.5,999,13,73.1,0,Life-Event,1.9,SMS,English
+UBI10070,Arjun Rao,63,Mumbai,4.8,34173,1,Home Loan,9,17417,29,29,6,30,0,3,1.7,999,23,30.0,0,Complaint-Driven,8.2,SMS,Telugu
+UBI10071,Aarav Mishra,26,Surat,10.5,81485,1,Demat Account,24,2159,2,15,13,119,1,1,4.9,999,21,15.4,0,Price-Sensitive,42.8,SMS,Marathi
+UBI10072,Divya Mishra,34,Nagpur,4.4,200962,3,"Credit Card, Fixed Deposit, Personal Loan",28,327,41,1,18,111,1,6,1.9,7,11,17.5,1,Price-Sensitive,132.6,SMS,Tamil
+UBI10073,Nisha Verma,45,Bhubaneswar,13.6,215368,5,"Recurring Deposit, Insurance, Personal Loan, Demat Account, Credit Card",11,38224,25,11,14,88,0,1,4.3,64,11,91.7,0,Life-Event,732.3,WhatsApp,Odia
+UBI10074,Arjun Gupta,43,Pune,9.9,143166,5,"Recurring Deposit, Savings Account, Insurance, Home Loan, Fixed Deposit",38,22590,34,20,5,146,0,6,4.2,89,2,80.0,0,Complaint-Driven,354.3,WhatsApp,Odia
+UBI10075,Sunita Patel,55,Delhi,8.8,91772,5,"Recurring Deposit, Personal Loan, Fixed Deposit, Insurance, Credit Card",7,21531,46,26,11,140,1,4,3.6,999,18,39.8,1,Price-Sensitive,201.9,Email,Marathi
+UBI10076,Sneha Nair,62,Bhubaneswar,7.1,243719,2,"Savings Account, Demat Account",32,7264,31,4,2,177,0,1,4.0,999,17,64.3,0,Life-Event,173.0,Push,English
+UBI10077,Aarav Sharma,40,Delhi,3.5,241965,1,Fixed Deposit,16,29861,60,3,13,91,1,0,3.8,39,12,41.9,1,Price-Sensitive,42.3,SMS,Tamil
+UBI10078,Lakshmi Mishra,62,Lucknow,9.1,203026,4,"Savings Account, Credit Card, Recurring Deposit, Personal Loan",1,16962,44,15,12,137,0,3,3.8,80,30,92.6,1,Disengaged,369.5,Email,English
+UBI10079,Raj Patel,53,Nagpur,13.6,149484,3,"Fixed Deposit, Savings Account, Insurance",40,6360,29,12,10,61,1,0,2.3,71,6,62.2,1,Price-Sensitive,304.9,WhatsApp,English
+UBI10080,Geeta Gupta,59,Indore,10.3,32401,5,"Insurance, Savings Account, Home Loan, Fixed Deposit, Credit Card",17,45887,36,12,17,167,0,2,3.3,90,5,86.7,0,Life-Event,83.4,SMS,Hindi
+UBI10081,Priya Iyer,60,Pune,6.7,205042,2,"Fixed Deposit, Insurance",30,32066,15,0,12,167,0,6,2.5,999,7,38.9,0,Complaint-Driven,137.4,Email,Hindi
+UBI10082,Arun Shah,29,Delhi,2.9,59602,5,"Savings Account, Credit Card, Demat Account, Recurring Deposit, Personal Loan",1,46626,33,28,11,162,0,3,2.9,36,17,69.7,1,Disengaged,43.2,WhatsApp,English
+UBI10083,Rohit Reddy,64,Pune,7.4,157936,2,"Recurring Deposit, Savings Account",1,10816,5,18,5,170,0,3,3.6,70,17,32.4,1,Disengaged,116.9,WhatsApp,Marathi
+UBI10084,Ananya Rao,29,Jaipur,1.1,78070,2,"Home Loan, Fixed Deposit",25,933,23,1,16,3,0,4,3.7,999,9,84.8,0,Complaint-Driven,8.6,Push,Telugu
+UBI10085,Pooja Mishra,35,Chennai,10.1,150377,4,"Credit Card, Savings Account, Fixed Deposit, Insurance",35,41710,40,17,2,37,0,6,3.0,9,16,94.1,0,Complaint-Driven,303.8,WhatsApp,Odia
+UBI10086,Ananya Nair,62,Nagpur,6.5,189003,3,"Credit Card, Demat Account, Recurring Deposit",26,4110,48,13,1,82,1,0,1.8,48,14,61.5,1,Price-Sensitive,184.3,Push,Marathi
+UBI10087,Vikram Mishra,61,Nagpur,7.9,131569,2,"Credit Card, Home Loan",33,19049,31,24,2,110,0,3,1.3,999,24,64.5,1,Complaint-Driven,103.9,SMS,Telugu
+UBI10088,Raj Reddy,51,Bhubaneswar,12.2,114517,3,"Personal Loan, Recurring Deposit, Credit Card",32,32167,24,24,18,177,0,3,2.3,89,10,55.3,1,Complaint-Driven,209.6,WhatsApp,Telugu
+UBI10089,Sanjay Reddy,39,Indore,4.7,159615,2,"Personal Loan, Recurring Deposit",15,37294,12,11,9,49,0,4,3.7,36,19,46.0,0,Complaint-Driven,75.0,Push,Odia
+UBI10090,Vikram Iyer,34,Bhubaneswar,10.4,211809,5,"Personal Loan, Fixed Deposit, Credit Card, Home Loan, Demat Account",7,47686,46,28,9,163,0,1,3.4,82,5,85.4,0,Life-Event,550.7,Email,Telugu
+UBI10091,Pooja Das,52,Surat,4.4,173947,4,"Personal Loan, Fixed Deposit, Recurring Deposit, Home Loan",4,16750,7,30,12,140,1,0,1.3,33,14,89.5,1,Price-Sensitive,153.1,SMS,Odia
+UBI10092,Rahul Rao,34,Hyderabad,1.2,137120,4,"Fixed Deposit, Credit Card, Demat Account, Personal Loan",20,8027,8,5,3,92,0,0,4.4,999,17,55.5,0,Life-Event,32.9,Push,English
+UBI10093,Usha Rao,35,Mumbai,13.4,173522,1,Savings Account,7,22325,39,23,8,72,1,1,1.9,80,29,57.0,1,Price-Sensitive,116.3,Push,Hindi
+UBI10094,Aarav Mehta,36,Bengaluru,12.2,241300,4,"Credit Card, Home Loan, Demat Account, Savings Account",10,6175,36,23,19,69,1,0,1.4,999,7,49.1,1,Price-Sensitive,588.8,Push,Hindi
+UBI10095,Pooja Reddy,28,Mumbai,4.0,105869,4,"Demat Account, Credit Card, Fixed Deposit, Personal Loan",6,5573,26,22,14,113,0,5,4.6,79,0,56.0,0,Complaint-Driven,84.7,SMS,Hindi
+UBI10096,Geeta Mishra,49,Nagpur,13.2,114728,3,"Savings Account, Credit Card, Home Loan",39,25621,53,14,19,52,0,1,3.8,77,5,77.0,0,Life-Event,227.2,Push,Hindi
+UBI10097,Suresh Chopra,47,Hyderabad,4.1,101199,2,"Demat Account, Home Loan",30,1790,43,29,18,62,0,3,3.9,3,18,39.3,0,Complaint-Driven,41.5,Email,English
+UBI10098,Nisha Rao,50,Kolkata,1.8,91827,3,"Credit Card, Recurring Deposit, Demat Account",16,31560,10,5,7,149,0,6,1.1,49,1,74.7,1,Complaint-Driven,24.8,WhatsApp,Marathi
+UBI10099,Ananya Singh,61,Surat,8.5,90638,1,Home Loan,28,9966,18,4,13,71,0,1,2.6,999,7,84.1,0,Life-Event,38.5,WhatsApp,Odia
+UBI10100,Sanjay Verma,40,Jaipur,7.3,135956,2,"Credit Card, Savings Account",12,39694,45,2,2,25,0,6,4.1,999,24,49.3,0,Complaint-Driven,99.2,SMS,Marathi
+UBI10101,Ananya Gupta,56,Bengaluru,4.1,27292,3,"Recurring Deposit, Demat Account, Insurance",32,1557,32,16,1,100,0,1,1.2,999,7,83.2,0,Life-Event,16.8,SMS,Odia
+UBI10102,Arjun Shah,37,Ahmedabad,3.0,53803,2,"Recurring Deposit, Personal Loan",38,49647,2,2,12,34,0,2,2.8,63,17,56.0,0,Life-Event,16.1,Email,Odia
+UBI10103,Amit Chopra,60,Lucknow,10.9,221435,4,"Home Loan, Insurance, Credit Card, Fixed Deposit",32,32950,8,25,1,52,0,4,5.0,999,19,86.9,0,Complaint-Driven,482.7,Email,Tamil
+UBI10104,Divya Chopra,23,Pune,7.6,221689,1,Credit Card,27,42041,48,4,14,151,0,5,4.2,999,4,11.4,0,Complaint-Driven,84.2,Push,Tamil
+UBI10105,Arjun Mishra,47,Ahmedabad,10.8,122404,2,"Insurance, Fixed Deposit",26,3565,15,30,4,163,0,2,2.5,45,29,42.9,0,Life-Event,132.2,Email,English
+UBI10106,Lakshmi Iyer,44,Indore,7.9,150071,1,Insurance,4,23300,21,6,9,129,0,0,5.0,19,1,12.1,0,Product Maturity,59.3,Push,Marathi
+UBI10107,Deepak Chopra,23,Ahmedabad,6.3,234324,5,"Insurance, Recurring Deposit, Home Loan, Demat Account, Personal Loan",23,3536,51,16,18,31,1,6,3.0,999,21,76.2,1,Price-Sensitive,369.1,WhatsApp,Hindi
+UBI10108,Raj Mehta,64,Surat,6.9,214410,3,"Recurring Deposit, Fixed Deposit, Demat Account",5,40627,24,8,12,56,0,0,2.2,999,13,58.4,0,Life-Event,221.9,Email,Hindi
+UBI10109,Kavita Reddy,35,Mumbai,14.9,67832,1,Home Loan,30,4531,14,14,5,172,1,0,1.3,59,19,71.9,1,Price-Sensitive,50.5,SMS,Tamil
+UBI10110,Arjun Mehta,62,Bhubaneswar,5.2,65789,5,"Home Loan, Demat Account, Insurance, Fixed Deposit, Personal Loan",1,28634,30,8,10,130,0,3,4.9,999,30,60.3,1,Disengaged,85.5,SMS,English
+UBI10111,Vikram Nair,36,Chennai,7.2,65175,1,Personal Loan,26,48862,25,13,18,84,0,0,2.0,80,30,88.9,0,Life-Event,23.5,WhatsApp,Telugu
+UBI10112,Priya Rao,47,Indore,6.8,133586,4,"Savings Account, Recurring Deposit, Demat Account, Insurance",19,15645,31,28,15,101,0,3,2.7,31,7,61.9,0,Complaint-Driven,181.7,Push,Telugu
+UBI10113,Ananya Mehta,59,Kolkata,12.9,51387,1,Fixed Deposit,0,10033,34,13,15,23,0,0,1.0,999,4,34.8,0,Life-Event,33.1,SMS,Marathi
+UBI10114,Geeta Chopra,64,Lucknow,1.8,68311,3,"Personal Loan, Savings Account, Demat Account",37,5596,2,19,0,49,0,3,4.3,999,8,60.4,0,Complaint-Driven,18.4,WhatsApp,Odia
+UBI10115,Divya Gupta,26,Ahmedabad,9.3,93152,2,"Fixed Deposit, Credit Card",38,14866,44,9,1,100,0,5,1.7,61,11,90.9,1,Complaint-Driven,86.6,SMS,Telugu
+UBI10116,Sanjay Das,48,Nagpur,14.0,233209,3,"Personal Loan, Fixed Deposit, Demat Account",29,9946,45,4,1,20,0,4,4.5,999,14,20.7,0,Complaint-Driven,489.7,WhatsApp,Telugu
+UBI10117,Suresh Mehta,59,Chennai,10.9,139120,4,"Fixed Deposit, Personal Loan, Demat Account, Home Loan",37,20027,59,22,6,121,0,2,1.6,25,2,14.2,0,Product Maturity,303.3,SMS,Tamil
+UBI10118,Ananya Mishra,51,Bhubaneswar,14.5,230448,3,"Insurance, Fixed Deposit, Recurring Deposit",27,43349,20,30,18,179,0,0,4.5,22,13,17.9,0,Product Maturity,501.2,SMS,Hindi
+UBI10119,Priya Gupta,37,Jaipur,9.3,97839,2,"Recurring Deposit, Credit Card",2,804,40,11,10,157,0,2,1.0,999,6,22.6,1,Disengaged,91.0,SMS,Odia
+UBI10120,Raj Joshi,49,Nagpur,14.3,234788,1,Insurance,37,36056,18,17,14,11,0,2,1.1,999,15,80.5,0,Life-Event,167.9,Email,Tamil
+UBI10121,Lakshmi Nair,42,Indore,9.1,142773,3,"Home Loan, Personal Loan, Savings Account",14,44006,57,18,8,101,0,0,3.1,999,30,79.8,0,Life-Event,194.9,Push,Tamil
+UBI10122,Aarav Rao,25,Delhi,12.1,96731,5,"Demat Account, Savings Account, Home Loan, Recurring Deposit, Insurance",31,38222,13,17,17,73,0,6,1.9,50,5,56.3,0,Complaint-Driven,292.6,Push,English
+UBI10123,Geeta Rao,27,Pune,9.9,150793,1,Fixed Deposit,8,49313,46,8,5,168,0,5,2.0,21,6,72.0,1,Complaint-Driven,74.6,SMS,English
+UBI10124,Divya Iyer,56,Surat,8.5,42980,1,Recurring Deposit,7,418,15,2,8,45,0,6,2.8,16,16,20.4,0,Complaint-Driven,18.3,SMS,English
+UBI10125,Meera Singh,44,Bengaluru,6.1,74623,5,"Home Loan, Personal Loan, Savings Account, Insurance, Demat Account",4,10835,9,10,5,133,0,3,5.0,81,0,38.9,0,Complaint-Driven,113.8,Email,Tamil
+UBI10126,Sneha Das,35,Bengaluru,3.3,192113,4,"Fixed Deposit, Personal Loan, Insurance, Credit Card",35,30205,24,10,20,94,0,0,1.1,999,18,40.2,0,Life-Event,126.8,SMS,Marathi
+UBI10127,Suresh Rao,22,Pune,13.0,47341,2,"Fixed Deposit, Home Loan",33,36992,49,3,18,34,1,3,3.2,71,3,63.1,0,Price-Sensitive,61.5,WhatsApp,Marathi
+UBI10128,Suresh Nair,41,Jaipur,12.4,101926,1,Fixed Deposit,3,19874,42,30,4,178,0,6,2.5,20,10,82.2,0,Complaint-Driven,63.2,WhatsApp,Odia
+UBI10129,Meera Singh,53,Hyderabad,11.2,131658,1,Savings Account,18,21679,11,22,2,35,0,2,1.5,34,10,85.5,0,Life-Event,73.7,Push,Odia
+UBI10130,Karan Singh,36,Mumbai,4.5,245585,5,"Fixed Deposit, Demat Account, Personal Loan, Home Loan, Recurring Deposit",35,43316,19,3,12,10,0,3,1.4,43,23,14.4,0,Complaint-Driven,276.3,WhatsApp,English
+UBI10131,Rahul Sharma,28,Ahmedabad,1.1,237205,3,"Demat Account, Home Loan, Savings Account",16,10607,37,30,17,63,0,2,1.7,999,20,79.0,0,Life-Event,39.1,Email,Hindi
+UBI10132,Usha Gupta,32,Surat,14.4,203899,5,"Credit Card, Insurance, Savings Account, Home Loan, Recurring Deposit",36,48031,49,26,6,126,0,0,2.7,79,6,80.1,0,Life-Event,734.0,SMS,Telugu
+UBI10133,Vikram Das,59,Kolkata,13.7,100409,3,"Credit Card, Home Loan, Savings Account",26,16911,41,19,15,0,0,3,3.4,999,18,25.7,0,Complaint-Driven,206.3,WhatsApp,Marathi
+UBI10134,Pooja Gupta,24,Chennai,15.0,220265,1,Fixed Deposit,25,8913,13,8,3,147,0,5,1.8,999,13,19.1,1,Complaint-Driven,165.2,Push,Tamil
+UBI10135,Vikram Gupta,63,Nagpur,2.3,121667,3,"Demat Account, Credit Card, Personal Loan",33,44785,17,14,6,162,0,1,2.6,999,15,51.6,0,Life-Event,42.0,SMS,Tamil
+UBI10136,Priya Reddy,22,Kolkata,7.2,41096,1,Insurance,33,19144,13,13,3,73,0,2,2.1,999,15,76.8,0,Life-Event,14.8,WhatsApp,Odia
+UBI10137,Amit Chopra,41,Bhubaneswar,3.8,77671,3,"Insurance, Credit Card, Recurring Deposit",10,31680,14,14,4,4,0,5,2.9,999,3,32.8,0,Complaint-Driven,44.3,SMS,Odia
+UBI10138,Arjun Kumar,39,Indore,10.0,234573,3,"Demat Account, Savings Account, Insurance",36,7220,15,28,9,64,0,6,4.8,999,20,52.2,1,Complaint-Driven,351.9,WhatsApp,Hindi
+UBI10139,Aarav Mehta,57,Kolkata,8.7,25382,4,"Credit Card, Fixed Deposit, Savings Account, Recurring Deposit",27,16660,44,25,8,150,0,5,2.6,78,3,42.3,0,Complaint-Driven,44.2,Push,Hindi
+UBI10140,Suresh Patel,43,Pune,7.3,88220,5,"Personal Loan, Credit Card, Fixed Deposit, Demat Account, Savings Account",4,6962,36,28,4,59,1,6,1.2,60,17,94.7,1,Price-Sensitive,161.0,WhatsApp,English
+UBI10141,Geeta Shah,30,Chennai,11.2,82270,3,"Fixed Deposit, Savings Account, Recurring Deposit",0,38702,26,3,8,164,1,1,1.4,999,2,78.5,1,Price-Sensitive,138.2,Push,English
+UBI10142,Nisha Reddy,56,Bengaluru,10.0,207417,1,Insurance,13,27188,56,10,3,22,0,4,2.1,55,29,40.3,0,Complaint-Driven,103.7,Email,Odia
+UBI10143,Arun Verma,23,Surat,1.9,189418,5,"Savings Account, Personal Loan, Recurring Deposit, Fixed Deposit, Home Loan",10,15549,47,1,5,50,0,1,1.5,999,21,48.2,0,Life-Event,90.0,Push,English
+UBI10144,Sneha Joshi,45,Bhubaneswar,11.5,224515,3,"Demat Account, Fixed Deposit, Personal Loan",4,10624,30,12,0,43,0,0,3.1,88,3,17.2,0,Life-Event,387.3,Push,Hindi
+UBI10145,Rohit Gupta,48,Delhi,6.8,208418,2,"Home Loan, Personal Loan",33,46974,35,28,16,151,0,3,1.6,999,30,48.2,1,Complaint-Driven,141.7,Push,Odia
+UBI10146,Amit Reddy,42,Hyderabad,9.3,217260,1,Credit Card,25,19568,24,24,17,119,0,6,3.3,999,28,14.6,0,Complaint-Driven,101.0,WhatsApp,Odia
+UBI10147,Nisha Das,63,Lucknow,10.8,239094,2,"Savings Account, Home Loan",11,35525,56,7,4,61,0,4,4.4,999,7,55.8,0,Complaint-Driven,258.2,WhatsApp,Telugu
+UBI10148,Deepak Singh,38,Hyderabad,5.3,60698,2,"Savings Account, Credit Card",31,13654,8,25,7,178,0,4,1.6,999,13,71.3,1,Complaint-Driven,32.2,WhatsApp,Marathi
+UBI10149,Suresh Shah,32,Bhubaneswar,4.5,247095,3,"Savings Account, Insurance, Demat Account",1,43773,44,0,0,21,0,1,4.0,999,2,68.5,0,Life-Event,166.8,Email,English
+UBI10150,Amit Chopra,25,Nagpur,9.6,183563,1,Recurring Deposit,22,20702,24,21,3,129,0,6,2.2,999,17,79.1,1,Complaint-Driven,88.1,Email,Telugu
+UBI10151,Nisha Singh,31,Bengaluru,12.5,100753,5,"Savings Account, Recurring Deposit, Credit Card, Personal Loan, Insurance",32,28687,29,0,1,153,0,0,3.6,32,11,64.1,0,Life-Event,314.9,WhatsApp,Telugu
+UBI10152,Usha Reddy,55,Bengaluru,6.4,172587,1,Credit Card,26,9982,51,8,16,58,0,2,3.6,47,26,24.5,0,Life-Event,55.2,Email,Marathi
+UBI10153,Priya Patel,62,Ahmedabad,1.3,79504,2,"Demat Account, Home Loan",39,36786,29,19,11,4,0,1,1.3,999,29,20.4,0,Life-Event,10.3,Email,Telugu
+UBI10154,Deepak Kumar,57,Jaipur,11.2,93578,3,"Recurring Deposit, Home Loan, Credit Card",31,16519,33,6,12,48,0,3,2.1,999,4,69.2,0,Complaint-Driven,157.2,SMS,Marathi
+UBI10155,Ananya Iyer,48,Hyderabad,2.8,88626,4,"Recurring Deposit, Insurance, Personal Loan, Home Loan",27,14216,6,9,8,21,1,6,1.2,50,30,93.5,1,Price-Sensitive,49.6,Email,Hindi
+UBI10156,Meera Chopra,40,Indore,13.2,73913,4,"Credit Card, Personal Loan, Demat Account, Recurring Deposit",21,35816,43,5,9,49,0,5,1.3,49,13,77.3,0,Complaint-Driven,195.1,SMS,Odia
+UBI10157,Rahul Sharma,36,Surat,2.1,88292,5,"Recurring Deposit, Demat Account, Insurance, Personal Loan, Fixed Deposit",29,40183,53,22,1,172,0,0,2.2,999,27,34.8,0,Life-Event,46.4,Push,Hindi
+UBI10158,Karan Chopra,34,Indore,8.1,178910,3,"Fixed Deposit, Credit Card, Personal Loan",14,9467,51,3,2,24,1,4,2.9,999,19,92.9,0,Price-Sensitive,217.4,Push,Odia
+UBI10159,Rohit Joshi,53,Chennai,2.5,193828,3,"Credit Card, Savings Account, Insurance",2,47606,4,30,2,156,1,6,4.8,999,14,91.7,1,Price-Sensitive,72.7,Email,Odia
+UBI10160,Usha Sharma,22,Bengaluru,3.5,31964,1,Fixed Deposit,21,27398,7,17,4,152,0,1,3.8,43,20,69.7,0,Life-Event,5.6,SMS,Marathi
+UBI10161,Divya Kumar,48,Mumbai,13.3,203289,2,"Demat Account, Recurring Deposit",39,22861,8,28,1,19,0,4,1.3,16,3,55.8,0,Complaint-Driven,270.4,Push,Hindi
+UBI10162,Raj Mishra,43,Indore,0.9,61514,4,"Credit Card, Fixed Deposit, Personal Loan, Demat Account",13,39952,38,16,4,18,0,3,2.1,44,2,17.8,1,Complaint-Driven,11.1,WhatsApp,Marathi
+UBI10163,Usha Iyer,30,Jaipur,8.3,220859,1,Personal Loan,40,1592,49,25,10,60,1,3,2.7,999,3,73.4,0,Price-Sensitive,91.7,Email,English
+UBI10164,Priya Joshi,25,Jaipur,13.3,119718,4,"Demat Account, Home Loan, Savings Account, Personal Loan",24,10292,43,14,2,82,0,0,4.8,28,28,38.9,0,Product Maturity,318.4,WhatsApp,Tamil
+UBI10165,Deepak Verma,49,Lucknow,2.1,189201,4,"Demat Account, Insurance, Home Loan, Fixed Deposit",39,14018,33,26,8,74,0,0,2.0,999,25,54.9,0,Life-Event,79.5,Email,Hindi
+UBI10166,Suresh Iyer,37,Ahmedabad,13.0,169254,5,"Recurring Deposit, Credit Card, Savings Account, Fixed Deposit, Home Loan",23,40472,46,3,1,26,0,3,3.8,999,16,41.3,0,Complaint-Driven,550.1,WhatsApp,Telugu
+UBI10167,Divya Verma,23,Surat,14.9,91910,5,"Recurring Deposit, Credit Card, Home Loan, Personal Loan, Demat Account",39,37733,51,12,9,141,1,0,4.6,999,17,76.6,1,Price-Sensitive,342.4,Email,Marathi
+UBI10168,Rahul Nair,31,Pune,8.7,102177,1,Home Loan,36,40752,50,27,6,44,0,0,1.7,29,24,22.0,0,Product Maturity,44.4,Email,Tamil
+UBI10169,Rahul Patel,48,Lucknow,10.6,171252,4,"Recurring Deposit, Credit Card, Personal Loan, Savings Account",29,27574,57,0,20,113,0,5,1.9,999,16,61.6,1,Complaint-Driven,363.1,SMS,Marathi
+UBI10170,Geeta Chopra,63,Chennai,13.5,161369,2,"Savings Account, Demat Account",18,401,57,11,13,169,0,1,4.6,73,10,12.5,0,Life-Event,217.8,Push,Tamil
+UBI10171,Rahul Chopra,56,Bhubaneswar,2.6,198255,3,"Fixed Deposit, Demat Account, Home Loan",24,37746,24,11,13,161,0,6,1.9,72,25,46.2,1,Complaint-Driven,77.3,Push,Hindi
+UBI10172,Deepak Mehta,58,Pune,14.7,221718,1,Home Loan,12,17701,25,17,4,61,0,6,3.0,999,27,12.5,0,Complaint-Driven,163.0,Push,Tamil
+UBI10173,Pooja Sharma,22,Bhubaneswar,12.9,138835,5,"Demat Account, Credit Card, Savings Account, Personal Loan, Home Loan",24,33223,12,2,2,171,0,6,3.4,999,30,15.6,0,Complaint-Driven,447.7,WhatsApp,Odia
+UBI10174,Sanjay Reddy,27,Hyderabad,9.6,44179,3,"Savings Account, Credit Card, Demat Account",11,41457,33,6,18,113,1,5,1.6,999,20,33.8,1,Price-Sensitive,63.6,WhatsApp,Tamil
+UBI10175,Amit Shah,60,Hyderabad,6.2,40252,4,"Recurring Deposit, Personal Loan, Credit Card, Demat Account",8,39279,8,11,0,142,0,5,4.5,81,29,42.7,0,Complaint-Driven,49.9,WhatsApp,Hindi
+UBI10176,Rahul Singh,38,Mumbai,6.3,162358,5,"Home Loan, Savings Account, Fixed Deposit, Personal Loan, Insurance",29,15411,5,29,4,80,0,5,4.7,26,29,91.7,0,Complaint-Driven,255.7,WhatsApp,Tamil
+UBI10177,Sunita Singh,51,Mumbai,3.5,68063,1,Fixed Deposit,38,10907,0,12,3,56,1,1,4.3,86,4,49.8,0,Price-Sensitive,11.9,SMS,Tamil
+UBI10178,Sneha Joshi,35,Ahmedabad,1.6,200079,5,"Home Loan, Recurring Deposit, Demat Account, Insurance, Savings Account",10,38132,20,1,4,101,0,4,1.2,13,8,34.2,1,Complaint-Driven,80.0,WhatsApp,Hindi
+UBI10179,Amit Joshi,65,Hyderabad,12.6,129427,4,"Fixed Deposit, Insurance, Credit Card, Personal Loan",32,11361,58,5,2,3,0,5,1.4,999,3,63.4,0,Complaint-Driven,326.2,SMS,Odia
+UBI10180,Kavita Verma,58,Jaipur,5.4,242513,4,"Insurance, Fixed Deposit, Credit Card, Demat Account",34,16127,56,3,16,45,0,3,1.1,30,30,72.8,0,Complaint-Driven,261.9,Email,Marathi
+UBI10181,Rahul Rao,47,Bhubaneswar,13.9,56193,4,"Insurance, Personal Loan, Savings Account, Credit Card",31,15663,57,12,16,37,0,2,4.1,999,2,66.0,0,Life-Event,156.2,Push,Hindi
+UBI10182,Pooja Chopra,42,Bhubaneswar,2.8,128116,3,"Savings Account, Demat Account, Recurring Deposit",34,29513,59,3,8,103,0,5,1.3,999,2,93.4,1,Complaint-Driven,53.8,Push,Telugu
+UBI10183,Rahul Das,51,Nagpur,9.1,35337,5,"Home Loan, Fixed Deposit, Credit Card, Insurance, Recurring Deposit",34,1259,60,5,4,9,0,6,1.1,999,21,81.5,0,Complaint-Driven,80.4,Email,Marathi
+UBI10184,Lakshmi Reddy,54,Hyderabad,9.9,103154,5,"Personal Loan, Demat Account, Insurance, Home Loan, Savings Account",5,18783,22,14,20,139,1,6,4.0,5,2,40.3,1,Price-Sensitive,255.3,Push,Hindi
+UBI10185,Sunita Das,50,Kolkata,7.4,166366,2,"Savings Account, Home Loan",28,18215,24,24,2,157,0,5,3.5,60,19,55.2,0,Complaint-Driven,123.1,Email,Odia
+UBI10186,Vikram Rao,54,Ahmedabad,10.9,65347,2,"Personal Loan, Home Loan",36,13055,31,23,1,164,0,5,3.1,999,21,63.1,0,Complaint-Driven,71.2,Push,Telugu
+UBI10187,Priya Reddy,23,Bhubaneswar,13.5,119465,4,"Demat Account, Personal Loan, Home Loan, Recurring Deposit",29,37502,2,0,3,42,0,4,1.7,44,8,31.4,0,Complaint-Driven,322.6,Email,Tamil
+UBI10188,Rahul Das,34,Bengaluru,5.6,238706,5,"Home Loan, Fixed Deposit, Personal Loan, Demat Account, Insurance",34,48654,36,27,8,100,0,6,4.8,999,10,44.4,0,Complaint-Driven,334.2,SMS,English
+UBI10189,Geeta Mehta,33,Jaipur,11.5,214378,4,"Recurring Deposit, Insurance, Credit Card, Fixed Deposit",36,11462,25,30,18,56,0,2,3.1,88,3,29.0,0,Life-Event,493.1,WhatsApp,Odia
+UBI10190,Arun Das,45,Pune,0.9,194298,4,"Home Loan, Credit Card, Insurance, Recurring Deposit",1,40169,20,24,15,174,0,6,2.0,999,9,63.4,1,Disengaged,35.0,WhatsApp,Marathi
+UBI10191,Deepak Singh,29,Ahmedabad,9.2,68205,1,Credit Card,33,46382,21,18,7,68,0,0,4.4,27,9,17.5,0,Product Maturity,31.4,SMS,Tamil
+UBI10192,Sneha Mehta,42,Chennai,2.1,216085,2,"Personal Loan, Home Loan",13,27691,30,23,16,24,0,6,2.7,999,0,91.6,0,Complaint-Driven,45.4,SMS,Hindi
+UBI10193,Arun Kumar,40,Nagpur,12.0,34225,3,"Recurring Deposit, Credit Card, Demat Account",39,34882,60,3,18,134,1,4,1.2,17,0,33.1,1,Price-Sensitive,61.6,Push,Hindi
+UBI10194,Deepak Chopra,47,Bengaluru,13.4,111741,5,"Demat Account, Credit Card, Savings Account, Recurring Deposit, Insurance",28,35518,28,8,9,42,0,3,3.8,66,23,85.9,0,Complaint-Driven,374.3,SMS,Odia
+UBI10195,Sanjay Mehta,59,Kolkata,14.5,233824,3,"Home Loan, Fixed Deposit, Insurance",8,20158,39,29,3,21,1,2,1.1,999,1,23.3,1,Price-Sensitive,508.6,SMS,Telugu
+UBI10196,Sanjay Nair,59,Bhubaneswar,13.2,44070,2,"Recurring Deposit, Personal Loan",7,21563,55,10,2,53,0,2,2.4,999,20,63.8,0,Life-Event,58.2,Push,Marathi
+UBI10197,Sneha Iyer,41,Hyderabad,12.8,162571,5,"Demat Account, Credit Card, Home Loan, Personal Loan, Insurance",9,32940,54,22,7,108,1,5,4.2,38,4,73.5,1,Price-Sensitive,520.2,Push,Telugu
+UBI10198,Deepak Verma,45,Hyderabad,3.5,43243,5,"Credit Card, Demat Account, Fixed Deposit, Home Loan, Savings Account",8,12679,53,2,4,51,0,6,3.6,81,19,17.9,0,Complaint-Driven,37.8,Email,Marathi
+UBI10199,Aarav Singh,55,Chennai,6.5,153329,2,"Credit Card, Personal Loan",35,30555,22,0,17,42,1,3,3.1,12,5,76.9,0,Price-Sensitive,99.7,SMS,Tamil
+UBI10200,Amit Mehta,38,Surat,14.6,172335,3,"Insurance, Fixed Deposit, Credit Card",9,37635,60,1,10,36,0,4,4.3,86,12,86.5,0,Complaint-Driven,377.4,Push,Marathi
+UBI10201,Sneha Das,25,Jaipur,13.1,213295,4,"Fixed Deposit, Personal Loan, Credit Card, Insurance",4,30160,43,6,6,113,0,4,3.6,999,10,25.5,0,Complaint-Driven,558.8,Push,Odia
+UBI10202,Rahul Joshi,48,Bengaluru,14.4,217100,4,"Personal Loan, Insurance, Home Loan, Savings Account",40,20070,15,17,17,36,0,1,2.3,999,25,59.1,0,Life-Event,625.2,Push,Telugu
+UBI10203,Sunita Iyer,39,Kolkata,2.3,214998,4,"Insurance, Fixed Deposit, Demat Account, Credit Card",18,16396,60,0,18,85,0,6,2.0,999,5,85.9,1,Complaint-Driven,98.9,Email,English
+UBI10204,Ananya Verma,50,Delhi,2.9,111798,2,"Insurance, Demat Account",33,32817,46,3,6,125,0,1,3.3,999,4,22.7,0,Life-Event,32.4,WhatsApp,Hindi
+UBI10205,Meera Das,25,Jaipur,3.2,34871,1,Home Loan,35,32243,38,25,14,132,1,2,3.7,89,21,53.7,0,Price-Sensitive,5.6,Push,Hindi
+UBI10206,Sanjay Das,25,Nagpur,12.6,221767,1,Credit Card,1,18427,19,7,12,165,0,6,3.3,74,3,49.1,1,Disengaged,139.7,SMS,Hindi
+UBI10207,Karan Singh,23,Nagpur,2.7,176306,2,"Personal Loan, Insurance",1,6260,19,6,15,70,0,0,3.4,999,18,45.3,0,Disengaged,47.6,Email,English
+UBI10208,Karan Mishra,27,Lucknow,14.5,63059,4,"Savings Account, Personal Loan, Fixed Deposit, Demat Account",7,13782,10,3,14,104,1,6,3.6,999,19,75.6,1,Price-Sensitive,182.9,WhatsApp,English
+UBI10209,Sneha Das,47,Delhi,2.4,72371,1,Fixed Deposit,39,47495,2,14,4,87,1,1,1.8,999,1,35.0,1,Price-Sensitive,8.7,Push,Tamil
+UBI10210,Raj Mehta,35,Jaipur,0.7,71881,4,"Home Loan, Demat Account, Insurance, Savings Account",9,18684,11,3,2,72,0,6,3.2,999,29,38.7,0,Complaint-Driven,10.1,WhatsApp,Odia
+UBI10211,Geeta Mehta,30,Bengaluru,9.1,123455,2,"Savings Account, Demat Account",37,12891,44,27,11,89,1,6,4.2,999,25,89.1,1,Price-Sensitive,112.3,SMS,Hindi
+UBI10212,Arun Mishra,23,Nagpur,1.9,143943,1,Recurring Deposit,17,12701,27,29,11,140,0,4,2.5,999,6,81.9,1,Complaint-Driven,13.7,SMS,English
+UBI10213,Usha Gupta,23,Bengaluru,14.9,39107,4,"Fixed Deposit, Recurring Deposit, Home Loan, Insurance",30,15326,35,15,8,15,0,4,3.5,999,13,46.2,0,Complaint-Driven,116.5,WhatsApp,Tamil
+UBI10214,Pooja Gupta,30,Indore,4.6,195418,1,Personal Loan,20,17308,60,27,5,175,0,1,3.8,999,7,15.0,0,Life-Event,44.9,WhatsApp,Odia
+UBI10215,Meera Das,53,Lucknow,13.8,192729,4,"Personal Loan, Credit Card, Recurring Deposit, Home Loan",4,24506,28,18,11,95,0,3,4.4,32,15,81.5,0,Complaint-Driven,531.9,Push,Telugu
+UBI10216,Amit Rao,22,Delhi,1.1,40570,1,Fixed Deposit,2,13780,1,25,13,141,0,0,2.8,999,15,23.8,0,Disengaged,2.2,WhatsApp,Odia
+UBI10217,Aarav Kumar,64,Pune,7.0,63831,5,"Savings Account, Demat Account, Personal Loan, Insurance, Recurring Deposit",3,30573,5,6,16,10,1,3,1.4,7,22,29.5,1,Price-Sensitive,111.7,WhatsApp,English
+UBI10218,Divya Chopra,55,Hyderabad,7.6,77296,4,"Recurring Deposit, Savings Account, Personal Loan, Fixed Deposit",1,1342,36,13,5,89,0,3,2.7,55,15,12.5,1,Disengaged,117.5,WhatsApp,Odia
+UBI10219,Aarav Mehta,34,Bhubaneswar,12.2,228687,2,"Demat Account, Fixed Deposit",28,16860,53,13,12,111,0,0,2.4,999,26,21.7,0,Life-Event,279.0,Email,English
+UBI10220,Priya Patel,39,Kolkata,6.5,51258,3,"Personal Loan, Insurance, Home Loan",1,49685,4,25,3,12,1,4,2.9,999,29,31.4,1,Price-Sensitive,50.0,WhatsApp,Marathi
+UBI10221,Sanjay Reddy,59,Chennai,8.4,169712,1,Home Loan,36,398,20,7,2,81,0,0,2.0,999,25,60.1,1,Life-Event,71.3,Email,Tamil
+UBI10222,Lakshmi Mishra,62,Chennai,9.9,77078,4,"Insurance, Personal Loan, Savings Account, Credit Card",24,39717,35,23,9,26,1,3,4.8,999,15,34.4,1,Price-Sensitive,152.6,WhatsApp,Tamil
+UBI10223,Nisha Reddy,37,Chennai,12.5,224804,3,"Demat Account, Fixed Deposit, Insurance",32,44091,37,19,9,149,0,4,2.8,999,22,79.9,0,Complaint-Driven,421.5,SMS,Hindi
+UBI10224,Kavita Gupta,23,Chennai,7.3,160153,4,"Recurring Deposit, Savings Account, Demat Account, Credit Card",3,10578,42,21,0,161,0,0,4.4,999,7,41.4,0,Life-Event,233.8,Email,Hindi
+UBI10225,Sneha Singh,50,Mumbai,11.1,165902,5,"Home Loan, Personal Loan, Insurance, Savings Account, Demat Account",34,26348,57,8,9,136,0,1,4.0,58,16,53.6,0,Life-Event,460.4,Push,Odia
+UBI10226,Amit Chopra,50,Mumbai,8.3,41178,1,Home Loan,34,3268,26,15,10,121,0,6,4.4,25,18,17.2,1,Complaint-Driven,17.1,Email,English
+UBI10227,Sanjay Singh,32,Jaipur,13.4,201774,5,"Home Loan, Demat Account, Fixed Deposit, Insurance, Credit Card",35,33275,9,14,12,148,1,5,3.5,999,18,40.1,1,Price-Sensitive,675.9,WhatsApp,Telugu
+UBI10228,Rohit Rao,29,Pune,6.7,154592,5,"Credit Card, Fixed Deposit, Insurance, Recurring Deposit, Demat Account",21,47573,24,11,3,117,1,1,2.2,6,22,64.4,1,Price-Sensitive,258.9,Email,Tamil
+UBI10229,Sunita Nair,38,Lucknow,6.7,94637,4,"Home Loan, Fixed Deposit, Savings Account, Credit Card",0,10223,35,10,3,98,0,1,4.9,999,26,63.6,0,Disengaged,126.8,SMS,Odia
+UBI10230,Sunita Gupta,22,Jaipur,14.5,231921,2,"Home Loan, Insurance",25,35111,44,16,7,157,0,3,1.5,34,15,22.9,0,Complaint-Driven,336.3,Email,Odia
+UBI10231,Rahul Singh,49,Mumbai,9.5,41622,1,Home Loan,4,14254,53,3,18,63,0,5,4.0,999,26,84.2,0,Complaint-Driven,19.8,Email,English
+UBI10232,Pooja Joshi,52,Surat,6.4,25111,3,"Recurring Deposit, Fixed Deposit, Savings Account",16,21251,35,16,3,102,0,6,4.3,999,11,87.0,0,Complaint-Driven,24.1,SMS,Telugu
+UBI10233,Nisha Gupta,38,Delhi,9.4,137438,3,"Savings Account, Demat Account, Fixed Deposit",18,18130,1,25,18,106,1,6,1.3,999,24,53.8,1,Price-Sensitive,193.8,SMS,Odia
+UBI10234,Sunita Patel,56,Jaipur,14.4,216230,1,Demat Account,29,36320,9,3,8,20,1,2,2.7,999,26,37.7,0,Price-Sensitive,155.7,Push,Tamil
+UBI10235,Sanjay Das,38,Jaipur,6.6,198845,5,"Credit Card, Personal Loan, Home Loan, Insurance, Demat Account",19,33408,24,18,9,176,0,2,2.4,34,25,66.1,0,Life-Event,328.1,WhatsApp,English
+UBI10236,Lakshmi Gupta,60,Bhubaneswar,3.1,246464,4,"Personal Loan, Fixed Deposit, Insurance, Credit Card",2,23220,7,2,15,20,1,5,3.9,30,6,45.8,1,Price-Sensitive,152.8,Push,Tamil
+UBI10237,Arun Gupta,28,Jaipur,8.9,110892,3,"Savings Account, Credit Card, Demat Account",0,3421,1,19,20,166,0,6,1.5,68,5,14.0,1,Disengaged,148.0,Email,Tamil
+UBI10238,Geeta Reddy,57,Lucknow,6.8,155417,4,"Savings Account, Recurring Deposit, Credit Card, Demat Account",10,1140,52,25,9,80,1,6,2.5,57,17,85.9,1,Price-Sensitive,211.4,Email,Telugu
+UBI10239,Suresh Nair,34,Nagpur,7.8,184543,1,Demat Account,8,16093,54,25,11,66,1,3,4.1,999,24,45.6,1,Price-Sensitive,72.0,SMS,English
+UBI10240,Sneha Das,62,Pune,9.3,115970,2,"Savings Account, Insurance",27,10703,54,5,3,44,0,2,1.7,58,30,84.9,0,Life-Event,107.9,Email,Telugu
+UBI10241,Raj Gupta,42,Lucknow,1.5,32274,1,Fixed Deposit,11,18611,45,3,2,95,0,4,4.2,82,1,10.5,0,Complaint-Driven,2.4,WhatsApp,English
+UBI10242,Nisha Das,52,Surat,7.7,171493,2,"Credit Card, Demat Account",5,11530,36,19,11,113,0,6,2.1,18,25,32.4,1,Complaint-Driven,132.0,Push,Marathi
+UBI10243,Kavita Singh,31,Surat,2.1,68155,1,Credit Card,33,16664,14,23,15,87,0,3,2.4,76,27,74.0,1,Complaint-Driven,7.2,WhatsApp,Tamil
+UBI10244,Sunita Chopra,62,Bengaluru,5.8,94396,5,"Recurring Deposit, Insurance, Fixed Deposit, Savings Account, Personal Loan",32,21453,56,8,11,68,0,0,3.7,55,9,65.5,0,Life-Event,136.9,SMS,Marathi
+UBI10245,Amit Mehta,31,Indore,3.4,45107,1,Recurring Deposit,12,10303,59,22,14,73,1,5,4.8,11,14,86.6,1,Price-Sensitive,7.7,Email,Hindi
+UBI10246,Pooja Iyer,63,Bhubaneswar,10.3,68609,4,"Recurring Deposit, Savings Account, Fixed Deposit, Home Loan",34,25071,43,5,2,121,0,5,1.1,999,25,82.0,1,Complaint-Driven,141.3,Email,Hindi
+UBI10247,Priya Reddy,43,Surat,9.7,33703,4,"Credit Card, Recurring Deposit, Personal Loan, Home Loan",32,9691,17,19,7,84,0,2,1.0,999,16,15.9,1,Life-Event,65.4,Email,Tamil
+UBI10248,Nisha Iyer,54,Delhi,12.7,115528,2,"Home Loan, Recurring Deposit",16,44110,23,8,8,109,0,6,3.1,69,22,15.6,0,Complaint-Driven,146.7,Push,Tamil
+UBI10249,Arun Kumar,22,Bhubaneswar,10.5,223089,3,"Credit Card, Personal Loan, Home Loan",7,9839,34,14,16,131,0,6,3.2,50,18,54.9,0,Complaint-Driven,351.4,Push,Marathi
+UBI10250,Lakshmi Patel,41,Pune,7.5,209307,2,"Insurance, Savings Account",17,29652,43,4,8,96,0,0,4.2,77,22,31.5,0,Life-Event,157.0,SMS,Hindi
+UBI10251,Karan Nair,59,Ahmedabad,2.9,86725,2,"Fixed Deposit, Insurance",7,42540,42,17,15,7,1,6,1.6,999,5,54.0,1,Price-Sensitive,25.2,WhatsApp,Marathi
+UBI10252,Rahul Joshi,32,Bengaluru,2.3,238965,1,Savings Account,11,15274,11,28,0,4,0,5,3.1,60,12,19.7,0,Complaint-Driven,27.5,WhatsApp,Odia
+UBI10253,Sanjay Mishra,46,Delhi,0.7,46918,3,"Credit Card, Recurring Deposit, Insurance",5,19124,3,29,7,141,0,2,3.6,999,18,53.4,0,Life-Event,4.9,WhatsApp,Tamil
+UBI10254,Arjun Rao,57,Bhubaneswar,2.5,107539,3,"Demat Account, Insurance, Home Loan",20,44520,50,3,1,0,0,5,4.1,3,26,73.9,0,Complaint-Driven,40.3,Push,English
+UBI10255,Meera Reddy,43,Surat,9.0,139697,1,Personal Loan,1,45356,2,13,13,171,1,3,2.1,999,28,65.0,1,Price-Sensitive,62.9,SMS,Telugu
+UBI10256,Rohit Singh,36,Hyderabad,0.5,142183,5,"Personal Loan, Savings Account, Credit Card, Home Loan, Recurring Deposit",39,30964,2,16,19,3,0,6,3.2,25,13,56.6,0,Complaint-Driven,17.8,SMS,Odia
+UBI10257,Vikram Das,56,Surat,8.7,188009,4,"Recurring Deposit, Credit Card, Home Loan, Demat Account",0,34800,14,17,13,142,0,3,3.1,88,25,62.2,1,Disengaged,327.1,SMS,English
+UBI10258,Meera Rao,33,Pune,7.1,45325,5,"Insurance, Credit Card, Savings Account, Home Loan, Fixed Deposit",8,1659,60,2,4,110,0,3,4.4,999,12,11.2,0,Complaint-Driven,80.5,WhatsApp,Odia
+UBI10259,Aarav Chopra,30,Delhi,11.9,119688,3,"Personal Loan, Savings Account, Credit Card",31,30144,18,22,2,171,0,3,2.2,999,25,16.3,1,Complaint-Driven,213.6,Push,Telugu
+UBI10260,Rohit Das,30,Kolkata,4.4,67655,2,"Insurance, Recurring Deposit",32,38711,4,14,1,67,0,2,4.7,14,21,35.0,0,Product Maturity,29.8,Email,English
+UBI10261,Suresh Rao,54,Bengaluru,0.5,176513,2,"Recurring Deposit, Demat Account",23,32767,53,0,18,4,0,0,3.5,29,13,33.4,0,Product Maturity,8.8,WhatsApp,Tamil
+UBI10262,Ananya Joshi,30,Hyderabad,12.8,148208,2,"Recurring Deposit, Home Loan",39,21702,56,23,8,1,0,0,2.9,999,5,68.6,0,Life-Event,189.7,Email,Hindi
+UBI10263,Rohit Gupta,48,Delhi,6.1,167146,3,"Savings Account, Credit Card, Insurance",3,23231,60,17,20,178,0,0,1.5,999,19,25.1,1,Life-Event,152.9,Email,English
+UBI10264,Geeta Singh,42,Bengaluru,6.7,220960,1,Personal Loan,14,29074,3,26,18,34,0,0,1.1,10,18,36.7,0,Product Maturity,74.0,WhatsApp,English
+UBI10265,Nisha Reddy,63,Delhi,13.2,175471,3,"Personal Loan, Insurance, Recurring Deposit",14,42527,9,25,18,133,1,3,3.4,999,27,82.9,1,Price-Sensitive,347.4,SMS,Hindi
+UBI10266,Lakshmi Reddy,39,Ahmedabad,11.6,133375,1,Recurring Deposit,30,13450,51,9,17,21,0,6,3.9,999,8,38.2,0,Complaint-Driven,77.4,Push,Telugu
+UBI10267,Sunita Das,36,Bhubaneswar,3.2,147754,3,"Credit Card, Demat Account, Personal Loan",23,28894,16,16,7,86,0,3,3.1,52,17,47.0,0,Complaint-Driven,70.9,Email,Tamil
+UBI10268,Karan Nair,38,Hyderabad,14.0,156958,2,"Home Loan, Fixed Deposit",20,15132,24,29,20,76,1,1,3.2,43,1,47.9,1,Price-Sensitive,219.7,Email,Telugu
+UBI10269,Arun Patel,47,Pune,7.0,112965,3,"Fixed Deposit, Recurring Deposit, Credit Card",10,13699,36,5,0,152,0,4,4.7,999,1,51.9,1,Complaint-Driven,118.6,SMS,Marathi
+UBI10270,Aarav Kumar,36,Delhi,14.3,51245,4,"Demat Account, Savings Account, Home Loan, Insurance",9,21730,51,9,14,174,1,0,3.7,999,20,12.0,0,Price-Sensitive,146.6,SMS,Hindi
+UBI10271,Suresh Reddy,27,Bhubaneswar,3.1,25170,1,Recurring Deposit,11,28887,57,10,18,91,0,0,1.6,999,2,37.2,0,Life-Event,3.9,SMS,Hindi
+UBI10272,Usha Verma,44,Nagpur,10.0,204933,5,"Home Loan, Credit Card, Personal Loan, Insurance, Recurring Deposit",2,28908,18,1,15,25,1,5,1.8,17,19,56.8,1,Price-Sensitive,512.3,SMS,Marathi
+UBI10273,Usha Chopra,63,Mumbai,13.7,199699,1,Savings Account,0,25934,18,30,19,55,0,6,3.9,999,0,33.6,0,Complaint-Driven,136.8,Push,English
+UBI10274,Karan Rao,24,Jaipur,9.4,224312,3,"Fixed Deposit, Savings Account, Home Loan",19,41281,39,29,3,56,0,4,3.5,23,11,74.6,0,Complaint-Driven,316.3,Push,Telugu
+UBI10275,Geeta Mehta,31,Mumbai,5.7,43523,1,Savings Account,26,32109,36,30,18,3,0,3,3.3,999,2,56.5,0,Complaint-Driven,12.4,Email,Tamil
+UBI10276,Arjun Patel,37,Ahmedabad,7.8,207029,2,"Credit Card, Personal Loan",12,37573,54,9,9,148,0,6,1.9,1,15,49.0,1,Complaint-Driven,161.5,Push,Telugu
+UBI10277,Suresh Sharma,35,Bengaluru,9.7,242171,1,Fixed Deposit,31,14127,24,10,8,33,1,1,2.1,59,5,59.5,0,Price-Sensitive,117.5,Push,Marathi
+UBI10278,Rahul Gupta,36,Nagpur,3.7,111777,1,Fixed Deposit,0,48515,50,1,18,10,1,6,3.7,999,0,64.2,1,Price-Sensitive,20.7,Email,Odia
+UBI10279,Arjun Nair,22,Bengaluru,13.4,55578,1,Demat Account,25,29302,14,25,4,157,0,2,4.6,43,10,74.1,0,Life-Event,37.2,Email,Telugu
+UBI10280,Rahul Verma,27,Bengaluru,9.1,180607,4,"Home Loan, Fixed Deposit, Credit Card, Savings Account",14,15946,26,21,5,2,0,3,2.5,999,2,31.7,0,Complaint-Driven,328.7,Email,English
+UBI10281,Arun Gupta,22,Ahmedabad,2.2,235017,3,"Recurring Deposit, Fixed Deposit, Personal Loan",35,601,11,6,13,179,0,0,3.6,999,2,40.0,0,Life-Event,77.6,WhatsApp,Odia
+UBI10282,Rahul Mishra,22,Bhubaneswar,5.8,49762,4,"Fixed Deposit, Demat Account, Savings Account, Home Loan",27,14056,34,11,10,140,0,5,3.4,41,22,92.7,0,Complaint-Driven,57.7,Push,Marathi
+UBI10283,Arun Kumar,46,Jaipur,8.0,210815,1,Personal Loan,15,31575,34,24,19,55,0,4,4.9,999,16,87.2,0,Complaint-Driven,84.3,Email,Hindi
+UBI10284,Deepak Reddy,43,Hyderabad,13.1,197322,1,Recurring Deposit,10,47542,48,15,5,0,0,1,3.2,79,17,20.8,0,Life-Event,129.2,Push,Hindi
+UBI10285,Geeta Gupta,25,Hyderabad,1.8,98071,4,"Home Loan, Personal Loan, Fixed Deposit, Demat Account",33,49206,7,2,13,92,0,5,1.0,999,4,13.1,1,Complaint-Driven,35.3,Push,English
+UBI10286,Arjun Gupta,36,Indore,2.4,212941,4,"Insurance, Recurring Deposit, Fixed Deposit, Savings Account",15,24640,45,6,1,33,0,3,2.3,7,8,43.6,0,Complaint-Driven,102.2,WhatsApp,Marathi
+UBI10287,Priya Chopra,60,Chennai,14.1,140335,4,"Insurance, Recurring Deposit, Credit Card, Home Loan",6,40249,34,7,4,18,0,5,1.6,999,13,68.0,0,Complaint-Driven,395.7,WhatsApp,Tamil
+UBI10288,Divya Das,60,Mumbai,13.0,66712,5,"Credit Card, Savings Account, Demat Account, Recurring Deposit, Fixed Deposit",34,18281,4,19,12,100,0,1,3.3,999,13,51.4,0,Life-Event,216.8,WhatsApp,Telugu
+UBI10289,Raj Chopra,48,Indore,14.6,128089,4,"Savings Account, Credit Card, Fixed Deposit, Demat Account",9,5712,36,16,12,92,0,0,2.2,37,9,65.8,0,Life-Event,374.0,Email,Tamil
+UBI10290,Raj Joshi,65,Hyderabad,9.3,74431,2,"Demat Account, Recurring Deposit",0,20011,41,19,12,42,1,1,1.5,22,4,46.9,1,Price-Sensitive,69.2,WhatsApp,English
+UBI10291,Divya Gupta,38,Chennai,11.9,199447,2,"Personal Loan, Insurance",35,45775,20,8,4,25,0,4,3.9,999,23,62.9,0,Complaint-Driven,237.3,Email,Hindi
+UBI10292,Sanjay Nair,41,Indore,10.8,197494,5,"Demat Account, Recurring Deposit, Fixed Deposit, Personal Loan, Insurance",15,8980,46,30,9,117,0,2,3.7,999,7,30.9,0,Life-Event,533.2,Push,English
+UBI10293,Arun Nair,26,Delhi,10.7,120903,5,"Insurance, Credit Card, Savings Account, Recurring Deposit, Home Loan",23,30799,49,23,12,176,0,3,2.3,59,18,70.5,1,Complaint-Driven,323.4,SMS,Marathi
+UBI10294,Sanjay Mehta,34,Pune,14.5,139448,3,"Insurance, Demat Account, Recurring Deposit",25,25540,59,23,19,128,1,6,1.3,27,4,16.7,1,Price-Sensitive,303.3,SMS,Telugu
+UBI10295,Meera Sharma,56,Surat,13.7,175126,3,"Home Loan, Insurance, Savings Account",21,12348,48,12,19,36,0,6,4.8,74,12,35.7,0,Complaint-Driven,359.9,Email,Hindi
+UBI10296,Sneha Nair,22,Ahmedabad,13.1,97399,2,"Credit Card, Recurring Deposit",37,7976,17,5,12,31,0,0,5.0,999,7,77.4,0,Life-Event,127.6,Push,Tamil
+UBI10297,Sneha Iyer,42,Hyderabad,3.6,237230,1,Insurance,36,27243,14,21,14,57,0,5,4.6,999,15,89.9,0,Complaint-Driven,42.7,SMS,Hindi
+UBI10298,Vikram Kumar,27,Pune,11.1,142082,1,Home Loan,20,10451,13,11,8,45,1,4,4.2,34,27,67.8,1,Price-Sensitive,78.9,Email,English
+UBI10299,Sneha Mishra,34,Bhubaneswar,14.5,194896,1,Demat Account,21,48825,52,4,7,113,1,3,1.5,56,21,37.5,1,Price-Sensitive,141.3,Push,Hindi
