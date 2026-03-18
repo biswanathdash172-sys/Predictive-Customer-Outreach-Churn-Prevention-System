@@ -1,102 +1,208 @@
+# 🏦 PS4 — Predictive Customer Outreach & Churn Prevention
+
 <div align="center">
 
-```
-██████╗ ███████╗██╗  ██╗
-██╔══██╗██╔════╝██║  ██║
-██████╔╝███████╗███████║
-██╔═══╝ ╚════██║╚════██║
-██║     ███████║     ██║
-╚═╝     ╚══════╝     ╚═╝
-```
+<img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+<img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"/>
+<img src="https://img.shields.io/badge/XGBoost-FF6600?style=for-the-badge&logo=xgboost&logoColor=white"/>
+<img src="https://img.shields.io/badge/Claude_API-Sonnet-D4730A?style=for-the-badge&logo=anthropic&logoColor=white"/>
+<img src="https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white"/>
+<img src="https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge"/>
 
-# Predictive Customer Outreach & Churn Prevention
+<br/><br/>
 
-**ML Churn Prediction · GenAI Personalisation · Omni-Channel Outreach**
-
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![XGBoost](https://img.shields.io/badge/XGBoost-2.0-FF6600?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PC9zdmc+)](https://xgboost.readthedocs.io)
-[![Claude API](https://img.shields.io/badge/Claude-Sonnet-D4730A?style=flat-square&logo=anthropic&logoColor=white)](https://docs.anthropic.com)
-[![License](https://img.shields.io/badge/License-MIT-22C55E?style=flat-square)](LICENSE)
-
+> **ML Churn Prediction · GenAI Personalisation · Omni-Channel Outreach**
+>
 > *iDEA Hackathon 2.0 · Union Bank of India · 2026*
 
 </div>
 
 ---
 
-## 📌 What Is PS4?
+## 📖 Table of Contents
 
-PS4 is a full-stack AI system that **predicts which bank customers will leave — up to 90 days in advance** — and automatically reaches out to them with hyper-personalised retention messages through the most effective channel, at the optimal time.
-
-It has two core engines working together:
-
-| Engine | Technology | What It Does |
-|--------|-----------|--------------|
-| 🤖 **ML Prediction** | XGBoost + SHAP | Scores every customer with a churn probability (0–1) and explains the top 3 reasons |
-| ✨ **Gen-AI Messaging** | Claude API | Writes personalised retention messages tailored to each customer's segment, language, and churn reason |
-
----
-
-## 🎯 The Problem It Solves
-
-Traditional banks react **after** a customer has already left. PS4 flips this model:
-
-```
-WITHOUT PS4:   Customer at risk → No action → Customer leaves → Revenue lost forever
-
-WITH PS4:      Customer at risk → ML detects signal 90 days early →
-               AI writes personalised message → Right channel, right time →
-               Customer stays → Revenue saved
-```
+- [Overview](#-overview)
+- [How It Works](#-how-it-works)
+- [Features](#-features)
+- [Customer Segments](#-customer-segments)
+- [Project Structure](#-project-structure)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Dashboard](#-dashboard)
+- [API Reference](#-api-reference)
+- [Churn Score Logic](#-churn-score-logic)
+- [Roadmap](#-roadmap)
+- [Contributing](#-contributing)
 
 ---
 
-## 🏗️ System Architecture
+## 🎯 Overview
+
+**PS4** is a two-part AI system that identifies bank customers likely to churn — up to **90 days in advance** — and automatically crafts hyper-personalised outreach messages delivered through the most effective channel at the optimal time.
+
+| Engine | Technology | Role |
+|---|---|---|
+| 🤖 **ML Prediction** | XGBoost + SHAP | Scores every customer with a churn probability (0–1) and extracts top 3 churn reasons |
+| ✨ **Gen-AI Messaging** | Claude API | Writes personalised retention messages tailored to each customer's segment, language, and churn behaviour |
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        PS4 PIPELINE                             │
-├──────────────┬──────────────┬──────────────┬────────────────────┤
-│  1. DATA     │  2. ML MODEL │  3. SEGMENT  │  4. GEN-AI         │
-│              │              │              │                    │
-│  300 customer│  XGBoost     │  Risk Tiers  │  Claude API        │
-│  features    │  Churn Score │  CLV × Risk  │  2 variants per    │
-│  collected   │  (0.0 – 1.0) │  Priority    │  customer + A/B    │
-│              │              │  Index       │  compliance check  │
-├──────────────┴──────────────┴──────────────┴────────────────────┤
-│  5. CHANNEL  →  WhatsApp > Push > SMS > Email > RM Call         │
-│  6. TRACKING →  Delivered → Opened → Clicked → Accepted         │
-│  7. FEEDBACK →  Outcomes retrain model monthly                  │
-│  8. DASHBOARD → Real-time KPIs, heatmaps, RM leaderboard        │
-└─────────────────────────────────────────────────────────────────┘
+Customer at Risk ──► ML Score ──► Segment ──► Claude AI Message ──► Right Channel ──► Offer Accepted
+                                                                            │
+                                                     Feedback Loop ◄────────┘
+                                               (retrains model monthly)
 ```
 
 ---
 
-## ✨ Key Features
+## ⚙️ How It Works
 
-- **🔮 90-Day Churn Forecasting** — Predicts customer churn 30, 60, or 90 days ahead
-- **📊 SHAP Explainability** — Top 3 churn reasons extracted per customer
-- **🤖 Segment-Aware AI Messages** — Claude generates different messages for Price-Sensitive, Disengaged, Life-Event, Complaint-Driven, and Product Maturity segments
-- **⚖️ RBI Compliance Checker** — Every AI message is checked for regulatory compliance before dispatch
-- **📡 Smart Channel Routing** — Picks the best channel based on each customer's historical open rates
-- **🔔 DND Registry Check** — Never sends to opted-out customers
-- **⏰ Optimal Send-Time Prediction** — Messages sent when each customer historically opens them
-- **🔄 Closed Feedback Loop** — Actual churn outcomes retrain the model monthly
-- **📈 Live Dashboard** — Real-time KPIs, segment charts, city heatmaps, RM leaderboard
+The system runs as a continuous 8-stage pipeline:
+
+<details>
+<summary><b>Stage 1 — Data Collection & Feature Engineering</b></summary>
+
+<br/>
+
+Gathers customer features across four categories:
+
+- **Transactions** — frequency, recency, average ticket size, product mix (last 12 months)
+- **Digital engagement** — app logins, net banking sessions, days since last login
+- **Product lifecycle** — loan repayment track, FD maturity dates, credit card utilisation
+- **Competitive signals** — cross-bank fund outflows detected via NACH / UPI mandates
+
+All features are normalised and stored for daily batch scoring.
+
+</details>
+
+<details>
+<summary><b>Stage 2 — Churn Risk Scoring</b></summary>
+
+<br/>
+
+- **Model:** XGBoost / LightGBM trained on 24 months of historical churn labels
+- **Outputs:** Churn probability (0–1), predicted churn horizon (30 / 60 / 90 days), top 3 churn reasons via SHAP
+- **Clustering:** K-Means segments customers by churn reason type
+- **Scheduling:** Scores refreshed daily via Apache Airflow DAG
+
+| Score | Risk Tier | Action |
+|---|---|---|
+| `> 0.80` | 🔴 Critical | Immediate RM call + Active Outreach Queue |
+| `0.65 – 0.80` | 🟠 High | Active Outreach Queue |
+| `0.40 – 0.65` | 🟡 Medium | Watchlist |
+| `< 0.40` | 🟢 Low | No action needed |
+
+</details>
+
+<details>
+<summary><b>Stage 3 — Segmentation & Priority Ranking</b></summary>
+
+<br/>
+
+Customers are ranked using a **Priority Index**:
+
+```
+Priority Index = CLV Score × Churn Probability
+```
+
+- **High CLV + High Risk** → Relationship Manager (RM) personal outreach
+- **Mid-tier** → Automated campaign engine
+
+</details>
+
+<details>
+<summary><b>Stage 4 — Gen-AI Message Generation</b></summary>
+
+<br/>
+
+For every at-risk customer, Claude API generates two message variants (A/B test) using:
+
+- Customer segment profile and churn reasons
+- Product history and preferred language
+- Bank tone guidelines and RBI compliance rules
+
+Each message pair is reviewed by a **Compliance Checker prompt** before dispatch.
+
+</details>
+
+<details>
+<summary><b>Stage 5 — Channel Selection & Dispatch</b></summary>
+
+<br/>
+
+Channel selected based on historical open/click data per customer:
+
+```
+WhatsApp (85% open) → Push Notification (62%) → SMS (78%) → Email (38%) → RM Call (70%)
+```
+
+- DND registry checked before every dispatch
+- Optimal send-time predicted per customer
+
+</details>
+
+<details>
+<summary><b>Stage 6 — Response Tracking</b></summary>
+
+<br/>
+
+Real-time event stream tracks: `Delivered → Opened → Clicked → Responded → Offer Accepted`
+
+- No response in **72 hours** → auto-escalate to next channel
+- Offer accepted → churn score reset to **0.10** + CRM updated
+
+</details>
+
+<details>
+<summary><b>Stage 7 — Feedback Loop & Model Retraining</b></summary>
+
+<br/>
+
+- Actual churn outcomes recorded at 30 / 60 / 90 days
+- True/False positive labels fed back into the training dataset
+- Model retrained **monthly** with fresh features + SHAP drift detection
+- A/B test results used to fine-tune Claude prompts
+
+</details>
+
+<details>
+<summary><b>Stage 8 — Management Dashboard</b></summary>
+
+<br/>
+
+Live KPI dashboard with:
+
+- Customers at risk, outreach sent, conversions, revenue saved
+- Cohort analysis by segment, channel, and product type
+- Branch-wise churn heatmap across geography
+- RM leaderboard — who has the highest churn reversal rate
+
+</details>
 
 ---
 
-## 🧩 Customer Segments & Actions
+## ✨ Features
 
-| Segment | Signal | Recommended Action | Channel |
-|---------|--------|-------------------|---------|
-| 💸 **Price-Sensitive** | Competitor UPI outflows, early FD withdrawal | Higher FD rate / zero-fee account | WhatsApp + RM Call |
+- 🔮 **90-Day Churn Forecasting** — predict churn 30, 60, or 90 days before it happens
+- 🧠 **SHAP Explainability** — understand exactly why each customer is at risk
+- 💬 **Segment-Aware AI Messages** — Claude generates different messages per churn reason
+- ⚖️ **RBI Compliance Check** — every AI message validated before dispatch
+- 📡 **Smart Channel Routing** — selects best channel per customer automatically
+- 🔕 **DND Registry Compliance** — never messages opted-out customers
+- ⏰ **Optimal Send-Time Prediction** — messages sent when each customer historically opens them
+- 🔄 **Closed Feedback Loop** — real outcomes retrain the model monthly
+- 📊 **Live Analytics Dashboard** — real-time KPIs, segment charts, city heatmaps
+
+---
+
+## 👥 Customer Segments
+
+| Segment | Signal | Recommended Action | Best Channel |
+|---|---|---|---|
+| 💸 **Price-Sensitive** | Competitor UPI outflows, early FD withdrawal | Higher FD rate / zero-fee account upgrade | WhatsApp + RM Call |
 | 😴 **Disengaged** | No app login 60+ days, zero transactions | Highlight unused features (UPI Lite, Sweep FD) | Push Notification |
-| 🔄 **Life-Event** | Salary jump, new city, marriage spending | Pre-approved home / personal loan | Email + WhatsApp |
-| 😠 **Complaint-Driven** | 3+ complaints, low CSAT, escalation history | Empathetic RM + dedicated support + waiver | RM Call (priority) |
-| 📦 **Product Maturity** | FD/RD maturing, loan fully repaid | Renewal offer / next product recommendation | SMS + Email |
+| 🔄 **Life-Event** | Salary jump, new city, marriage-related spending | Pre-approved home loan or personal loan | Email + WhatsApp |
+| 😠 **Complaint-Driven** | 3+ complaints, low CSAT, escalation history | Empathetic apology + dedicated RM + fee waiver | RM Call (priority) |
+| 📦 **Product Maturity** | FD/RD maturing, loan fully repaid | Renewal offer or next product recommendation | SMS + Email |
 
 ---
 
@@ -105,172 +211,242 @@ WITH PS4:      Customer at risk → ML detects signal 90 days early →
 ```
 ps4_churn_system/
 │
-├── app.py                        ← FastAPI backend — main entry point
-├── requirements.txt              ← All Python dependencies
+├── 📄 app.py                     # FastAPI backend — main entry point
+├── 📄 requirements.txt           # Python dependencies
 │
-├── data/
-│   └── generate_data.py          ← Synthetic customer data generator (300 customers)
+├── 📂 data/
+│   └── generate_data.py          # Synthetic customer data generator (300 customers)
 │
-├── ml/
-│   └── churn_model.py            ← XGBoost training, scoring, SHAP-based reason extraction
+├── 📂 ml/
+│   └── churn_model.py            # XGBoost training, scoring, SHAP reason extraction
 │
-├── ai/
-│   └── message_generator.py      ← Claude API integration — 2 variants + compliance check
+├── 📂 ai/
+│   └── message_generator.py      # Claude API — 2 message variants + compliance check
 │
-├── outreach/
-│   └── channel_simulator.py      ← Multi-channel dispatch simulator with realistic outcomes
+├── 📂 outreach/
+│   └── channel_simulator.py      # Multi-channel dispatch simulator with realistic outcomes
 │
-└── static/
-    └── index.html                ← Full dashboard UI (Chart.js + vanilla JS, 4 tabs)
+└── 📂 static/
+    └── index.html                # Full dashboard UI — Chart.js + 4-tab interface
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🛠️ Tech Stack
+
+| Layer | Technology | Purpose |
+|---|---|---|
+| **ML Model** | XGBoost + scikit-learn | Churn probability scoring & CLV estimation |
+| **Explainability** | SHAP | Top churn reason extraction per customer |
+| **Clustering** | K-Means / HDBSCAN | Customer segment identification |
+| **Gen-AI / LLM** | Claude API (`claude-sonnet`) | Personalised message generation + compliance check |
+| **Backend** | FastAPI + Python | REST API, campaign engine, state management |
+| **Data** | pandas + numpy | Synthetic data generation + feature engineering |
+| **Frontend** | HTML + CSS + Vanilla JS | Dashboard UI (no framework dependencies) |
+| **Charts** | Chart.js | Segment bar, risk tier doughnut, channel breakdown |
+| **Web Server** | uvicorn | ASGI server for FastAPI |
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python **3.10+**
-- pip
-- A Claude API key → [console.anthropic.com](https://console.anthropic.com)
+- **Python 3.10+** — check with `python --version`
+- **pip** — comes bundled with Python
+- **Claude API Key** — get one free at [console.anthropic.com](https://console.anthropic.com)
 
-### 1 — Install dependencies
+### Step 1 — Clone & install
 
 ```bash
+git clone https://github.com/your-username/ps4-churn-prevention.git
+cd ps4-churn-prevention
 pip install -r requirements.txt
 ```
 
-### 2 — Set your API key
+### Step 2 — Set your API key
 
 ```bash
 # macOS / Linux
-export ANTHROPIC_API_KEY=your_key_here
+export ANTHROPIC_API_KEY=your_api_key_here
 
-# Windows
-set ANTHROPIC_API_KEY=your_key_here
+# Windows (Command Prompt)
+set ANTHROPIC_API_KEY=your_api_key_here
+
+# Windows (PowerShell)
+$env:ANTHROPIC_API_KEY="your_api_key_here"
 ```
 
-> **No API key?** The system still runs — it uses fallback template messages instead of AI-generated ones.
+> 💡 **No API key?** The system still runs fully — it uses fallback template messages instead of Claude AI-generated ones. Only the message generation step requires the key.
 
-### 3 — Start the server
+### Step 3 — Start the server
 
 ```bash
 python app.py
 ```
 
-### 4 — Open the dashboard
+You should see:
+
+```
+✅ Generated 300 synthetic customers → data/customers.csv
+✅ Model trained | AUC: 0.891
+INFO:     Uvicorn running on http://0.0.0.0:8000
+```
+
+### Step 4 — Open the dashboard
 
 ```
 http://localhost:8000
 ```
 
-> **First load takes ~15 seconds** — the system generates 300 customers and trains the XGBoost model automatically. Subsequent loads are instant.
+> ⏱️ **First load takes ~15 seconds** — the system auto-generates data and trains the XGBoost model. All subsequent loads are instant.
 
 ---
 
-## 🖥️ Dashboard Tabs
+## 🖥️ Dashboard
 
-| Tab | Description |
-|-----|-------------|
-| 📊 **Overview** | KPI tiles, segment risk chart, tier doughnut, channel breakdown, city heatmap |
-| 👥 **At-Risk Customers** | Scored table filtered by tier/queue, sortable by Priority Index |
-| ✉️ **AI Messages** | Select any customer → Claude generates 2 personalised variants with compliance badge |
-| 📡 **Outreach** | Run full campaigns (top 10/20/50 customers), live dispatch log with outcomes |
+The dashboard has four tabs:
+
+### 📊 Overview
+Real-time KPI tiles, three analytics charts, and a city-wise churn heatmap.
+
+| Tile | Description |
+|---|---|
+| Total Customers | All customers in the system |
+| At Risk | Churn score > 0.65 |
+| Critical | Churn score > 0.80 |
+| Outreach Sent | Total messages dispatched |
+| Conversions | Churn reversals (offer accepted) |
+| Revenue Saved | Estimated CLV × conversion rate |
+
+### 👥 At-Risk Customers
+Full scored customer table sorted by Priority Index. Filter by risk tier or queue. Click **✉ Msg** on any row to jump to AI message generation for that customer.
+
+### ✉️ AI Messages
+1. Select an at-risk customer from the dropdown
+2. Click **Generate Message** — Claude writes 2 personalised variants in ~3–5 seconds
+3. See Variant A, Variant B, compliance result (PASS/FAIL), channel, and language
+4. Click **Send Outreach** to simulate dispatch
+
+### 📡 Outreach
+Run full campaigns on top 10 / 20 / 50 at-risk customers. Live dispatch log shows every result: `Sent` · `Offer Accepted` · `DND Blocked`
 
 ---
 
 ## 🔌 API Reference
 
-Base URL: `http://localhost:8000` · Interactive docs: `/docs`
+**Base URL:** `http://localhost:8000`  
+**Interactive docs:** [`http://localhost:8000/docs`](http://localhost:8000/docs)
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
+|---|---|---|
 | `GET` | `/` | Serves the dashboard HTML |
-| `GET` | `/api/dashboard` | KPIs, segment stats, charts data |
-| `GET` | `/api/customers` | Scored customers — filter by `?tier=`, `?queue=`, `?limit=` |
-| `GET` | `/api/customers/{id}` | Full profile for one customer |
-| `POST` | `/api/generate-message/{id}` | Generate AI message via Claude for a customer |
-| `POST` | `/api/send-outreach/{id}` | Simulate channel dispatch for a customer |
+| `GET` | `/api/dashboard` | KPIs, segment stats, tier counts, city churn data |
+| `GET` | `/api/customers` | Scored customers — supports `?tier=`, `?queue=`, `?limit=` |
+| `GET` | `/api/customers/{id}` | Full profile for a single customer |
+| `POST` | `/api/generate-message/{id}` | Generate AI message via Claude |
+| `POST` | `/api/send-outreach/{id}` | Simulate channel dispatch |
 | `POST` | `/api/run-campaign?limit=N` | Run full campaign on top N at-risk customers |
 | `GET` | `/api/outreach-log` | Dispatch history with open/click/acceptance outcomes |
-| `POST` | `/api/reset` | Reset all state and regenerate from scratch |
+| `POST` | `/api/reset` | Clear all state and regenerate from scratch |
+
+**Example — Generate a message**
+
+```bash
+curl -X POST http://localhost:8000/api/generate-message/UBI10023
+```
+
+```json
+{
+  "message_a": "Dear Priya, we noticed you haven't used your UBI app in a while...",
+  "message_b": "Hi Priya! Your Fixed Deposit is eligible for a special renewal rate...",
+  "compliance_ok": true,
+  "compliance_note": "No mis-selling detected. RBI guidelines met.",
+  "channel": "WhatsApp",
+  "language": "English"
+}
+```
+
+**Example — Run a campaign**
+
+```bash
+curl -X POST "http://localhost:8000/api/run-campaign?limit=20"
+```
+
+```json
+{
+  "total_sent": 20,
+  "opened": 16,
+  "clicked": 8,
+  "accepted": 5,
+  "open_rate": 80.0,
+  "conversion_rate": 25.0
+}
+```
 
 ---
 
-## ⚙️ Tech Stack
+## 📊 Churn Score Logic
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| ML Model | XGBoost + scikit-learn | Churn probability scoring |
-| Explainability | SHAP (rule-based proxy in demo) | Top churn reason extraction |
-| Gen-AI / LLM | Claude API (`claude-sonnet`) | Personalised message generation + compliance check |
-| Backend | FastAPI + Python | REST API, campaign engine, state management |
-| Data | pandas + numpy | Synthetic data generation + feature engineering |
-| Frontend | HTML + CSS + Vanilla JS | Dashboard UI |
-| Charts | Chart.js | Segment bar, tier doughnut, channel bar |
-| Web Server | uvicorn | ASGI server for FastAPI |
-
----
-
-## 📊 Churn Risk Score Thresholds
-
-```
-Score > 0.80  ──►  CRITICAL    Enter Active Outreach Queue  →  RM Call (immediate)
-Score 0.65–0.80 ►  HIGH        Enter Active Outreach Queue  →  WhatsApp / Push
-Score 0.40–0.65 ►  MEDIUM      Enter Watchlist              →  SMS / Email
-Score < 0.40  ──►  LOW         Healthy — no action needed
-```
-
-**Priority Index** (how customers are ranked within the queue):
-
+**Priority Index**
 ```
 Priority Index = CLV Score × Churn Probability
 ```
 
-High-value customers at high risk always get contacted first.
+**Revenue Saved Estimation**
+```
+Estimated Revenue Saved = Σ (CLV Score × 0.30) for each converted customer
+```
+
+**Channel Open Rates**
+
+| Channel | Open Rate | Click Rate | Response Rate |
+|---|---|---|---|
+| WhatsApp | 85% | 42% | 28% |
+| SMS | 78% | 22% | 12% |
+| Push Notification | 62% | 30% | 18% |
+| Email | 38% | 15% | 8% |
+| RM Call | 70% | 55% | 45% |
 
 ---
 
 ## 🗺️ Roadmap
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| PostgreSQL persistence | 🔜 Planned | Replace in-memory storage with a real database |
-| Apache Airflow DAGs | 🔜 Planned | Daily automated batch scoring pipeline |
-| Feature Store (Feast + Redis) | 🔜 Planned | Real-time feature serving |
-| Twilio / SendGrid / FCM | 🔜 Planned | Live channel dispatch APIs |
-| True SHAP integration | 🔜 Planned | Replace rule-based proxy with real SHAP values |
-| A/B test analytics | 🔜 Planned | Track variant performance, auto-tune Claude prompts |
-| RM Mobile App | 🔜 Planned | Mobile view for relationship managers |
-| Monthly model retraining | 🔜 Planned | Automated Airflow-based XGBoost retraining |
-
----
-
-## 📄 Additional Documentation
-
-| Document | Description |
-|----------|-------------|
-| `PS4_Team_Onboarding_Guide.pdf` | Full onboarding guide for new team members — 12 sections covering architecture, setup, walkthrough, FAQs, and roadmap |
-| `PS4_Churn_Prevention_System.zip` | Complete project source code |
-| `http://localhost:8000/docs` | Interactive Swagger API documentation (when server is running) |
+| Feature | Status |
+|---|---|
+| PostgreSQL for persistent storage | 🔜 Planned |
+| Apache Airflow daily scoring DAG | 🔜 Planned |
+| Feature Store with Feast + Redis | 🔜 Planned |
+| Live Twilio / SendGrid / FCM integration | 🔜 Planned |
+| True SHAP value computation | 🔜 Planned |
+| A/B test analytics + auto prompt tuning | 🔜 Planned |
+| RM mobile app | 🔜 Planned |
+| Automated monthly model retraining pipeline | 🔜 Planned |
 
 ---
 
 ## 🤝 Contributing
 
+Contributions are welcome!
+
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m 'Add your feature'`
-4. Push to the branch: `git push origin feature/your-feature`
+2. Create a feature branch — `git checkout -b feature/your-feature-name`
+3. Commit your changes — `git commit -m "feat: add your feature"`
+4. Push to your fork — `git push origin feature/your-feature-name`
 5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**PS4 · Union Bank of India · iDEA Hackathon 2.0 · 2026**
+**Built for iDEA Hackathon 2.0 · Union Bank of India · 2026**
 
-*Built with ❤️ using Python, FastAPI, XGBoost, and Claude AI*
+*Powered by Python · FastAPI · XGBoost · Claude AI*
 
 </div>
- 
