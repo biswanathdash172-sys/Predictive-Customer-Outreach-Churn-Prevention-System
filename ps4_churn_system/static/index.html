@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PS4 · Union Bank of India · Predictive Churn Prevention</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   SHARED TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Landing palette — warm banking */
+  --navy:       #1a3557;
+  --navy-dark:  #0f2240;
+  --navy-light: #2a4f7c;
+  --gold:       #c8922a;
+  --gold-l:     #e8b84b;
+  --bg-land:    #f4f1ec;
+  --surf:       #ffffff;
+  --surf2:      #eef2f7;
+  --bord:       #d6dde8;
+  --bord2:      #c2ccd9;
+  --tx1:        #1a2e45;
+  --tx2:        #3d5269;
+  --tx3:        #6b839e;
+  --g-green:    #1a7f5a;
+  --g-gbg:      #eaf6f1;
+  --g-red:      #b83232;
+  --g-rbg:      #fdf0f0;
+
+  /* Dashboard palette — refined dark */
+  --dbg:      #060c14;
+  --dsurf:    #0d1b2a;
+  --dcard:    #0f2236;
+  --dborder:  #1a3a54;
+  --acc:      #00d4ff;
+  --acc2:     #ff6b35;
+  --dgreen:   #00e5a0;
+  --dyellow:  #ffd166;
+  --dred:     #ff4757;
+  --dpurple:  #a78bfa;
+  --dtxt:     #e0eaf4;
+  --dmuted:   #6b8ba4;
+
+  /* Fonts */
+  --display: 'Playfair Display', Georgia, serif;
+  --body:    'Source Sans 3', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE VIEWS — only one visible at a time
+═══════════════════════════════════════════════════════════════ */
+#landingView  { display: block; }
+#dashView     { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LANDING PAGE STYLES
+═══════════════════════════════════════════════════════════════ */
+.land-body {
+  font-family: var(--body);
+  background: var(--bg-land);
+  color: var(--tx1);
+  min-height: 100vh;
+}
+
+/* NAV */
+.l-nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--navy);
+  padding: 0 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 62px;
+  box-shadow: 0 2px 16px rgba(10,20,40,.25);
+}
+.l-nav-brand { display: flex; align-items: center; gap: .9rem; }
+.l-logo-box {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg,var(--gold),var(--gold-l));
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-weight: 700; font-size: 1rem; color: var(--navy-dark);
+}
+.l-brand-title { color:#fff; font-family:var(--display); font-size:1rem; font-weight:600; }
+.l-brand-sub   { color:rgba(255,255,255,.5); font-size:.7rem; letter-spacing:.4px; }
+.l-nav-links   { display:flex; align-items:center; gap:.2rem; }
+.l-nav-link    { color:rgba(255,255,255,.75); font-size:.83rem; padding:.42rem .85rem; border-radius:6px; cursor:pointer; background:none; border:none; font-family:var(--body); transition:all .17s; text-decoration:none; }
+.l-nav-link:hover { color:#fff; background:rgba(255,255,255,.1); }
+.l-nav-cta     { background:var(--gold); color:var(--navy-dark); font-weight:600; padding:.42rem 1.05rem; border-radius:6px; font-size:.83rem; border:none; font-family:var(--body); cursor:pointer; transition:all .17s; margin-left:.4rem; }
+.l-nav-cta:hover { background:var(--gold-l); transform:translateY(-1px); }
+
+/* HERO */
+.l-hero {
+  background: linear-gradient(160deg,var(--navy-dark) 0%,var(--navy) 55%,#1e4d8c 100%);
+  padding: 4.5rem 2.5rem 4rem; position:relative; overflow:hidden;
+}
+.l-hero::before {
+  content:''; position:absolute; inset:0;
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size: 48px 48px;
+}
+.l-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold-l),var(--gold)); }
+.l-hero-inner {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 415px; gap:3.5rem; align-items:center;
+  position:relative; z-index:1;
+}
+@media(max-width:860px){ .l-hero-inner{grid-template-columns:1fr;} }
+.l-eyebrow {
+  display:inline-flex; align-items:center; gap:.45rem;
+  background:rgba(200,146,42,.15); border:1px solid rgba(200,146,42,.35);
+  color:var(--gold-l); padding:.28rem .75rem; border-radius:99px;
+  font-size:.73rem; font-weight:600; letter-spacing:.6px; text-transform:uppercase;
+  margin-bottom:1.1rem;
+}
+.l-hero-title {
+  font-family:var(--display); font-size:2.6rem; font-weight:700;
+  color:#fff; line-height:1.22; margin-bottom:.9rem; letter-spacing:-.4px;
+}
+.l-hero-title span { color:var(--gold-l); }
+.l-hero-desc { font-size:1rem; color:rgba(255,255,255,.7); line-height:1.7; margin-bottom:1.75rem; max-width:490px; }
+.l-hero-stats { display:flex; gap:1.75rem; margin-bottom:2rem; }
+.l-stat-val { font-family:var(--display); font-size:1.6rem; font-weight:700; color:var(--gold-l); line-height:1; }
+.l-stat-lbl { font-size:.75rem; color:rgba(255,255,255,.5); margin-top:.18rem; }
+.l-badges { display:flex; flex-wrap:wrap; gap:.45rem; }
+.l-badge { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.13); color:rgba(255,255,255,.72); padding:.25rem .65rem; border-radius:5px; font-size:.73rem; }
+
+/* LOGIN CARD */
+.l-login-card { background:var(--surf); border-radius:14px; box-shadow:0 12px 48px rgba(26,53,87,.22); overflow:hidden; animation:slideUp .5s ease both; }
+@keyframes slideUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:none} }
+.l-card-hdr { background:linear-gradient(135deg,var(--navy),var(--navy-light)); padding:1.4rem 1.65rem 1.2rem; border-bottom:3px solid var(--gold); }
+.l-card-title { font-family:var(--display); font-size:1.1rem; font-weight:600; color:#fff; margin-bottom:.15rem; }
+.l-card-sub   { font-size:.75rem; color:rgba(255,255,255,.58); }
+.l-card-body  { padding:1.4rem 1.65rem; }
+.l-form-group { margin-bottom:.9rem; }
+.l-label { display:block; font-size:.75rem; font-weight:600; color:var(--tx2); margin-bottom:.3rem; letter-spacing:.25px; }
+.l-label .req { color:var(--gold); margin-left:2px; }
+.l-input {
+  width:100%; padding:.6rem .85rem;
+  border:1.5px solid var(--bord); border-radius:7px;
+  font-size:.86rem; font-family:var(--body); color:var(--tx1);
+  background:var(--surf); transition:all .17s; outline:none;
+}
+.l-input::placeholder { color:var(--tx3); }
+.l-input:focus { border-color:var(--navy-light); box-shadow:0 0 0 3px rgba(42,79,124,.09); }
+.l-input.err  { border-color:var(--g-red); box-shadow:0 0 0 3px rgba(184,50,50,.07); }
+.l-input.ok   { border-color:var(--g-green); }
+.l-row2 { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+.l-hint { font-size:.7rem; color:var(--tx3); margin-top:.22rem; }
+.pw-wrap { position:relative; }
+.pw-wrap .l-input { padding-right:2.4rem; }
+.pw-eye { position:absolute; right:.7rem; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--tx3); cursor:pointer; font-size:.82rem; padding:.12rem; }
+.pw-eye:hover { color:var(--navy); }
+.l-row-check { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+.l-check-lbl { display:flex; align-items:center; gap:.45rem; font-size:.78rem; color:var(--tx2); cursor:pointer; }
+.l-forgot { font-size:.76rem; color:var(--navy-light); text-decoration:none; }
+.l-forgot:hover { text-decoration:underline; }
+.l-msg { padding:.55rem .8rem; border-radius:6px; font-size:.78rem; margin-bottom:.8rem; display:none; align-items:flex-start; gap:.45rem; }
+.l-msg.err { background:var(--g-rbg); color:var(--g-red); border:1px solid rgba(184,50,50,.18); display:flex; }
+.l-msg.ok  { background:var(--g-gbg); color:var(--g-green); border:1px solid rgba(26,127,90,.18); display:flex; }
+.btn-login {
+  width:100%; padding:.7rem;
+  background:linear-gradient(135deg,var(--navy),var(--navy-light));
+  color:#fff; border:none; border-radius:7px;
+  font-size:.9rem; font-weight:600; font-family:var(--body);
+  cursor:pointer; transition:all .2s; letter-spacing:.25px;
+  display:flex; align-items:center; justify-content:center; gap:.45rem;
+}
+.btn-login:hover:not(:disabled) { background:linear-gradient(135deg,var(--navy-dark),var(--navy)); transform:translateY(-1px); box-shadow:0 4px 16px rgba(26,53,87,.28); }
+.btn-login:disabled { opacity:.6; cursor:not-allowed; }
+.l-card-ftr { padding:.82rem 1.65rem; background:var(--surf2); border-top:1px solid var(--bord); font-size:.7rem; color:var(--tx3); display:flex; align-items:center; gap:.45rem; }
+.spin-sm { display:none; width:16px; height:16px; border:2px solid rgba(255,255,255,.25); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; }
+
+/* SECTIONS */
+.l-section { padding:3.5rem 2.5rem; }
+.l-section-inner { max-width:1100px; margin:0 auto; }
+.l-sec-eye  { font-size:.72rem; text-transform:uppercase; letter-spacing:1.1px; color:var(--gold); font-weight:700; margin-bottom:.55rem; }
+.l-sec-title { font-family:var(--display); font-size:1.8rem; font-weight:700; color:var(--navy); margin-bottom:.65rem; line-height:1.3; }
+.l-sec-desc { font-size:.95rem; color:var(--tx2); line-height:1.65; max-width:560px; margin-bottom:2.25rem; }
+
+.l-feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; }
+@media(max-width:760px){ .l-feat-grid{grid-template-columns:1fr;} }
+.l-feat-card { background:var(--surf); border:1px solid var(--bord); border-radius:10px; padding:1.35rem; transition:all .2s; position:relative; overflow:hidden; }
+.l-feat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--navy),var(--navy-light)); opacity:0; transition:opacity .2s; }
+.l-feat-card:hover { box-shadow:0 4px 20px rgba(26,53,87,.12); transform:translateY(-2px); border-color:var(--bord2); }
+.l-feat-card:hover::before { opacity:1; }
+.l-feat-icon { width:42px; height:42px; background:var(--surf2); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:.9rem; }
+.l-feat-title { font-weight:700; font-size:.9rem; color:var(--navy); margin-bottom:.35rem; }
+.l-feat-desc  { font-size:.81rem; color:var(--tx2); line-height:1.58; }
+
+/* PIPELINE */
+.l-pipe { background:var(--navy-dark); padding:3.5rem 2.5rem; }
+.l-pipe .l-sec-title { color:#fff; }
+.l-pipe .l-sec-desc  { color:rgba(255,255,255,.62); }
+.l-pipe .l-sec-eye   { color:var(--gold-l); }
+.l-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.07); border-radius:10px; overflow:hidden; margin-top:1.75rem; }
+@media(max-width:760px){ .l-steps{grid-template-columns:1fr 1fr;} }
+.l-step { background:rgba(255,255,255,.04); padding:1.4rem 1.2rem; transition:background .2s; }
+.l-step:hover { background:rgba(255,255,255,.07); }
+.l-step-n { font-family:var(--display); font-size:1.9rem; font-weight:700; color:rgba(200,146,42,.32); line-height:1; margin-bottom:.65rem; }
+.l-step-title { font-weight:700; font-size:.85rem; color:#fff; margin-bottom:.35rem; }
+.l-step-desc  { font-size:.76rem; color:rgba(255,255,255,.52); line-height:1.58; }
+
+/* TERMS */
+.l-terms { background:var(--surf2); }
+.l-terms-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+@media(max-width:700px){ .l-terms-grid{grid-template-columns:1fr;} }
+.l-term { background:var(--surf); border:1px solid var(--bord); border-radius:10px; padding:1.15rem 1.3rem; display:flex; gap:.9rem; align-items:flex-start; }
+.l-tag { background:linear-gradient(135deg,var(--navy),var(--navy-light)); color:#fff; font-size:.66rem; font-weight:700; letter-spacing:.45px; padding:.2rem .52rem; border-radius:4px; text-transform:uppercase; flex-shrink:0; margin-top:.1rem; }
+.l-term-name  { font-weight:700; font-size:.88rem; color:var(--navy); margin-bottom:.2rem; }
+.l-term-meaning { font-size:.8rem; color:var(--tx2); line-height:1.55; }
+
+/* ROLES */
+.l-roles { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem; margin-top:1.4rem; }
+.l-role { border:1.5px solid var(--bord); border-radius:10px; padding:1.15rem; text-align:center; transition:all .2s; background:var(--surf); }
+.l-role:hover { border-color:var(--navy-light); box-shadow:0 2px 12px rgba(26,53,87,.1); }
+.l-role-icon  { font-size:1.85rem; margin-bottom:.55rem; }
+.l-role-title { font-weight:700; font-size:.87rem; color:var(--navy); margin-bottom:.2rem; }
+.l-role-desc  { font-size:.76rem; color:var(--tx3); line-height:1.5; }
+.l-rbadge { display:inline-block; margin-top:.45rem; font-size:.65rem; font-weight:600; padding:.13rem .48rem; border-radius:99px; letter-spacing:.35px; text-transform:uppercase; }
+.rb-full  { background:rgba(26,127,90,.1); color:var(--g-green); border:1px solid rgba(26,127,90,.2); }
+.rb-read  { background:rgba(26,53,87,.08); color:var(--navy); border:1px solid rgba(26,53,87,.15); }
+.rb-dash  { background:rgba(200,146,42,.1); color:var(--gold); border:1px solid rgba(200,146,42,.25); }
+.l-notice { margin-top:1.3rem; padding:.95rem 1.15rem; background:var(--surf2); border:1px solid var(--bord); border-radius:8px; font-size:.8rem; color:var(--tx2); line-height:1.62; }
+
+/* FOOTER */
+.l-footer { background:var(--navy-dark); padding:1.75rem 2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.9rem; border-top:3px solid var(--gold); }
+.l-foot-left { color:rgba(255,255,255,.52); font-size:.78rem; }
+.l-foot-left strong { color:rgba(255,255,255,.82); }
+.l-foot-badges { display:flex; gap:.45rem; flex-wrap:wrap; }
+.l-foot-b { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.11); color:rgba(255,255,255,.58); padding:.2rem .62rem; border-radius:5px; font-size:.7rem; }
+
+/* SUCCESS OVERLAY */
+.overlay { position:fixed; inset:0; z-index:999; background:rgba(15,34,64,.9); display:none; align-items:center; justify-content:center; }
+.overlay.show { display:flex; animation:fadeIn .25s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.ov-card { background:var(--surf); border-radius:16px; padding:2.4rem; text-align:center; max-width:400px; width:90%; box-shadow:0 16px 56px rgba(26,53,87,.28); animation:popIn .3s ease; }
+@keyframes popIn { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+.ov-icon  { font-size:3.2rem; margin-bottom:.9rem; }
+.ov-title { font-family:var(--display); font-size:1.45rem; font-weight:700; color:var(--navy); margin-bottom:.45rem; }
+.ov-sub   { font-size:.87rem; color:var(--tx2); margin-bottom:1.4rem; line-height:1.6; }
+.ov-btn   { display:inline-block; padding:.65rem 1.9rem; background:linear-gradient(135deg,var(--navy),var(--navy-light)); color:#fff; border-radius:7px; font-weight:600; font-size:.88rem; cursor:pointer; border:none; font-family:var(--body); transition:all .17s; }
+.ov-btn:hover { opacity:.9; transform:translateY(-1px); }
+
+/* ═══════════════════════════════════════════════════════════════
+   DASHBOARD STYLES
+═══════════════════════════════════════════════════════════════ */
+#dashView {
+  background:var(--dbg);
+  color:var(--dtxt);
+  font-family:var(--body);
+  min-height:100vh;
+}
+#dashView::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(0,212,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.02) 1px,transparent 1px); background-size:44px 44px; pointer-events:none; z-index:0; }
+
+/* DASH HEADER */
+.d-header {
+  position:sticky; top:0; z-index:100;
+  background:rgba(6,12,20,.96); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--dborder);
+  padding:0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:56px;
+}
+.d-brand { display:flex; align-items:center; gap:.6rem; }
+.d-badge { background:linear-gradient(135deg,var(--acc),#0096b8); color:#000; font-family:var(--mono); font-weight:700; font-size:.78rem; padding:.2rem .52rem; border-radius:4px; letter-spacing:.9px; }
+.d-brand-title { font-size:.88rem; font-weight:700; letter-spacing:.25px; }
+.d-brand-sub   { font-size:.67rem; color:var(--dmuted); }
+.d-hdr-right   { display:flex; align-items:center; gap:.7rem; }
+.d-user-chip   { background:rgba(0,212,255,.1); border:1px solid var(--dborder); border-radius:6px; padding:.28rem .7rem; font-size:.75rem; color:var(--acc); font-family:var(--mono); }
+.d-live        { width:7px; height:7px; border-radius:50%; background:var(--dgreen); box-shadow:0 0 7px var(--dgreen); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.d-logout-btn  { background:none; border:1px solid var(--dborder); color:var(--dmuted); border-radius:5px; padding:.25rem .65rem; font-size:.73rem; cursor:pointer; font-family:var(--body); transition:all .17s; }
+.d-logout-btn:hover { color:var(--dred); border-color:var(--dred); }
+
+/* TABS */
+.d-tabs { display:flex; gap:0; border-bottom:1px solid var(--dborder); overflow-x:auto; position:relative; z-index:1; }
+.d-tab { padding:.52rem 1rem; font-size:.78rem; font-weight:500; color:var(--dmuted); cursor:pointer; border-bottom:2px solid transparent; transition:all .18s; white-space:nowrap; user-select:none; flex-shrink:0; }
+.d-tab:hover { color:var(--dtxt); }
+.d-tab.active { color:var(--acc); border-bottom-color:var(--acc); }
+
+/* MAIN */
+.d-main { max-width:1440px; margin:0 auto; padding:1.2rem 1.5rem; position:relative; z-index:1; }
+
+/* Pages */
+.d-page { display:none; }
+.d-page.active { display:block; animation:dFade .22s ease; }
+@keyframes dFade { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+
+/* KPI */
+.d-kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:.72rem; margin-bottom:1.15rem; }
+.d-kpi { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:.85rem .95rem; position:relative; overflow:hidden; transition:border-color .18s,transform .14s; }
+.d-kpi:hover { border-color:var(--acc); transform:translateY(-1px); }
+.d-kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.d-kpi.blue::before{background:var(--acc)} .d-kpi.red::before{background:var(--dred)} .d-kpi.orange::before{background:var(--acc2)} .d-kpi.green::before{background:var(--dgreen)} .d-kpi.yellow::before{background:var(--dyellow)} .d-kpi.purple::before{background:var(--dpurple)}
+.d-kpi-label { font-size:.64rem; text-transform:uppercase; letter-spacing:.85px; color:var(--dmuted); }
+.d-kpi-val   { font-family:var(--mono); font-size:1.65rem; font-weight:700; margin:.22rem 0 .04rem; }
+.d-kpi-sub   { font-size:.67rem; color:var(--dmuted); }
+
+/* Charts */
+.d-charts-row { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:.82rem; margin-bottom:1.15rem; }
+@media(max-width:880px){.d-charts-row{grid-template-columns:1fr;}}
+.d-chart-card { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:1rem; }
+.d-chart-title { font-size:.7rem; text-transform:uppercase; letter-spacing:.85px; color:var(--dmuted); margin-bottom:.85rem; }
+.d-chart-wrap  { position:relative; height:180px; }
+
+/* Tables */
+.d-table-card { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; overflow:hidden; margin-bottom:1.15rem; }
+.d-table-hdr  { padding:.8rem 1rem; border-bottom:1px solid var(--dborder); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.45rem; }
+.d-table-title{ font-size:.85rem; font-weight:600; }
+.d-filter-row { display:flex; gap:.38rem; flex-wrap:wrap; }
+.d-sel,.d-inp { background:var(--dsurf); border:1px solid var(--dborder); color:var(--dtxt); border-radius:6px; padding:.28rem .62rem; font-size:.76rem; font-family:var(--body); outline:none; }
+.d-sel:focus,.d-inp:focus { border-color:var(--acc); }
+table { width:100%; border-collapse:collapse; font-size:.78rem; }
+th { text-align:left; padding:.58rem .85rem; font-size:.64rem; text-transform:uppercase; letter-spacing:.72px; color:var(--dmuted); border-bottom:1px solid var(--dborder); white-space:nowrap; }
+td { padding:.55rem .85rem; border-bottom:1px solid rgba(26,58,84,.38); vertical-align:middle; }
+tr:last-child td { border:none; }
+tr:hover td { background:rgba(0,212,255,.022); }
+.mono { font-family:var(--mono); font-size:.73rem; }
+
+/* Badges */
+.tier-badge { display:inline-block; padding:.14rem .48rem; border-radius:99px; font-size:.64rem; font-weight:600; letter-spacing:.38px; text-transform:uppercase; }
+.tier-Critical{background:rgba(255,71,87,.13);color:var(--dred);border:1px solid rgba(255,71,87,.26)}
+.tier-High    {background:rgba(255,107,53,.13);color:var(--acc2);border:1px solid rgba(255,107,53,.26)}
+.tier-Medium  {background:rgba(255,209,102,.13);color:var(--dyellow);border:1px solid rgba(255,209,102,.26)}
+.tier-Low     {background:rgba(0,229,160,.09);color:var(--dgreen);border:1px solid rgba(0,229,160,.2)}
+.sev-critical{background:rgba(255,71,87,.13);color:var(--dred);border:1px solid rgba(255,71,87,.28);border-radius:99px;font-size:.64rem;font-weight:700;padding:.13rem .43rem;display:inline-block}
+.sev-high    {background:rgba(255,107,53,.13);color:var(--acc2);border:1px solid rgba(255,107,53,.28);border-radius:99px;font-size:.64rem;font-weight:700;padding:.13rem .43rem;display:inline-block}
+.sev-medium  {background:rgba(255,209,102,.13);color:var(--dyellow);border:1px solid rgba(255,209,102,.28);border-radius:99px;font-size:.64rem;font-weight:700;padding:.13rem .43rem;display:inline-block}
+.seg-chip { display:inline-block; padding:.13rem .48rem; border-radius:99px; font-size:.67rem; font-weight:500; border:1px solid; }
+.seg-Price    {color:#00d4ff;border-color:rgba(0,212,255,.38);background:rgba(0,212,255,.07)}
+.seg-Dis      {color:#ffd166;border-color:rgba(255,209,102,.38);background:rgba(255,209,102,.07)}
+.seg-Life     {color:#a78bfa;border-color:rgba(167,139,250,.38);background:rgba(167,139,250,.07)}
+.seg-Complaint{color:#ff6b35;border-color:rgba(255,107,53,.38);background:rgba(255,107,53,.07)}
+.seg-Product  {color:#00e5a0;border-color:rgba(0,229,160,.38);background:rgba(0,229,160,.07)}
+
+/* Prob bar */
+.prob-bar { display:flex; align-items:center; gap:.38rem; }
+.bar-track { flex:1; height:4px; background:var(--dborder); border-radius:2px; overflow:hidden; min-width:46px; }
+.bar-fill  { height:100%; border-radius:2px; transition:width .5s; }
+
+/* Buttons */
+.d-btn { display:inline-flex; align-items:center; gap:.32rem; padding:.32rem .75rem; border-radius:6px; font-size:.76rem; font-family:var(--body); font-weight:500; cursor:pointer; border:none; transition:all .15s; }
+.d-btn-primary{background:var(--acc);color:#000} .d-btn-primary:hover{background:#33ddff;transform:translateY(-1px)}
+.d-btn-ghost  {background:transparent;color:var(--acc);border:1px solid var(--acc)} .d-btn-ghost:hover{background:rgba(0,212,255,.07)}
+.d-btn-sm { padding:.22rem .55rem; font-size:.7rem; }
+.d-btn:disabled { opacity:.4; cursor:not-allowed; transform:none!important; }
+.spinner { display:inline-block; width:13px; height:13px; border:2px solid rgba(0,212,255,.18); border-top-color:var(--acc); border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* Cards grid */
+.d-cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:.82rem; margin-bottom:1.15rem; }
+.d-info-card  { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:1rem; }
+.d-info-card h4 { font-size:.8rem; font-weight:600; margin-bottom:.55rem; color:var(--acc); }
+.d-info-row   { display:flex; justify-content:space-between; align-items:flex-start; padding:.32rem 0; border-bottom:1px solid rgba(26,58,84,.38); font-size:.78rem; }
+.d-info-row:last-child { border:none; }
+.d-info-label { color:var(--dmuted); font-size:.72rem; flex-shrink:0; margin-right:.45rem; }
+.d-info-val   { color:var(--dtxt); text-align:right; font-size:.78rem; }
+
+/* Alert cards */
+.d-alert { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:.9rem; margin-bottom:.65rem; }
+.d-alert.red   { border-left:3px solid var(--dred); }
+.d-alert.amber { border-left:3px solid var(--dyellow); }
+.d-alert.grn   { border-left:3px solid var(--dgreen); }
+.d-alert-hdr   { display:flex; align-items:center; justify-content:space-between; margin-bottom:.45rem; }
+.d-alert-city  { font-weight:700; font-size:.88rem; }
+.d-alert-lvl   { font-size:.68rem; font-weight:700; padding:.13rem .48rem; border-radius:4px; }
+.lvl-RED  {background:rgba(255,71,87,.18);color:var(--dred)}
+.lvl-AMBER{background:rgba(255,209,102,.18);color:var(--dyellow)}
+.lvl-GREEN{background:rgba(0,229,160,.18);color:var(--dgreen)}
+.d-alert-stats { display:flex; gap:.9rem; font-size:.76rem; color:var(--dmuted); margin-bottom:.45rem; }
+.d-alert-stats strong { color:var(--dtxt); }
+.visitor-chips { display:flex; flex-wrap:wrap; gap:.32rem; margin-top:.42rem; }
+.v-chip { font-size:.68rem; padding:.16rem .48rem; background:var(--dsurf); border:1px solid var(--dborder); border-radius:5px; }
+
+/* Complaint card */
+.d-complaint { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:.9rem; margin-bottom:.62rem; }
+.d-cmp-hdr   { display:flex; align-items:center; justify-content:space-between; margin-bottom:.45rem; flex-wrap:wrap; gap:.38rem; }
+.d-cmp-meta  { font-size:.72rem; color:var(--dmuted); }
+.d-cmp-txt   { font-size:.8rem; color:var(--dtxt); line-height:1.52; padding:.55rem .7rem; background:var(--dsurf); border-radius:6px; margin:.45rem 0; border-left:2px solid var(--dborder); }
+.anger-bar   { flex:1; min-width:75px; height:5px; background:var(--dborder); border-radius:3px; overflow:hidden; }
+.anger-fill  { height:100%; border-radius:3px; transition:width .6s; }
+.d-sent-row  { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; font-size:.76rem; }
+
+/* NBP */
+.d-nbp-card  { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:.9rem; display:flex; flex-direction:column; gap:.45rem; }
+.d-nbp-hdr   { display:flex; align-items:center; gap:.55rem; }
+.d-nbp-icon  { font-size:1.5rem; }
+.d-nbp-prod  { font-weight:700; font-size:.88rem; }
+.d-nbp-cat   { font-size:.68rem; color:var(--dmuted); }
+.d-nbp-offer { font-size:.78rem; color:var(--dgreen); background:rgba(0,229,160,.06); border:1px solid rgba(0,229,160,.18); border-radius:6px; padding:.36rem .55rem; }
+.d-nbp-why   { font-size:.73rem; color:var(--dmuted); }
+.d-nbp-score { font-family:var(--mono); font-size:.82rem; color:var(--acc); margin-left:auto; }
+.d-ly-tier   { display:inline-flex; align-items:center; gap:.36rem; padding:.26rem .7rem; border-radius:99px; font-weight:700; font-size:.8rem; }
+.lt-plat{background:rgba(167,139,250,.14);color:var(--dpurple);border:1px solid rgba(167,139,250,.28)}
+.lt-gold{background:rgba(255,209,102,.14);color:var(--dyellow);border:1px solid rgba(255,209,102,.28)}
+.lt-silv{background:rgba(148,163,184,.14);color:#94a3b8;border:1px solid rgba(148,163,184,.28)}
+.lt-brnz{background:rgba(180,120,80,.14);color:#cd8d5a;border:1px solid rgba(180,120,80,.28)}
+
+/* Trigger */
+.d-trigger   { background:var(--dsurf); border:1px solid var(--dborder); border-radius:8px; padding:.72rem .88rem; margin-bottom:.48rem; display:flex; align-items:center; gap:.72rem; }
+.d-trig-icon { font-size:1.3rem; }
+.d-trig-body { flex:1; }
+.d-trig-lbl  { font-size:.8rem; font-weight:600; }
+.d-trig-meta { font-size:.7rem; color:var(--dmuted); margin-top:.1rem; }
+.d-trig-act  { font-size:.72rem; color:var(--dmuted); margin-top:.22rem; }
+.d-trig-right{ text-align:right; }
+.d-trig-score{ font-family:var(--mono); font-size:.96rem; font-weight:700; }
+.score-delta { font-family:var(--mono); font-size:.72rem; color:var(--dred); }
+
+/* Briefing */
+.brf-sec   { margin-bottom:.82rem; }
+.brf-sec h5{ font-size:.69rem; text-transform:uppercase; letter-spacing:.78px; color:var(--acc); margin-bottom:.36rem; font-family:var(--mono); }
+.brf-blk   { background:var(--dsurf); border-radius:6px; padding:.55rem .75rem; font-size:.8rem; line-height:1.52; color:var(--dtxt); border-left:2px solid var(--dborder); }
+.brf-blk.grn { border-left-color:var(--dgreen); }
+.brf-blk.red { border-left-color:var(--dred); }
+.brf-blk.yel { border-left-color:var(--dyellow); }
+
+/* Outreach log */
+.d-log-item { background:var(--dsurf); border:1px solid var(--dborder); border-radius:8px; padding:.7rem .88rem; margin-bottom:.48rem; display:flex; align-items:center; gap:.82rem; animation:slideIn .28s ease; }
+@keyframes slideIn { from{opacity:0;transform:translateX(-7px)} to{opacity:1;transform:none} }
+.d-log-ch   { font-size:1.2rem; }
+.d-log-name { font-weight:600; font-size:.82rem; }
+.d-log-sub  { font-size:.7rem; color:var(--dmuted); margin-top:.1rem; }
+.d-log-st   { margin-left:auto; }
+.status-chip { display:inline-block; padding:.13rem .48rem; border-radius:99px; font-size:.66rem; font-weight:600; }
+.chip-ok    { background:rgba(0,229,160,.13);color:var(--dgreen); }
+.chip-sent  { background:rgba(0,212,255,.1);color:var(--acc); }
+.chip-blk   { background:rgba(255,71,87,.1);color:var(--dred); }
+
+/* Stats row */
+.d-stats-row { display:flex; flex-wrap:wrap; gap:.58rem; margin-bottom:.9rem; }
+.d-stat-mini { display:flex; flex-direction:column; gap:.04rem; padding:.5rem .82rem; background:var(--dsurf); border:1px solid var(--dborder); border-radius:8px; min-width:85px; }
+.d-stat-val  { font-family:var(--mono); font-size:1.1rem; font-weight:700; }
+.d-stat-lbl  { font-size:.63rem; color:var(--dmuted); text-transform:uppercase; letter-spacing:.52px; }
+
+/* Competitor */
+.d-comp-bar  { height:11px; background:var(--dborder); border-radius:5px; overflow:hidden; margin:.25rem 0; }
+.d-comp-fill { height:100%; border-radius:5px; background:linear-gradient(90deg,var(--acc),var(--dgreen)); transition:width .55s; }
+
+/* Cohort */
+.cohort-30{color:var(--acc)} .cohort-60{color:var(--dyellow)} .cohort-90{color:var(--dgreen)}
+
+/* Msg panel */
+.d-msg-panel { background:var(--dcard); border:1px solid var(--dborder); border-radius:10px; padding:1.15rem; margin-bottom:1.15rem; }
+.d-msg-panel h3 { font-size:.85rem; margin-bottom:.9rem; }
+.d-variants { display:grid; grid-template-columns:1fr 1fr; gap:.82rem; margin-top:.82rem; }
+@media(max-width:680px){.d-variants{grid-template-columns:1fr;}}
+.d-variant  { background:var(--dsurf); border:1px solid var(--dborder); border-radius:8px; padding:.85rem; }
+.d-var-lbl  { font-size:.66rem; text-transform:uppercase; letter-spacing:.88px; color:var(--acc); margin-bottom:.48rem; font-family:var(--mono); }
+.d-var-txt  { font-size:.8rem; line-height:1.57; color:var(--dtxt); min-height:65px; }
+.comp-badge { display:inline-flex; align-items:center; gap:.28rem; padding:.2rem .58rem; border-radius:99px; font-size:.7rem; font-weight:500; margin-top:.55rem; }
+.comp-pass  { background:rgba(0,229,160,.09);color:var(--dgreen);border:1px solid rgba(0,229,160,.22); }
+.comp-fail  { background:rgba(255,71,87,.09);color:var(--dred);border:1px solid rgba(255,71,87,.22); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:var(--dbg); }
+::-webkit-scrollbar-thumb { background:var(--dborder); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════════╗ -->
+<!-- ║              LANDING + LOGIN VIEW             ║ -->
+<!-- ╚══════════════════════════════════════════════╝ -->
+<div id="landingView" class="land-body">
+
+  <!-- NAV -->
+  <nav class="l-nav">
+    <div class="l-nav-brand">
+      <div class="l-logo-box">PS4</div>
+      <div>
+        <div class="l-brand-title">Predictive Churn Portal</div>
+        <div class="l-brand-sub">Union Bank of India · Internal System</div>
+      </div>
+    </div>
+    <div class="l-nav-links">
+      <a class="l-nav-link" href="#features">Features</a>
+      <a class="l-nav-link" href="#pipeline">Workflow</a>
+      <a class="l-nav-link" href="#terms">Glossary</a>
+      <a class="l-nav-link" href="#access">Access</a>
+      <button class="l-nav-cta" onclick="scrollToLogin()">Staff Login →</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="l-hero">
+    <div class="l-hero-inner">
+      <div>
+        <div class="l-eyebrow">🔒 Authorised Personnel Only — Internal Portal</div>
+        <h1 class="l-hero-title">Retain Every<br/><span>Valuable Customer</span><br/>Before They Leave</h1>
+        <p class="l-hero-desc">PS4 is Union Bank of India's AI-powered customer retention intelligence platform. It predicts churn up to 90 days in advance and equips your Relationship Managers with the right offers at the right time.</p>
+        <div class="l-hero-stats">
+          <div><div class="l-stat-val" id="stat1">90 Days</div><div class="l-stat-lbl">Advance prediction</div></div>
+          <div><div class="l-stat-val" id="stat2">300+</div><div class="l-stat-lbl">Signals tracked</div></div>
+          <div><div class="l-stat-val" id="stat3">8 Layers</div><div class="l-stat-lbl">Security protection</div></div>
+        </div>
+        <div class="l-badges">
+          <span class="l-badge">🤖 ML Churn Scoring</span>
+          <span class="l-badge">✨ Claude AI Messages</span>
+          <span class="l-badge">📊 Live Dashboard</span>
+          <span class="l-badge">🔐 RBI Compliant</span>
+          <span class="l-badge">📡 Omni-Channel</span>
+        </div>
+      </div>
+
+      <!-- LOGIN CARD -->
+      <div class="l-login-card" id="loginCard">
+        <div class="l-card-hdr">
+          <div class="l-card-title">🏦 Staff Secure Login</div>
+          <div class="l-card-sub">Enter your bank credentials to access the portal</div>
+        </div>
+        <div class="l-card-body">
+          <div class="l-msg err" id="errMsg"><span>⚠️</span><span id="errTxt">Invalid credentials.</span></div>
+          <div class="l-msg ok"  id="okMsg"><span>✅</span><span>Verified! Loading dashboard...</span></div>
+          <form id="loginForm" onsubmit="handleLogin(event)" autocomplete="off">
+            <div class="l-form-group">
+              <label class="l-label">Bank Name <span class="req">*</span></label>
+              <input class="l-input" id="fBank" type="text" placeholder="e.g. Union Bank of India" required/>
+            </div>
+            <div class="l-row2">
+              <div class="l-form-group">
+                <label class="l-label">IFSC Code <span class="req">*</span></label>
+                <input class="l-input" id="fIfsc" type="text" placeholder="UBIN0123456" maxlength="11" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" required/>
+                <div class="l-hint">11-character code</div>
+              </div>
+              <div class="l-form-group">
+                <label class="l-label">Branch Code</label>
+                <input class="l-input" id="fBranch" type="text" placeholder="e.g. MUM001"/>
+              </div>
+            </div>
+            <div class="l-form-group">
+              <label class="l-label">Official Email <span class="req">*</span></label>
+              <input class="l-input" id="fEmail" type="email" placeholder="yourname@unionbank.co.in" required/>
+              <div class="l-hint">Use your bank-issued email only</div>
+            </div>
+            <div class="l-form-group">
+              <label class="l-label">Password <span class="req">*</span></label>
+              <div class="pw-wrap">
+                <input class="l-input" id="fPass" type="password" placeholder="Enter your secure password" required/>
+                <button type="button" class="pw-eye" onclick="togglePw()">👁</button>
+              </div>
+            </div>
+            <div class="l-row-check">
+              <label class="l-check-lbl"><input type="checkbox" id="fRemember" style="accent-color:var(--navy)"/> Remember 30 days</label>
+              <a href="#" class="l-forgot" onclick="showForgot();return false;">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn-login" id="loginBtn">
+              <span id="btnTxt">Sign In to Portal</span>
+              <div class="spin-sm" id="btnSpin"></div>
+            </button>
+          </form>
+        </div>
+        <div class="l-card-ftr">🔐 256-bit encrypted · Session auto-expires in 8 hours · All logins audited</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="l-section" id="features">
+    <div class="l-section-inner">
+      <div class="l-sec-eye">Core Capabilities</div>
+      <h2 class="l-sec-title">Built for Banking Operations</h2>
+      <p class="l-sec-desc">Every feature is designed around the daily workflow of Relationship Managers, Branch Managers, and Credit Officers — with language familiar to banking professionals.</p>
+      <div class="l-feat-grid">
+        <div class="l-feat-card"><div class="l-feat-icon">🎯</div><div class="l-feat-title">Churn Risk Scoring</div><div class="l-feat-desc">Every customer receives a daily churn probability (0–100%) from transaction history, digital engagement, product holding, and competitive outflow signals via NACH/UPI.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">📞</div><div class="l-feat-title">RM Pre-Call Briefing</div><div class="l-feat-desc">Before contacting an at-risk customer, your RM gets a tailored briefing — talking points, likely objections, and the best offer to make — generated by Claude AI in seconds.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">😠</div><div class="l-feat-title">Complaint Intelligence</div><div class="l-feat-desc">Complaints are automatically analysed for anger level, urgency, and churn intent. High-risk complaints are escalated with resolution priority scoring before the customer escalates.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">⚡</div><div class="l-feat-title">Trigger Event Alerts</div><div class="l-feat-desc">When a customer breaks an FD prematurely, creates a UPI mandate to a competitor, or reroutes salary — an alert fires instantly with a recommended RM action.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">🎁</div><div class="l-feat-title">Next Best Product</div><div class="l-feat-desc">The system recommends the product most likely to improve retention — a pre-approved home loan, special FD rate, or credit card upgrade — personalised per customer profile.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">🏦</div><div class="l-feat-title">Branch Morning Report</div><div class="l-feat-desc">Each branch receives a daily alert showing which at-risk customers may visit that day, their risk tier, and recommended action for front-desk staff and the branch RM.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">🕵️</div><div class="l-feat-title">Competitor Intelligence</div><div class="l-feat-desc">Tracks cross-bank outflows via NACH and UPI to identify which competitor is attracting your customers, broken down by city, product type, and branch region.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">📈</div><div class="l-feat-title">Retention Analytics</div><div class="l-feat-desc">Cohort retention curves show how well each campaign retained customers at 30, 60, and 90 days — segmented by product, channel, and customer segment for management review.</div></div>
+        <div class="l-feat-card"><div class="l-feat-icon">✉️</div><div class="l-feat-title">Personalised Outreach</div><div class="l-feat-desc">Claude generates two message variants per customer in their preferred language and channel — WhatsApp, SMS, push, or email — with full RBI compliance checking before dispatch.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIPELINE -->
+  <section class="l-pipe" id="pipeline">
+    <div class="l-section-inner">
+      <div class="l-sec-eye">The PS4 Workflow</div>
+      <h2 class="l-sec-title">From Customer Signal to Retention — 8 Stages</h2>
+      <p class="l-sec-desc">The platform runs a continuous pipeline that turns raw banking data into a saved customer relationship.</p>
+      <div class="l-steps">
+        <div class="l-step"><div class="l-step-n">01</div><div class="l-step-title">Data Ingestion</div><div class="l-step-desc">Transaction history, digital engagement, product lifecycle, and competitive signals collected daily.</div></div>
+        <div class="l-step"><div class="l-step-n">02</div><div class="l-step-title">Risk Scoring</div><div class="l-step-desc">XGBoost assigns churn probability (0–100%) and predicts departure horizon (30/60/90 days).</div></div>
+        <div class="l-step"><div class="l-step-n">03</div><div class="l-step-title">Segmentation</div><div class="l-step-desc">Customers grouped into Price-Sensitive, Disengaged, Life-Event, Complaint-Driven, Product Maturity.</div></div>
+        <div class="l-step"><div class="l-step-n">04</div><div class="l-step-title">AI Message</div><div class="l-step-desc">Claude generates personalised retention offers with RBI misselling compliance verification.</div></div>
+        <div class="l-step"><div class="l-step-n">05</div><div class="l-step-title">Channel Dispatch</div><div class="l-step-desc">Sent via WhatsApp, SMS, push, email, or RM call — whichever has the highest open rate for that customer.</div></div>
+        <div class="l-step"><div class="l-step-n">06</div><div class="l-step-title">Response Tracking</div><div class="l-step-desc">Delivery, open, click, and acceptance tracked. Non-responses escalate to next channel after 72 hours.</div></div>
+        <div class="l-step"><div class="l-step-n">07</div><div class="l-step-title">Feedback Loop</div><div class="l-step-desc">Actual churn outcomes at 30/60/90 days retrain the model monthly for continuous improvement.</div></div>
+        <div class="l-step"><div class="l-step-n">08</div><div class="l-step-title">Dashboard</div><div class="l-step-desc">Live KPIs, RM leaderboard, city heatmaps, and exportable management reports for weekly reviews.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANKING TERMS -->
+  <section class="l-section l-terms" id="terms">
+    <div class="l-section-inner">
+      <div class="l-sec-eye">Banking Terms Explained</div>
+      <h2 class="l-sec-title">Familiar Language for Bank Staff</h2>
+      <p class="l-sec-desc">PS4 uses terminology your team already knows. Here is how each banking concept maps into the system.</p>
+      <div class="l-terms-grid">
+        <div class="l-term"><span class="l-tag">KYC</span><div><div class="l-term-name">Customer Risk Profile</div><div class="l-term-meaning">Just like KYC verifies identity, PS4 builds a 360° behavioural profile using transaction frequency, product holdings, and complaint history to assess churn risk.</div></div></div>
+        <div class="l-term"><span class="l-tag">NPA</span><div><div class="l-term-name">Churn Risk Score</div><div class="l-term-meaning">A customer with risk score above 0.65 is treated like a potential NPA — flagged early, actioned promptly, and escalated to the RM before the loss materialises.</div></div></div>
+        <div class="l-term"><span class="l-tag">CLV</span><div><div class="l-term-name">Customer Lifetime Value</div><div class="l-term-meaning">The estimated total revenue a customer will generate. High CLV customers are prioritised first in the outreach queue — similar to prioritising top-tier borrowers.</div></div></div>
+        <div class="l-term"><span class="l-tag">NACH</span><div><div class="l-term-name">Competitor Outflow Signal</div><div class="l-term-meaning">When a new NACH or UPI mandate flows to a competitor bank, PS4 treats it as a strong churn signal — equivalent to a customer pre-closing their CASA account.</div></div></div>
+        <div class="l-term"><span class="l-tag">CSAT</span><div><div class="l-term-name">Satisfaction Score</div><div class="l-term-meaning">CSAT below 2.5/5 combined with complaint history is treated as a high-risk combination requiring immediate RM intervention and senior management attention.</div></div></div>
+        <div class="l-term"><span class="l-tag">FD</span><div><div class="l-term-name">Fixed Deposit Signal</div><div class="l-term-meaning">Premature FD breakage is one of the strongest churn signals in the model. The system immediately recommends a special renewal rate offer via the customer's preferred channel.</div></div></div>
+        <div class="l-term"><span class="l-tag">CASA</span><div><div class="l-term-name">Core Account Indicator</div><div class="l-term-meaning">Zero CASA transactions for 60+ days automatically flags a customer as Disengaged segment with a recommended push notification re-engagement campaign.</div></div></div>
+        <div class="l-term"><span class="l-tag">DND</span><div><div class="l-term-name">Do Not Disturb Registry</div><div class="l-term-meaning">The TRAI DND registry is checked before every outreach dispatch. Opted-out customers are automatically blocked — no exceptions, no manual override.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESS LEVELS -->
+  <section class="l-section" id="access">
+    <div class="l-section-inner">
+      <div class="l-sec-eye">Portal Access</div>
+      <h2 class="l-sec-title">Who Can Access PS4</h2>
+      <p class="l-sec-desc">Access is restricted to authorised bank personnel only. Login requires your official bank email, IFSC code, and registered password. Contact IT helpdesk to request credentials.</p>
+      <div class="l-roles">
+        <div class="l-role"><div class="l-role-icon">👨‍💼</div><div class="l-role-title">Relationship Manager</div><div class="l-role-desc">Customer profiles, RM briefings, outreach dispatch</div><span class="l-rbadge rb-full">Full Access</span></div>
+        <div class="l-role"><div class="l-role-icon">🏦</div><div class="l-role-title">Branch Manager</div><div class="l-role-desc">Branch dashboard, morning alerts, RM leaderboard</div><span class="l-rbadge rb-full">Full Access</span></div>
+        <div class="l-role"><div class="l-role-icon">📊</div><div class="l-role-title">Zonal Credit Officer</div><div class="l-role-desc">Cohort analytics, campaign reports, XLSX/PDF export</div><span class="l-rbadge rb-read">Read + Export</span></div>
+        <div class="l-role"><div class="l-role-icon">🔧</div><div class="l-role-title">IT Admin / MIS</div><div class="l-role-desc">System health, audit logs, admin controls</div><span class="l-rbadge rb-full">Admin Access</span></div>
+        <div class="l-role"><div class="l-role-icon">📋</div><div class="l-role-title">Compliance Officer</div><div class="l-role-desc">Message compliance, RBI audit trail, DND logs</div><span class="l-rbadge rb-read">Read Only</span></div>
+        <div class="l-role"><div class="l-role-icon">📈</div><div class="l-role-title">Senior Management</div><div class="l-role-desc">Executive dashboard, revenue metrics, PDF reports</div><span class="l-rbadge rb-dash">Dashboard Only</span></div>
+      </div>
+      <div class="l-notice"><strong style="color:var(--navy)">🔒 Security Notice:</strong> All logins are recorded in the audit trail with timestamp and device fingerprint. Sharing credentials is a disciplinary offence under the Bank's Information Security Policy (Clause 4.3). Passwords must be changed every 90 days. Sessions auto-expire after 8 hours of inactivity.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="l-footer">
+    <div class="l-foot-left"><strong>PS4 — Predictive Customer Outreach & Churn Prevention</strong><br/>Union Bank of India · Internal Use Only · iDEA Hackathon 2.0 · 2026</div>
+    <div class="l-foot-badges">
+      <span class="l-foot-b">🔒 256-bit TLS</span>
+      <span class="l-foot-b">📋 RBI Compliant</span>
+      <span class="l-foot-b">🛡️ OWASP Secured</span>
+      <span class="l-foot-b">🔍 Audit Logged</span>
+    </div>
+  </footer>
+</div><!-- /landingView -->
+
+<!-- SUCCESS OVERLAY -->
+<div class="overlay" id="successOverlay">
+  <div class="ov-card">
+    <div class="ov-icon">✅</div>
+    <div class="ov-title">Welcome Back!</div>
+    <div class="ov-sub" id="ovSub">Identity verified. Loading your PS4 dashboard...</div>
+    <button class="ov-btn" onclick="showDashboard()">Open Dashboard →</button>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════════╗ -->
+<!-- ║               DASHBOARD VIEW                 ║ -->
+<!-- ╚══════════════════════════════════════════════╝ -->
+<div id="dashView">
+  <!-- DASH HEADER -->
+  <header class="d-header">
+    <div class="d-brand">
+      <div class="d-badge">PS4</div>
+      <div>
+        <div class="d-brand-title">Churn Prevention System</div>
+        <div class="d-brand-sub">Union Bank of India · iDEA Hackathon 2.0</div>
+      </div>
+    </div>
+    <div class="d-hdr-right">
+      <div class="d-user-chip" id="userChip">Loading...</div>
+      <div class="d-live"></div>
+      <span style="font-size:.72rem;color:var(--dmuted)">Live</span>
+      <button class="d-logout-btn" onclick="doLogout()">⏏ Logout</button>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="d-tabs" id="dTabBar">
+    <div class="d-tab active" data-page="overview"   onclick="dTab(this,'overview')">📊 Overview</div>
+    <div class="d-tab" data-page="customers"  onclick="dTab(this,'customers')">👥 Customers</div>
+    <div class="d-tab" data-page="triggers"   onclick="dTab(this,'triggers')">⚡ Live Triggers</div>
+    <div class="d-tab" data-page="messages"   onclick="dTab(this,'messages')">✉️ AI Messages</div>
+    <div class="d-tab" data-page="rm"         onclick="dTab(this,'rm')">📞 RM Briefing</div>
+    <div class="d-tab" data-page="complaints" onclick="dTab(this,'complaints')">😠 Complaints</div>
+    <div class="d-tab" data-page="nbp"        onclick="dTab(this,'nbp')">🎯 Next Best Product</div>
+    <div class="d-tab" data-page="branch"     onclick="dTab(this,'branch')">🏦 Branch Alerts</div>
+    <div class="d-tab" data-page="competitor" onclick="dTab(this,'competitor')">🕵️ Competitor Intel</div>
+    <div class="d-tab" data-page="cohort"     onclick="dTab(this,'cohort')">📈 Cohort Analytics</div>
+    <div class="d-tab" data-page="outreach"   onclick="dTab(this,'outreach')">📡 Outreach</div>
+  </div>
+
+  <div class="d-main">
+    <!-- OVERVIEW -->
+    <div id="overview" class="d-page active">
+      <div class="d-kpi-grid">
+        <div class="d-kpi blue"><div class="d-kpi-label">Total Customers</div><div class="d-kpi-val" id="k-total">—</div><div class="d-kpi-sub">in system</div></div>
+        <div class="d-kpi red"><div class="d-kpi-label">At Risk</div><div class="d-kpi-val" id="k-risk">—</div><div class="d-kpi-sub">score &gt; 0.65</div></div>
+        <div class="d-kpi red"><div class="d-kpi-label">Critical</div><div class="d-kpi-val" id="k-critical">—</div><div class="d-kpi-sub">score &gt; 0.80</div></div>
+        <div class="d-kpi orange"><div class="d-kpi-label">Outreach Sent</div><div class="d-kpi-val" id="k-sent">—</div><div class="d-kpi-sub">dispatched</div></div>
+        <div class="d-kpi green"><div class="d-kpi-label">Conversions</div><div class="d-kpi-val" id="k-conv">—</div><div class="d-kpi-sub">churn reversed</div></div>
+        <div class="d-kpi yellow"><div class="d-kpi-label">Revenue Saved</div><div class="d-kpi-val" id="k-rev">—</div><div class="d-kpi-sub">₹K estimated</div></div>
+        <div class="d-kpi orange"><div class="d-kpi-label">Trigger Events</div><div class="d-kpi-val" id="k-trig">—</div><div class="d-kpi-sub">real-time alerts</div></div>
+        <div class="d-kpi red"><div class="d-kpi-label">Open Complaints</div><div class="d-kpi-val" id="k-comp">—</div><div class="d-kpi-sub">unanalysed</div></div>
+        <div class="d-kpi red"><div class="d-kpi-label">Red Branches</div><div class="d-kpi-val" id="k-branch">—</div><div class="d-kpi-sub">critical alert</div></div>
+      </div>
+      <div class="d-charts-row">
+        <div class="d-chart-card"><div class="d-chart-title">Churn Risk by Segment</div><div class="d-chart-wrap"><canvas id="segChart"></canvas></div></div>
+        <div class="d-chart-card"><div class="d-chart-title">Risk Tier Distribution</div><div class="d-chart-wrap"><canvas id="tierChart"></canvas></div></div>
+        <div class="d-chart-card"><div class="d-chart-title">Preferred Channels</div><div class="d-chart-wrap"><canvas id="chanChart"></canvas></div></div>
+      </div>
+      <div class="d-table-card">
+        <div class="d-table-hdr"><div class="d-table-title">📍 City-wise Churn Hotspots</div></div>
+        <table><thead><tr><th>City</th><th>At-Risk Count</th><th>Heat</th></tr></thead><tbody id="cityTbl"></tbody></table>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div id="customers" class="d-page">
+      <div class="d-table-card">
+        <div class="d-table-hdr">
+          <div class="d-table-title">At-Risk Customer Queue</div>
+          <div class="d-filter-row">
+            <select class="d-sel" id="fTier" onchange="loadCust()"><option value="">All Tiers</option><option>Critical</option><option>High</option><option>Medium</option></select>
+            <select class="d-sel" id="fQueue" onchange="loadCust()"><option value="">All Queues</option><option>Active Outreach</option><option>Watchlist</option></select>
+            <button class="d-btn d-btn-primary d-btn-sm" onclick="loadCust()">Refresh</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table><thead><tr><th>ID</th><th>Name</th><th>Segment</th><th>Churn Prob</th><th>Tier</th><th>Horizon</th><th>CLV</th><th>Top Reason</th><th>Actions</th></tr></thead>
+          <tbody id="custTbl"><tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--dmuted)"><span class="spinner"></span> Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRIGGERS -->
+    <div id="triggers" class="d-page">
+      <div class="d-table-hdr" style="background:var(--dcard);border:1px solid var(--dborder);border-radius:10px;margin-bottom:1rem">
+        <div class="d-table-title">⚡ Real-Time Trigger Events</div>
+        <button class="d-btn d-btn-primary d-btn-sm" onclick="refreshTriggers()">↺ Refresh</button>
+      </div>
+      <div id="trigList"><div style="text-align:center;padding:2rem;color:var(--dmuted)"><span class="spinner"></span></div></div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="messages" class="d-page">
+      <div class="d-msg-panel">
+        <h3>✨ Gen-AI Message Generator <span style="font-size:.7rem;color:var(--dmuted);font-weight:400">powered by Claude API</span></h3>
+        <div style="display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.9rem">
+          <div><label style="font-size:.7rem;color:var(--dmuted);display:block;margin-bottom:.25rem">At-Risk Customer</label>
+          <select class="d-sel" id="msgSel" style="min-width:230px"><option>— Loading —</option></select></div>
+          <button class="d-btn d-btn-primary" id="genMsgBtn" onclick="generateMessage()" disabled>✦ Generate</button>
+          <button class="d-btn d-btn-ghost d-btn-sm" id="sendMsgBtn" onclick="sendMsg()" disabled>📡 Send</button>
+        </div>
+        <div id="msgLoading" style="display:none;color:var(--dmuted);font-size:.8rem"><span class="spinner"></span> Generating with Claude...</div>
+        <div id="msgResult" style="display:none">
+          <div class="d-variants">
+            <div class="d-variant"><div class="d-var-lbl">Variant A — Primary</div><div class="d-var-txt" id="varA">—</div></div>
+            <div class="d-variant"><div class="d-var-lbl">Variant B — A/B Test</div><div class="d-var-txt" id="varB">—</div></div>
+          </div>
+          <div style="display:flex;gap:.7rem;align-items:center;margin-top:.55rem;flex-wrap:wrap">
+            <div id="compBadge"></div>
+            <div id="compNote" style="font-size:.73rem;color:var(--dmuted)"></div>
+            <div id="chanTag" style="font-size:.73rem;color:var(--acc);font-family:var(--mono)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="d-table-card">
+        <div class="d-table-hdr"><div class="d-table-title">Generated Messages Log</div></div>
+        <table><thead><tr><th>Customer</th><th>Channel</th><th>Language</th><th>Compliance</th><th>Preview</th></tr></thead>
+        <tbody id="msgLogTbl"><tr><td colspan="5" style="text-align:center;padding:1.25rem;color:var(--dmuted)">No messages yet.</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- RM BRIEFING -->
+    <div id="rm" class="d-page">
+      <div class="d-msg-panel">
+        <h3>📞 RM Pre-Call Briefing <span style="font-size:.7rem;color:var(--dmuted);font-weight:400">Claude prepares your RM before every call</span></h3>
+        <div style="display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.75rem">
+          <div><label style="font-size:.7rem;color:var(--dmuted);display:block;margin-bottom:.25rem">Select Customer</label>
+          <select class="d-sel" id="rmSel" style="min-width:230px"><option>— Loading —</option></select></div>
+          <button class="d-btn d-btn-primary" id="genBrfBtn" onclick="generateBriefing()" disabled>📋 Generate Briefing</button>
+        </div>
+        <div id="brfLoading" style="display:none;color:var(--dmuted);font-size:.8rem"><span class="spinner"></span> Claude is preparing your RM briefing...</div>
+      </div>
+      <div id="brfResult" style="display:none">
+        <div class="d-cards-grid">
+          <div class="d-info-card"><h4>👤 Customer Snapshot</h4><div id="brfCustInfo"></div></div>
+          <div class="d-info-card"><h4>🎙️ Opening &amp; Situation</h4>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.75px;color:var(--acc);margin-bottom:.34rem;font-family:var(--mono)">Greeting Line</div><div class="brf-blk grn" id="bGreet"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.75px;color:var(--acc);margin-bottom:.34rem;font-family:var(--mono)">Situation Summary</div><div class="brf-blk" id="bSit"></div></div>
+          </div>
+        </div>
+        <div class="d-cards-grid">
+          <div class="d-info-card"><h4>💬 Talking Points</h4>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Point 1</div><div class="brf-blk" id="bT1"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Point 2</div><div class="brf-blk" id="bT2"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Point 3</div><div class="brf-blk" id="bT3"></div></div>
+          </div>
+          <div class="d-info-card"><h4>🛡️ Objection Handlers</h4>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Objection 1</div><div class="brf-blk yel" id="bO1"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Handle</div><div class="brf-blk grn" id="bH1"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Objection 2</div><div class="brf-blk yel" id="bO2"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Handle</div><div class="brf-blk grn" id="bH2"></div></div>
+          </div>
+        </div>
+        <div class="d-cards-grid">
+          <div class="d-info-card"><h4>🎁 Offers</h4>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Primary</div><div class="brf-blk grn" id="bPri"></div></div>
+            <div class="brf-sec"><div style="font-size:.68rem;text-transform:uppercase;color:var(--acc);margin-bottom:.3rem;font-family:var(--mono)">Fallback</div><div class="brf-blk" id="bFal"></div></div>
+          </div>
+          <div class="d-info-card"><h4>📊 Call Strategy</h4><div id="brfStrat"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPLAINTS -->
+    <div id="complaints" class="d-page">
+      <div class="d-table-hdr" style="background:var(--dcard);border:1px solid var(--dborder);border-radius:10px;margin-bottom:1rem">
+        <div class="d-table-title">😠 Complaint Sentiment Analysis</div>
+        <button class="d-btn d-btn-primary d-btn-sm" onclick="analyseAll()">🧠 Analyse All</button>
+      </div>
+      <div id="cmpList"><div style="text-align:center;padding:2rem;color:var(--dmuted)"><span class="spinner"></span></div></div>
+    </div>
+
+    <!-- NBP -->
+    <div id="nbp" class="d-page">
+      <div class="d-msg-panel">
+        <h3>🎯 Next Best Product Engine <span style="font-size:.7rem;color:var(--dmuted);font-weight:400">+ Loyalty Rewards</span></h3>
+        <div style="display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap">
+          <div><label style="font-size:.7rem;color:var(--dmuted);display:block;margin-bottom:.25rem">Select Customer</label>
+          <select class="d-sel" id="nbpSel" style="min-width:230px"><option>— Loading —</option></select></div>
+          <button class="d-btn d-btn-primary" id="nbpBtn" onclick="loadNBP()" disabled>🎯 Get Recommendations</button>
+        </div>
+      </div>
+      <div id="nbpResult" style="display:none">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.9px;color:var(--dmuted);margin-bottom:.7rem">Product Recommendations</div>
+        <div id="nbpCards" class="d-cards-grid"></div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.9px;color:var(--dmuted);margin:.75rem 0">Loyalty Rewards</div>
+        <div id="lyCard"></div>
+      </div>
+      <div class="d-table-card" style="margin-top:.9rem">
+        <div class="d-table-hdr"><div class="d-table-title">📊 Product Demand Across All Customers</div><button class="d-btn d-btn-ghost d-btn-sm" onclick="loadNBPSum()">Refresh</button></div>
+        <div style="overflow-x:auto"><table><thead><tr><th>Product</th><th>Customers</th><th>Opportunity</th></tr></thead>
+        <tbody id="nbpSumTbl"><tr><td colspan="3" style="text-align:center;padding:1.2rem;color:var(--dmuted)">Click Refresh.</td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- BRANCH ALERTS -->
+    <div id="branch" class="d-page">
+      <div class="d-table-hdr" style="background:var(--dcard);border:1px solid var(--dborder);border-radius:10px;margin-bottom:1rem">
+        <div class="d-table-title">🏦 Branch Morning Alerts</div>
+        <button class="d-btn d-btn-ghost d-btn-sm" onclick="loadBranch()">↺ Refresh</button>
+      </div>
+      <div id="branchList"><div style="text-align:center;padding:2rem;color:var(--dmuted)"><span class="spinner"></span></div></div>
+    </div>
+
+    <!-- COMPETITOR INTEL -->
+    <div id="competitor" class="d-page">
+      <div id="compContent"><div style="text-align:center;padding:3rem;color:var(--dmuted)"><span class="spinner"></span></div></div>
+    </div>
+
+    <!-- COHORT ANALYTICS -->
+    <div id="cohort" class="d-page">
+      <div class="d-charts-row" style="grid-template-columns:1fr 1fr">
+        <div class="d-chart-card"><div class="d-chart-title">90-Day Retention by Segment</div><div class="d-chart-wrap"><canvas id="cohSegChart"></canvas></div></div>
+        <div class="d-chart-card"><div class="d-chart-title">90-Day Retention by Channel</div><div class="d-chart-wrap"><canvas id="cohChanChart"></canvas></div></div>
+      </div>
+      <div class="d-table-card">
+        <div class="d-table-hdr"><div class="d-table-title">📅 Monthly Campaign Performance</div></div>
+        <table><thead><tr><th>Month</th><th>At Risk</th><th>Sent</th><th>Converted</th><th>Conv. Rate</th><th>Revenue Saved</th></tr></thead>
+        <tbody id="cohMonTbl"></tbody></table>
+      </div>
+      <div class="d-table-card">
+        <div class="d-table-hdr"><div class="d-table-title">🔍 Segment Retention (30 / 60 / 90 Days)</div></div>
+        <table><thead><tr><th>Segment</th><th>Customers</th><th>30-Day</th><th>60-Day</th><th>90-Day</th></tr></thead>
+        <tbody id="cohSegTbl"></tbody></table>
+      </div>
+    </div>
+
+    <!-- OUTREACH -->
+    <div id="outreach" class="d-page">
+      <div class="d-msg-panel">
+        <h3>📡 Outreach Campaign Simulator</h3>
+        <div style="display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.75rem">
+          <div><label style="font-size:.7rem;color:var(--dmuted);display:block;margin-bottom:.25rem">Customers to contact</label>
+          <select class="d-sel" id="campSize"><option value="10">Top 10</option><option value="20" selected>Top 20</option><option value="50">Top 50</option></select></div>
+          <button class="d-btn d-btn-primary" id="runBtn" onclick="runCampaign()">▶ Run Campaign</button>
+        </div>
+        <div id="campStats" style="display:none">
+          <div class="d-stats-row">
+            <div class="d-stat-mini"><div class="d-stat-val" id="cs-sent">0</div><div class="d-stat-lbl">Sent</div></div>
+            <div class="d-stat-mini"><div class="d-stat-val" id="cs-open">0</div><div class="d-stat-lbl">Opened</div></div>
+            <div class="d-stat-mini"><div class="d-stat-val" id="cs-click">0</div><div class="d-stat-lbl">Clicked</div></div>
+            <div class="d-stat-mini"><div class="d-stat-val" id="cs-acc">0</div><div class="d-stat-lbl">Accepted</div></div>
+            <div class="d-stat-mini"><div class="d-stat-val" id="cs-or">0%</div><div class="d-stat-lbl">Open Rate</div></div>
+            <div class="d-stat-mini"><div class="d-stat-val" id="cs-cr">0%</div><div class="d-stat-lbl">Conversion</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="d-table-card">
+        <div class="d-table-hdr"><div class="d-table-title">Live Outreach Log</div><button class="d-btn d-btn-ghost d-btn-sm" onclick="loadLog()">↺ Refresh</button></div>
+        <div id="logBox" style="padding:.6rem"><div style="text-align:center;padding:2rem;color:var(--dmuted)">No outreach yet.</div></div>
+      </div>
+    </div>
+  </div><!-- /d-main -->
+</div><!-- /dashView -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// LOGIN LOGIC
+// ═══════════════════════════════════════════════════════════════
+const CREDS = [
+  {bank:"Union Bank of India",ifsc:"UBIN0123456",email:"admin@unionbank.co.in",  pass:"UBI@2026",   role:"IT Admin"},
+  {bank:"Union Bank of India",ifsc:"UBIN0123456",email:"rm@unionbank.co.in",     pass:"RM@2026",    role:"Relationship Manager"},
+  {bank:"Union Bank of India",ifsc:"UBIN0654321",email:"branch@unionbank.co.in", pass:"Branch@2026",role:"Branch Manager"},
+];
+let currentUser = null;
+
+function handleLogin(e) {
+  e.preventDefault();
+  clearMsgs();
+  const bank  = document.getElementById('fBank').value.trim();
+  const ifsc  = document.getElementById('fIfsc').value.trim().toUpperCase();
+  const email = document.getElementById('fEmail').value.trim().toLowerCase();
+  const pass  = document.getElementById('fPass').value;
+  if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(ifsc)) { showErr("IFSC must be 11 characters — 4 letters, 0, then 6 alphanumeric (e.g. UBIN0123456)."); document.getElementById('fIfsc').classList.add('err'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr("Please enter a valid official bank email address."); document.getElementById('fEmail').classList.add('err'); return; }
+  setLoading(true);
+  setTimeout(() => {
+    const m = CREDS.find(c => c.bank.toLowerCase()===bank.toLowerCase() && c.ifsc===ifsc && c.email===email && c.pass===pass);
+    if (m) {
+      currentUser = m;
+      setLoading(false);
+      document.getElementById('okMsg').style.display='flex';
+      document.getElementById('ovSub').textContent = `Verified as ${m.role} — ${m.email}. Loading your PS4 dashboard...`;
+      setTimeout(() => document.getElementById('successOverlay').classList.add('show'), 700);
+    } else {
+      setLoading(false);
+      showErr("Invalid credentials. Verify your Bank Name, IFSC Code, Email, and Password. Contact IT helpdesk if locked out.");
+      ['fBank','fIfsc','fEmail','fPass'].forEach(id => { document.getElementById(id).classList.add('err'); setTimeout(()=>document.getElementById(id).classList.remove('err'),2500); });
+    }
+  }, 1700);
+}
+
+function setLoading(on) {
+  document.getElementById('loginBtn').disabled = on;
+  document.getElementById('btnTxt').textContent = on ? 'Verifying...' : 'Sign In to Portal';
+  document.getElementById('btnSpin').style.display = on ? 'block' : 'none';
+}
+function showErr(msg) { document.getElementById('errTxt').textContent=msg; document.getElementById('errMsg').style.display='flex'; }
+function clearMsgs() { ['errMsg','okMsg'].forEach(id=>document.getElementById(id).style.display='none'); ['fBank','fIfsc','fEmail','fPass'].forEach(id=>document.getElementById(id).classList.remove('err','ok')); }
+function togglePw() { const p=document.getElementById('fPass'); p.type=p.type==='password'?'text':'password'; }
+function scrollToLogin() { document.getElementById('loginCard').scrollIntoView({behavior:'smooth',block:'center'}); document.getElementById('fBank').focus(); }
+function showForgot() { alert('Contact your branch IT helpdesk or email itsupport@unionbank.co.in with your employee ID and registered mobile number.'); }
+
+['fBank','fIfsc','fEmail','fPass'].forEach(id => { document.getElementById(id).addEventListener('focus',()=>{ document.getElementById(id).classList.remove('err'); document.getElementById('errMsg').style.display='none'; }); });
+document.getElementById('fIfsc').addEventListener('input',function(){this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');});
+
+// ═══════════════════════════════════════════════════════════════
+// VIEW SWITCHING
+// ═══════════════════════════════════════════════════════════════
+function showDashboard() {
+  document.getElementById('successOverlay').classList.remove('show');
+  document.getElementById('landingView').style.display = 'none';
+  document.getElementById('dashView').style.display    = 'block';
+  document.body.style.background = 'var(--dbg)';
+  if (currentUser) document.getElementById('userChip').textContent = `${currentUser.role} · ${currentUser.email}`;
+  initDashCharts();
+  loadDashboard();
+  loadCust();
+  loadMsgSel();
+  loadRMSel();
+  loadNBPSel();
+  loadTriggers();
+  loadComplaints();
+  loadBranch();
+  loadCompIntel();
+  loadCohort();
+}
+
+function doLogout() {
+  if (!confirm('Sign out of PS4?')) return;
+  currentUser = null;
+  document.getElementById('dashView').style.display    = 'none';
+  document.getElementById('landingView').style.display = 'block';
+  document.body.style.background = '';
+  document.getElementById('loginForm').reset();
+  clearMsgs();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DASHBOARD TABS
+// ═══════════════════════════════════════════════════════════════
+function dTab(el, page) {
+  document.querySelectorAll('.d-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.d-page').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(page).classList.add('active');
+}
+function gotoTab(page) { document.querySelectorAll('.d-tab').forEach(t=>{if(t.dataset.page===page){t.click();}}); }
+
+// ═══════════════════════════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════════════════════════
+let segC,tierC,chanC,cohSegC,cohChanC;
+function initDashCharts() {
+  Chart.defaults.color='#6b8ba4'; Chart.defaults.borderColor='#1a3a54';
+  if(segC) return; // already inited
+
+  segC = new Chart(document.getElementById('segChart'),{type:'bar',data:{labels:[],datasets:[{label:'Avg Churn Risk',data:[],backgroundColor:['#00d4ff88','#ff6b3588','#a78bfa88','#ffd16688','#00e5a088'],borderColor:['#00d4ff','#ff6b35','#a78bfa','#ffd166','#00e5a0'],borderWidth:1,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:1,ticks:{callback:v=>(v*100).toFixed(0)+'%'}}}}});
+  tierC= new Chart(document.getElementById('tierChart'),{type:'doughnut',data:{labels:['Critical','High','Medium','Low'],datasets:[{data:[],backgroundColor:['#ff475740','#ff6b3540','#ffd16640','#00e5a040'],borderColor:['#ff4757','#ff6b35','#ffd166','#00e5a0'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9}}}}}});
+  chanC= new Chart(document.getElementById('chanChart'),{type:'bar',data:{labels:[],datasets:[{data:[],backgroundColor:'#00d4ff44',borderColor:'#00d4ff',borderWidth:1,borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true}}}});
+  cohSegC  = new Chart(document.getElementById('cohSegChart'),{type:'bar',data:{labels:[],datasets:[{label:'30D',data:[],backgroundColor:'#00d4ff55',borderColor:'#00d4ff',borderWidth:1,borderRadius:3},{label:'60D',data:[],backgroundColor:'#ffd16655',borderColor:'#ffd166',borderWidth:1,borderRadius:3},{label:'90D',data:[],backgroundColor:'#00e5a055',borderColor:'#00e5a0',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:9}}}},scales:{y:{beginAtZero:true,max:1,ticks:{callback:v=>(v*100).toFixed(0)+'%'}}}}});
+  cohChanC = new Chart(document.getElementById('cohChanChart'),{type:'bar',data:{labels:[],datasets:[{label:'30D',data:[],backgroundColor:'#00d4ff55',borderColor:'#00d4ff',borderWidth:1,borderRadius:3},{label:'60D',data:[],backgroundColor:'#ffd16655',borderColor:'#ffd166',borderWidth:1,borderRadius:3},{label:'90D',data:[],backgroundColor:'#00e5a055',borderColor:'#00e5a0',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:9}}}},scales:{y:{beginAtZero:true,max:1,ticks:{callback:v=>(v*100).toFixed(0)+'%'}}}}});
+}
+
+// ═══════════════════════════════════════════════════════════════
+// API CALLS
+// ═══════════════════════════════════════════════════════════════
+async function api(path, method='GET') {
+  try { const r=await fetch(path,{method}); return await r.json(); }
+  catch { return null; }
+}
+
+async function loadDashboard() {
+  const d = await api('/api/dashboard'); if(!d) return;
+  const k = d.kpis;
+  document.getElementById('k-total').textContent   = k.total_customers;
+  document.getElementById('k-risk').textContent    = k.at_risk;
+  document.getElementById('k-critical').textContent= k.critical;
+  document.getElementById('k-sent').textContent    = k.outreach_sent;
+  document.getElementById('k-conv').textContent    = k.conversions;
+  document.getElementById('k-rev').textContent     = `₹${k.revenue_saved_k}K`;
+  document.getElementById('k-trig').textContent    = k.trigger_events||0;
+  document.getElementById('k-comp').textContent    = k.complaints_open||0;
+  document.getElementById('k-branch').textContent  = k.branch_alerts_red||0;
+  const sg=d.segment_stats||[];
+  segC.data.labels=sg.map(s=>s.segment.split('-')[0]); segC.data.datasets[0].data=sg.map(s=>+s.avg_churn.toFixed(3)); segC.update();
+  const tc=d.tier_counts||{};
+  tierC.data.datasets[0].data=[tc.Critical||0,tc.High||0,tc.Medium||0,tc.Low||0]; tierC.update();
+  const cc=d.channel_counts||{};
+  chanC.data.labels=Object.keys(cc); chanC.data.datasets[0].data=Object.values(cc); chanC.update();
+  const at=k.at_risk||1;
+  document.getElementById('cityTbl').innerHTML = Object.entries(d.city_churn||{}).map(([c,n])=>{
+    const p=Math.round(n/at*100);
+    return `<tr><td>${c}</td><td class="mono">${n}</td><td><div class="prob-bar"><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:var(--acc)"></div></div><span style="font-size:.7rem;color:var(--dmuted)">${p}%</span></div></td></tr>`;
+  }).join('');
+}
+
+async function loadCust() {
+  const tier=document.getElementById('fTier').value, queue=document.getElementById('fQueue').value;
+  const p=new URLSearchParams({limit:100}); if(tier)p.set('tier',tier); if(queue)p.set('queue',queue);
+  const tb=document.getElementById('custTbl');
+  tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:1.5rem;color:var(--dmuted)"><span class="spinner"></span></td></tr>';
+  const d=await api(`/api/customers?${p}`); if(!d||!d.customers.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:1.5rem;color:var(--dmuted)">No customers.</td></tr>';return;}
+  tb.innerHTML=d.customers.map(c=>{
+    const pr=(c.churn_probability*100).toFixed(1);
+    const bc=c.risk_tier==='Critical'?'var(--dred)':c.risk_tier==='High'?'var(--acc2)':c.risk_tier==='Medium'?'var(--dyellow)':'var(--dgreen)';
+    const sk=c.segment.split('-')[0];
+    return `<tr><td class="mono" style="color:var(--acc)">${c.customer_id}</td><td><div style="font-weight:600">${c.name}</div><div style="font-size:.68rem;color:var(--dmuted)">${c.city}</div></td><td><span class="seg-chip seg-${sk}">${c.segment}</span></td><td><div class="prob-bar"><div class="bar-track" style="width:60px"><div class="bar-fill" style="width:${pr}%;background:${bc}"></div></div><span class="mono">${pr}%</span></div></td><td><span class="tier-badge tier-${c.risk_tier}">${c.risk_tier}</span></td><td style="color:var(--dmuted);font-size:.76rem">${c.churn_horizon}</td><td class="mono">${c.clv_score}</td><td style="font-size:.7rem;color:var(--dmuted);max-width:170px">${(c.top_reasons||'').split(' | ')[0]}</td><td style="white-space:nowrap"><button class="d-btn d-btn-ghost d-btn-sm" onclick="quickMsg('${c.customer_id}')">✉</button> <button class="d-btn d-btn-ghost d-btn-sm" onclick="quickRM('${c.customer_id}')">📞</button></td></tr>`;
+  }).join('');
+}
+
+function quickMsg(cid){gotoTab('messages');setTimeout(()=>{document.getElementById('msgSel').value=cid;},120);}
+function quickRM(cid){gotoTab('rm');setTimeout(()=>{document.getElementById('rmSel').value=cid;document.getElementById('genBrfBtn').disabled=false;},120);}
+
+// Triggers
+async function loadTriggers() {
+  const d=await api('/api/trigger-events'); if(d) renderTriggers(d.events||[]);
+}
+async function refreshTriggers() {
+  document.getElementById('trigList').innerHTML='<div style="text-align:center;padding:2rem;color:var(--dmuted)"><span class="spinner"></span></div>';
+  const d=await api('/api/trigger-events/refresh','POST'); if(d) renderTriggers(d.events||[]);
+}
+function renderTriggers(evs) {
+  const c=document.getElementById('trigList');
+  if(!evs.length){c.innerHTML='<div style="text-align:center;padding:2rem;color:var(--dmuted)">No events.</div>';return;}
+  c.innerHTML=evs.map(e=>{
+    const sc=e.severity==='critical'?'sev-critical':e.severity==='high'?'sev-high':'sev-medium';
+    const pc=e.new_score>0.8?'var(--dred)':e.new_score>0.65?'var(--acc2)':'var(--dyellow)';
+    return `<div class="d-trigger"><div class="d-trig-icon">${e.event_icon}</div><div class="d-trig-body"><div class="d-trig-lbl">${e.event_label} <span class="${sc}">${e.severity}</span></div><div class="d-trig-meta">${e.customer_name} · ${e.city} · ${e.timestamp}</div><div class="d-trig-act">${e.recommended_action}</div></div><div class="d-trig-right"><div class="d-trig-score" style="color:${pc}">${(e.new_score*100).toFixed(0)}%</div><div class="score-delta">+${(e.score_delta*100).toFixed(0)}%</div>${e.auto_queued?'<div style="font-size:.63rem;color:var(--dgreen);margin-top:.18rem">✓ Queued</div>':''}</div></div>`;
+  }).join('');
+}
+
+// Messages
+let msgLog=[],curMsgCid=null;
+async function loadMsgSel(pre=null) {
+  const d=await api('/api/customers?queue=Active+Outreach&limit=60'); if(!d)return;
+  const s=document.getElementById('msgSel');
+  s.innerHTML=d.customers.map(c=>`<option value="${c.customer_id}">[${c.risk_tier}] ${c.name} — ${c.segment}</option>`).join('');
+  if(pre)s.value=pre; document.getElementById('genMsgBtn').disabled=false;
+}
+async function generateMessage() {
+  const cid=document.getElementById('msgSel').value; if(!cid)return; curMsgCid=cid;
+  document.getElementById('msgLoading').style.display='block'; document.getElementById('msgResult').style.display='none'; document.getElementById('genMsgBtn').disabled=true;
+  const d=await api(`/api/generate-message/${cid}`,'POST');
+  document.getElementById('msgLoading').style.display='none'; document.getElementById('msgResult').style.display='block'; document.getElementById('genMsgBtn').disabled=false; document.getElementById('sendMsgBtn').disabled=false;
+  if(!d)return;
+  document.getElementById('varA').textContent=d.message_a||'—'; document.getElementById('varB').textContent=d.message_b||'—';
+  document.getElementById('chanTag').textContent=`📤 ${d.channel} · ${d.language}`;
+  document.getElementById('compBadge').innerHTML=d.compliance_ok?'<span class="comp-badge comp-pass">✓ PASS</span>':'<span class="comp-badge comp-fail">✗ FAIL</span>';
+  document.getElementById('compNote').textContent=d.compliance_note||'';
+  msgLog.unshift({cid,channel:d.channel,language:d.language,ok:d.compliance_ok,preview:d.message_a});
+  renderMsgLog();
+}
+async function sendMsg() {
+  if(!curMsgCid)return;
+  const d=await api(`/api/send-outreach/${curMsgCid}`,'POST');
+  if(d) alert(`📡 Dispatched!\nStatus: ${d.status}\nChannel: ${d.channel_icon||''} ${d.channel}\nSend time: ${d.send_time||''}`);
+  loadDashboard();
+}
+function renderMsgLog() {
+  const t=document.getElementById('msgLogTbl');
+  if(!msgLog.length){t.innerHTML='<tr><td colspan="5" style="text-align:center;padding:1.2rem;color:var(--dmuted)">No messages yet.</td></tr>';return;}
+  t.innerHTML=msgLog.map(m=>`<tr><td class="mono" style="color:var(--acc)">${m.cid}</td><td>${m.channel}</td><td>${m.language}</td><td>${m.ok?'✅ PASS':'❌ FAIL'}</td><td style="color:var(--dmuted);font-size:.76rem">${(m.preview||'').substring(0,80)}...</td></tr>`).join('');
+}
+
+// RM Briefing
+async function loadRMSel() {
+  const d=await api('/api/customers?queue=Active+Outreach&limit=60'); if(!d)return;
+  const s=document.getElementById('rmSel');
+  s.innerHTML=d.customers.map(c=>`<option value="${c.customer_id}">[${c.risk_tier}] ${c.name}</option>`).join('');
+  document.getElementById('genBrfBtn').disabled=false;
+}
+async function generateBriefing() {
+  const cid=document.getElementById('rmSel').value;
+  document.getElementById('brfLoading').style.display='block'; document.getElementById('brfResult').style.display='none'; document.getElementById('genBrfBtn').disabled=true;
+  const d=await api(`/api/rm-briefing/${cid}`,'POST');
+  document.getElementById('brfLoading').style.display='none'; document.getElementById('brfResult').style.display='block'; document.getElementById('genBrfBtn').disabled=false;
+  if(!d)return;
+  document.getElementById('brfCustInfo').innerHTML=`<div class="d-info-row"><span class="d-info-label">Customer</span><span class="d-info-val">${d.customer_name}</span></div><div class="d-info-row"><span class="d-info-label">Risk Tier</span><span class="d-info-val"><span class="tier-badge tier-${d.risk_tier}">${d.risk_tier}</span></span></div><div class="d-info-row"><span class="d-info-label">CLV Score</span><span class="d-info-val mono">${d.clv_score}</span></div><div class="d-info-row"><span class="d-info-label">Call Duration</span><span class="d-info-val">${d.call_duration||'5-8 min'}</span></div><div class="d-info-row"><span class="d-info-label">Generated</span><span class="d-info-val">${d.generated_at}</span></div>`;
+  [['bGreet','greeting'],['bSit','situation_summary'],['bT1','talking_point_1'],['bT2','talking_point_2'],['bT3','talking_point_3'],['bO1','objection_1'],['bH1','handle_1'],['bO2','objection_2'],['bH2','handle_2'],['bPri','primary_offer'],['bFal','fallback_offer']].forEach(([id,key])=>{ document.getElementById(id).textContent=d[key]||'—'; });
+  document.getElementById('brfStrat').innerHTML=`<div class="d-info-row"><span class="d-info-label">Call Duration</span><span class="d-info-val">${d.call_duration||'—'}</span></div><div class="d-info-row"><span class="d-info-label">Success Signal</span><span class="d-info-val" style="color:var(--dgreen)">${d.success_signal||'—'}</span></div><div class="d-info-row"><span class="d-info-label">Red Flag</span><span class="d-info-val" style="color:var(--dred)">${d.red_flag||'—'}</span></div>`;
+}
+
+// Complaints
+async function loadComplaints() {
+  const d=await api('/api/complaints'); if(d) renderComplaints(d.complaints||[]);
+}
+async function analyseAll() {
+  document.getElementById('cmpList').innerHTML='<div style="text-align:center;padding:2rem;color:var(--dmuted)"><span class="spinner"></span> Analysing with Claude...</div>';
+  const d=await api('/api/complaints/analyse-all','POST'); if(d)renderComplaints(d.results||[]);
+  loadDashboard();
+}
+async function analyseOne(cid) { await api(`/api/complaints/analyse/${cid}`,'POST'); loadComplaints(); }
+function renderComplaints(list) {
+  const c=document.getElementById('cmpList');
+  if(!list.length){c.innerHTML='<div style="text-align:center;padding:2rem;color:var(--dmuted)">No complaints.</div>';return;}
+  c.innerHTML=list.map(cmp=>{
+    const an=cmp.analysed, ap=an?Math.round((cmp.anger_score||0)*100):0;
+    const ac=ap>75?'var(--dred)':ap>50?'var(--acc2)':ap>30?'var(--dyellow)':'var(--dgreen)';
+    return `<div class="d-complaint"><div class="d-cmp-hdr"><div><span style="font-weight:600;font-size:.84rem">${cmp.customer_name}</span><span class="d-cmp-meta"> · ${cmp.customer_id} · ${cmp.channel} · ${cmp.date}</span></div><div style="display:flex;gap:.38rem;align-items:center">${an?`<span class="sev-${(cmp.anger_score||0)>.75?'critical':(cmp.anger_score||0)>.5?'high':'medium'}">${cmp.sentiment_label||cmp.sentiment}</span>`:''}<button class="d-btn d-btn-ghost d-btn-sm" onclick="analyseOne('${cmp.complaint_id}')">🧠 ${an?'Re-':''}Analyse</button></div></div><div class="d-cmp-txt">"${cmp.complaint_text}"</div>${an?`<div class="d-sent-row"><span style="color:var(--dmuted);font-size:.7rem">Anger:</span><div class="anger-bar"><div class="anger-fill" style="width:${ap}%;background:${ac}"></div></div><span class="mono" style="font-size:.72rem">${ap}%</span><span style="font-size:.7rem;color:var(--dmuted)">Intent: <b style="color:${cmp.churn_intent==='HIGH'?'var(--dred)':cmp.churn_intent==='MEDIUM'?'var(--dyellow)':'var(--dgreen)'}">${cmp.churn_intent}</b></span><span style="font-size:.7rem;color:var(--dmuted)">Urgency: <b style="color:var(--acc2)">${cmp.urgency}</b></span>${cmp.churn_signal_detected==='YES'?'<span style="font-size:.68rem;background:rgba(255,71,87,.1);color:var(--dred);border:1px solid rgba(255,71,87,.25);border-radius:4px;padding:.1rem .38rem">⚠ Churn Signal</span>':''}</div><div style="font-size:.76rem;color:var(--dmuted);margin-top:.38rem">💡 ${cmp.recommended_response||''}</div>`:'<div style="font-size:.72rem;color:var(--dmuted)">Click Analyse to run sentiment detection.</div>'}</div>`;
+  }).join('');
+}
+
+// NBP
+async function loadNBPSel() {
+  const d=await api('/api/customers?limit=100'); if(!d)return;
+  const s=document.getElementById('nbpSel');
+  s.innerHTML=d.customers.map(c=>`<option value="${c.customer_id}">${c.name} · ${c.segment}</option>`).join('');
+  document.getElementById('nbpBtn').disabled=false;
+}
+async function loadNBP() {
+  const cid=document.getElementById('nbpSel').value;
+  document.getElementById('nbpResult').style.display='none';
+  const d=await api(`/api/nbp/${cid}`); if(!d)return;
+  document.getElementById('nbpResult').style.display='block';
+  document.getElementById('nbpCards').innerHTML=d.recommendations.map(r=>`<div class="d-nbp-card"><div class="d-nbp-hdr"><div class="d-nbp-icon">${r.icon}</div><div><div class="d-nbp-prod">${r.product}</div><div class="d-nbp-cat">${r.category}</div></div><div class="d-nbp-score">${(r.score*100).toFixed(0)}%</div></div><div class="d-nbp-offer">${r.offer}</div><div class="d-nbp-why">${r.reason}</div></div>`).join('');
+  const ly=d.loyalty;
+  const ltc=`lt-${ly.loyalty_tier.toLowerCase()}`;
+  document.getElementById('lyCard').innerHTML=`<div class="d-info-card"><h4>🏆 Loyalty Profile — <span class="d-ly-tier ${ltc}">${ly.loyalty_tier}</span></h4><div class="d-info-row"><span class="d-info-label">Total Points</span><span class="d-info-val mono" style="color:var(--dyellow)">${ly.total_points.toLocaleString()} pts</span></div><div class="d-info-row"><span class="d-info-label">Cashback Value</span><span class="d-info-val mono" style="color:var(--dgreen)">₹${ly.cashback_value}</span></div><div class="d-info-row"><span class="d-info-label">Base Points</span><span class="d-info-val mono">${ly.base_points}</span></div><div class="d-info-row"><span class="d-info-label">Bonus Triggers</span><span class="d-info-val">${ly.bonus_triggers.map(b=>`<div>${b.label} <span class="mono" style="color:var(--acc)">+${b.points}</span></div>`).join('')||'None'}</span></div></div>`;
+  loadNBPSum();
+}
+async function loadNBPSum() {
+  const d=await api('/api/nbp-summary'); if(!d)return;
+  const mx=Math.max(...Object.values(d.product_demand));
+  document.getElementById('nbpSumTbl').innerHTML=Object.entries(d.product_demand).map(([p,n])=>`<tr><td style="font-weight:600">${p}</td><td class="mono" style="color:var(--acc)">${n}</td><td><div class="prob-bar"><div class="bar-track"><div class="bar-fill" style="width:${Math.round(n/mx*100)}%;background:var(--dpurple)"></div></div><span style="font-size:.7rem;color:var(--dmuted)">${Math.round(n/mx*100)}%</span></div></td></tr>`).join('');
+}
+
+// Branch
+async function loadBranch() {
+  const d=await api('/api/branch-alerts'); if(!d)return;
+  const c=document.getElementById('branchList');
+  if(!d.alerts||!d.alerts.length){c.innerHTML='<div style="text-align:center;padding:2rem;color:var(--dmuted)">No alerts.</div>';return;}
+  c.innerHTML=d.alerts.map(a=>`<div class="d-alert ${a.alert_level==='RED'?'red':a.alert_level==='AMBER'?'amber':'grn'}"><div class="d-alert-hdr"><div class="d-alert-city">🏦 ${a.city} — ${a.branch_code}</div><span class="d-alert-lvl lvl-${a.alert_level}">${a.alert_level}</span></div><div class="d-alert-stats"><span>At-Risk: <strong>${a.at_risk_count}</strong></span><span>Critical: <strong style="color:var(--dred)">${a.critical_count}</strong></span><span>Revenue Risk: <strong style="color:var(--dyellow)">₹${a.revenue_at_risk_k}K</strong></span><span>Risk %: <strong>${a.risk_pct}%</strong></span></div><div style="font-size:.76rem;color:var(--dmuted);margin:.32rem 0">${a.top_rm_action}</div><div style="font-size:.7rem;color:var(--dmuted)">Likely visitors today:</div><div class="visitor-chips">${a.likely_visitors.map(v=>`<span class="v-chip">${v.name} <span style="color:var(--acc2)">${v.risk}</span></span>`).join('')}</div></div>`).join('');
+}
+
+// Competitor
+async function loadCompIntel() {
+  const d=await api('/api/competitor-intel'); if(!d)return;
+  const mx=d.competitor_stats&&d.competitor_stats.length?d.competitor_stats[0].customers_lost:1;
+  document.getElementById('compContent').innerHTML=`<div class="d-kpi-grid" style="margin-bottom:1rem"><div class="d-kpi red"><div class="d-kpi-label">Outflow Customers</div><div class="d-kpi-val">${d.total_outflow_customers}</div><div class="d-kpi-sub">to competitors</div></div><div class="d-kpi yellow"><div class="d-kpi-label">CLV at Risk</div><div class="d-kpi-val">₹${d.estimated_clv_loss}K</div><div class="d-kpi-sub">estimated loss</div></div><div class="d-kpi red"><div class="d-kpi-label">Top Threat</div><div class="d-kpi-val" style="font-size:1rem">${d.top_competitor}</div><div class="d-kpi-sub">primary competitor</div></div></div><div class="d-cards-grid"><div class="d-table-card"><div class="d-table-hdr"><div class="d-table-title">Competitor Breakdown</div></div><div style="padding:.7rem">${(d.competitor_stats||[]).map(c=>`<div style="margin-bottom:.7rem"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.22rem"><span style="font-weight:600">${c.competitor}</span><span class="mono" style="color:var(--acc2)">${c.customers_lost} customers</span></div><div class="d-comp-bar"><div class="d-comp-fill" style="width:${Math.round(c.customers_lost/mx*100)}%"></div></div><div style="font-size:.7rem;color:var(--dmuted)">CLV Risk: ₹${c.clv_at_risk}K · ${c.pct_of_outflow}%</div></div>`).join('')}</div></div><div class="d-table-card"><div class="d-table-hdr"><div class="d-table-title">City Leakage</div></div><table><thead><tr><th>City</th><th>Outflow</th><th>Top Competitor</th></tr></thead><tbody>${(d.city_leakage||[]).map(c=>`<tr><td>${c.city}</td><td class="mono" style="color:var(--dred)">${c.outflow_count}</td><td style="color:var(--acc2)">${c.top_competitor}</td></tr>`).join('')}</tbody></table></div></div><div style="background:var(--dcard);border:1px solid var(--dborder);border-radius:10px;padding:.95rem;margin-top:.5rem"><div style="font-size:.68rem;color:var(--acc);margin-bottom:.36rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.78px">💡 Intelligence Insight</div><div style="font-size:.83rem;color:var(--dtxt)">${d.insight}</div></div>`;
+}
+
+// Cohort
+async function loadCohort() {
+  const d=await api('/api/cohort-analytics'); if(!d)return;
+  const sc=d.segment_cohorts||{};
+  cohSegC.data.labels=Object.keys(sc).map(s=>s.split('-')[0]);
+  cohSegC.data.datasets[0].data=Object.values(sc).map(v=>v['30d']);
+  cohSegC.data.datasets[1].data=Object.values(sc).map(v=>v['60d']);
+  cohSegC.data.datasets[2].data=Object.values(sc).map(v=>v['90d']);
+  cohSegC.update();
+  const cc=d.channel_cohorts||{};
+  cohChanC.data.labels=Object.keys(cc);
+  cohChanC.data.datasets[0].data=Object.values(cc).map(v=>v['30d']);
+  cohChanC.data.datasets[1].data=Object.values(cc).map(v=>v['60d']);
+  cohChanC.data.datasets[2].data=Object.values(cc).map(v=>v['90d']);
+  cohChanC.update();
+  document.getElementById('cohMonTbl').innerHTML=(d.monthly_performance||[]).map(m=>`<tr><td style="font-weight:600">${m.month}</td><td class="mono">${m.customers_at_risk}</td><td class="mono">${m.outreach_sent}</td><td class="mono" style="color:var(--dgreen)">${m.converted}</td><td><span class="mono cohort-90">${(m.conversion_rate*100).toFixed(0)}%</span></td><td class="mono" style="color:var(--dyellow)">₹${m.revenue_saved_k}K</td></tr>`).join('');
+  document.getElementById('cohSegTbl').innerHTML=Object.entries(sc).map(([seg,v])=>`<tr><td><span class="seg-chip seg-${seg.split('-')[0]}">${seg}</span></td><td class="mono">${v.customer_count}</td><td><span class="mono cohort-30">${(v['30d']*100).toFixed(0)}%</span></td><td><span class="mono cohort-60">${(v['60d']*100).toFixed(0)}%</span></td><td><span class="mono cohort-90">${(v['90d']*100).toFixed(0)}%</span></td></tr>`).join('');
+}
+
+// Outreach
+async function runCampaign() {
+  const limit=document.getElementById('campSize').value;
+  const btn=document.getElementById('runBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Running...';
+  const d=await api(`/api/run-campaign?limit=${limit}`,'POST');
+  btn.disabled=false; btn.innerHTML='▶ Run Campaign';
+  if(!d)return;
+  document.getElementById('campStats').style.display='block';
+  document.getElementById('cs-sent').textContent =d.total_sent||0;
+  document.getElementById('cs-open').textContent =d.opened||0;
+  document.getElementById('cs-click').textContent=d.clicked||0;
+  document.getElementById('cs-acc').textContent  =d.accepted||0;
+  document.getElementById('cs-or').textContent   =(d.open_rate||0)+'%';
+  document.getElementById('cs-cr').textContent   =(d.conversion_rate||0)+'%';
+  loadLog(); loadDashboard();
+}
+async function loadLog() {
+  const d=await api('/api/outreach-log?limit=50'); if(!d)return;
+  const c=document.getElementById('logBox');
+  if(!d.log||!d.log.length){c.innerHTML='<div style="text-align:center;padding:2rem;color:var(--dmuted)">No outreach yet.</div>';return;}
+  c.innerHTML=d.log.map(e=>{
+    const cc=e.offer_accepted?'chip-ok':e.status==='BLOCKED'?'chip-blk':'chip-sent';
+    const cl=e.offer_accepted?'✓ Accepted':e.status==='BLOCKED'?'⊘ DND':'→ Sent';
+    return `<div class="d-log-item"><div class="d-log-ch">${e.channel_icon||'📤'}</div><div><div class="d-log-name">${e.name||e.customer_id}</div><div class="d-log-sub">${e.channel} · ${e.send_time||''}</div></div><div class="d-log-st"><span class="status-chip ${cc}">${cl}</span></div></div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LANDING ANIMATIONS
+// ═══════════════════════════════════════════════════════════════
+['stat1','stat2','stat3'].forEach((id,i)=>{
+  const el=document.getElementById(id);
+  if(el){ el.style.opacity='0'; el.style.transform='translateY(10px)'; setTimeout(()=>{ el.style.transition='all .5s ease'; el.style.opacity='1'; el.style.transform='none'; },350+i*130); }
+});
+</script>
+</body>
+</html>
