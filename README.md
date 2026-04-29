@@ -443,7 +443,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 <div align="center">
 
-**Built for iDEA Hackathon 2.0 · Union Bank of India · 2026**
 
 *Powered by Python · FastAPI · XGBoost · Claude AI*
 
