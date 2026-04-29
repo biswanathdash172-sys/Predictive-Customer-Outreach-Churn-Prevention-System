@@ -12,8 +12,6 @@
 <br/><br/>
 
 > **ML Churn Prediction · GenAI Personalisation · Omni-Channel Outreach**
->
-> *iDEA Hackathon 2.0 · Union Bank of India · 2026*
 
 </div>
 
